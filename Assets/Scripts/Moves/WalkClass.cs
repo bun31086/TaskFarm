@@ -13,14 +13,7 @@ public class WalkClass : IMoveState
 {
 
     #region 変数  
-    private readonly PlayerStateMachineClass _playerStateMachine;
-    private readonly PlayerInputClass _playerInput;
-
-    public WalkClass(PlayerStateMachineClass stateMachine, PlayerInputClass inputManager)
-    {
-        this._playerStateMachine = stateMachine;
-        this._playerInput = inputManager;
-    }
+    private Animator _animator = default;
 
     #endregion
 
@@ -28,15 +21,16 @@ public class WalkClass : IMoveState
     #region メソッド  
     public void Enter()
     {
+        
         Debug.Log("Walk Stateに入る");
     }
 
     public void Execute()
     {
-        if (Mathf.Abs(_playerInput._horizontalInput) == 0)
-        {
-            _playerStateMachine.ChangeState(new IdleClass(_playerStateMachine, _playerInput));
-        }
+        //移動
+        float horizontal = Input.GetAxis("Horizontal");
+        float verocity = Input.GetAxis("Verocity");
+
     }
 
     public void Exit()

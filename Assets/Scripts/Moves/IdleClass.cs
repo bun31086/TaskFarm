@@ -9,17 +9,13 @@ using System.Collections;
 /// <summary>
 /// 待機のクラス
 /// </summary>
-public class IdleClass : IMoveState
+public  class IdleClass : IMoveState
 {
-
-    #region 変数  
-
-    private readonly PlayerStateMachineClass _playerStateMachine;
-    private readonly PlayerInputClass _playerInput;
-    public IdleClass(PlayerStateMachineClass stateMachine, PlayerInputClass inputManager)
+    #region 変数 
+    private Animator _animator = default;
+    private bool _isIdle = false;
+    public IdleClass()
     {
-        this._playerStateMachine = stateMachine;
-        this._playerInput = inputManager;
     }
 
     #endregion
@@ -27,19 +23,18 @@ public class IdleClass : IMoveState
     #region メソッド  
     public void Enter()
     {
+        _animator.SetBool("IsIdle", true);
         Debug.Log("Idle Stateに入る");
     }
 
     public void Execute()
     {
-        if (Mathf.Abs(_playerInput._horizontalInput) > 0)
-        {
-            _playerStateMachine.ChangeState(new WalkClass(_playerStateMachine, _playerInput));
-        }
+
     }
 
     public void Exit()
     {
+        _animator.SetBool("Isldle", false);
         Debug.Log("Idle Stateを抜ける");
     }
 
