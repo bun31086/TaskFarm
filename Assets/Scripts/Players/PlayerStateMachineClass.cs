@@ -13,13 +13,19 @@ public class PlayerStateMachineClass
 {
     private IMoveState _currentState;
 
-    public void ChangeState(IMoveState newState)
+    /// <summary>
+    /// ステータスを変えるときの処理
+    /// </summary>
+    /// <param name="nextState">次のステータス</param>
+    public void ChangeState(IMoveState nextState)
     {
+
+        //現在のステータスが
         if (_currentState != null)
         {
             _currentState.Exit();
         }
-        _currentState = newState;
+        _currentState = nextState;
         _currentState.Enter();
     }
 

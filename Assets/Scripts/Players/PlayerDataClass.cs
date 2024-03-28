@@ -17,6 +17,7 @@ public class PlayerDataClass : ScriptableObject
     private float _speed = 5f;
 
 
+    //プロパティ
     public float Speed
     {
 
