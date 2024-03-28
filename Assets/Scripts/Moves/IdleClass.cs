@@ -14,8 +14,8 @@ public  class IdleClass : IMoveState
     #region 変数 
     private Animator _animator = default;
     private bool _isIdle = false;
+   
     #endregion
-
     #region メソッド  
     public void Enter()
     {
