@@ -1,8 +1,8 @@
 // ---------------------------------------------------------  
 // IdleClass.cs  
 // 待機のクラス
-// 作成日:  
-// 作成者:  
+// 作成日:  3/27
+// 作成者:  對馬礼乃
 // ---------------------------------------------------------  
 using UnityEngine;
 using System.Collections;
@@ -14,10 +14,6 @@ public  class IdleClass : IMoveState
     #region 変数 
     private Animator _animator = default;
     private bool _isIdle = false;
-    public IdleClass()
-    {
-    }
-
     #endregion
 
     #region メソッド  
@@ -37,6 +33,5 @@ public  class IdleClass : IMoveState
         _animator.SetBool("Isldle", false);
         Debug.Log("Idle Stateを抜ける");
     }
-
     #endregion
 }

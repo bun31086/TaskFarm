@@ -2,7 +2,7 @@
 // AnimalBase.cs  
 //   
 // 作成日:  
-// 作成者:  
+// 作成者:  對馬礼乃
 // ---------------------------------------------------------  
 using UnityEngine;
 using System.Collections;
