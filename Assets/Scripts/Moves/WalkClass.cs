@@ -18,6 +18,11 @@ public class WalkClass : IMoveState
     private CharacterController _characterController = new CharacterController();
     private Vector3 _moveVec = default;
     private bool _iswalk = false;
+
+    public WalkClass()
+    {
+    }
+
     /// <summary>
     /// コンストラクタ
     /// </summary>
