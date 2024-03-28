@@ -10,6 +10,7 @@ using UnityEngine.InputSystem;
 /// <summary>
 /// プレイヤー管理
 /// </summary>
+[RequireComponent(typeof(DrowRayDebug))]
 public class PlayerManagerClass : MonoBehaviour
 {
 
@@ -63,9 +64,7 @@ public class PlayerManagerClass : MonoBehaviour
     {
         
         //初期ステータスに変更
-        _playerStateMachine.ChangeState(new IdleClass(_playerStateMachine, _playerInput));
-        //移動先確認
-        _moveCheck.Check();
+        //_playerStateMachine.ChangeState(new IdleClass());
 
     }
 
@@ -76,6 +75,8 @@ public class PlayerManagerClass : MonoBehaviour
     {
 
         _playerStateMachine.Update();
+        //移動先確認
+        _moveCheck.Check();
 
     }
 
