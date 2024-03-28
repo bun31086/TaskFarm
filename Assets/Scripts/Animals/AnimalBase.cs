@@ -44,7 +44,7 @@ public class AnimalBase : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            _animalStateMachineClass.Change(new WalkClass());
+            //_animalStateMachineClass.Change(new WalkClass());
         }
     }
 

@@ -42,7 +42,7 @@ public class AnimalStateMachineClass
     /// 更新処理  
     /// </summary>  
     void Update()
-    {　
+    {
         //実行処理
         _carrentState.Execute();
     }
@@ -58,7 +58,7 @@ public class AnimalStateMachineClass
         {
             //終了処理実行
             _carrentState.Exit();
-            
+
         }
         //ステータス更新
         _carrentState = nextState;
