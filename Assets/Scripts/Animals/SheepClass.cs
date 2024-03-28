@@ -1,20 +1,17 @@
 // ---------------------------------------------------------  
-// AnimalBase.cs  
-// 動物が歩く，待機
+// SheepClass.cs  
+// 羊毛を出す
 // 作成日:  
 // 作成者:  對馬礼乃
 // ---------------------------------------------------------  
 using UnityEngine;
 using System.Collections;
 
-public class AnimalBase : MonoBehaviour
+public class SheepClass : AnimalBase, ISatisfaction
 {
+
     #region 変数  
-    /// <summary>
-    /// ステータス変更
-    /// </summary>
-    private AnimalStateMachineClass _animalStateMachineClass = new AnimalStateMachineClass();
-    private MoveCheckClass _moveCheckClass;
+
     #endregion
 
     #region プロパティ  
@@ -26,8 +23,9 @@ public class AnimalBase : MonoBehaviour
     /// <summary>  
     /// 初期化処理  
     /// </summary>  
-    void Awake()
+    private void Awake()
     {
+
     }
 
     /// <summary>  
@@ -35,7 +33,7 @@ public class AnimalBase : MonoBehaviour
     /// </summary>  
     private void Start()
     {
-        _animalStateMachineClass.Change(new IdleClass());
+
     }
 
     /// <summary>  
@@ -43,15 +41,23 @@ public class AnimalBase : MonoBehaviour
     /// </summary>  
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            _animalStateMachineClass.Change(new WalkClass());
-        }
+
     }
 
-    #endregion
-}
+    /// <summary>
+    /// 餌を食べる
+    /// </summary>
+    public void EatBait()
+    {
+        throw new System.NotImplementedException();
+    }
 
-internal class MoveCheckClass
-{
+    /// <summary>
+    /// 収穫
+    /// </summary>
+    public void Harvest()
+    {
+        throw new System.NotImplementedException();
+    }
+    #endregion
 }
