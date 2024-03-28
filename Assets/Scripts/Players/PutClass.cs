@@ -1,40 +1,36 @@
 // ---------------------------------------------------------  
-// HoldClass.cs  
-// ものを持つクラス
-// 作成日:  3/27
+// PutClass.cs  
+// ものを離すクラス
+// 作成日:  3/28
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
 using UnityEngine;
 using System.Collections;
 /// <summary>
-/// ものを持つクラス
+/// ものを離すクラス
 /// </summary>
-public class HoldClass  : IBehaviourState
+public class PutClass : MonoBehaviour
 {
 
     #region 変数  
 
     /// <summary>
-    /// 持つオブジェクト
+    /// 持っているオブジェクトのトランスフォーム
     /// </summary>
     private Transform _holdObjectTransform = default;
 
-    private Transform _playerTransform = default;
     private Animator _playerAnimator = default;
 
     /// <summary>
     /// コンストラクタ
     /// </summary>
-    /// <param name="nearObject">プレイヤーに近いオブジェクト</param>
+    /// <param name="nearObject">持っているオブジェクト</param>
     /// <param name="playerAnimator">プレイヤーのアニメーター</param>
-    /// <param name="playerTransform">プレイヤーのトランスフォーム</param>
-    public HoldClass(Transform nearObject,Animator playerAnimator,Transform playerTransform)
+    public PutClass(Transform holdObject, Animator playerAnimator)
     {
-        _holdObjectTransform = nearObject;
+        _holdObjectTransform = holdObject;
         _playerAnimator = playerAnimator;
-        _playerTransform = playerTransform;
     }
-
 
     #endregion
 
@@ -45,11 +41,11 @@ public class HoldClass  : IBehaviourState
     /// </summary>  
     public void Enter()
     {
-        Debug.Log("Holdに入る");
-        //オブジェクトをプレイヤーの子オブジェクトにする
-        _holdObjectTransform.parent = _playerTransform;
+        Debug.Log("Putに入る");
+        //持っているオブジェクトの親オブジェクトを解除
+        _holdObjectTransform.parent = null;
         //アニメーションを再生
-        _playerAnimator.SetBool("isHold", true);
+        _playerAnimator.SetBool("isHold", false);
     }
 
     /// <summary>  
@@ -57,7 +53,7 @@ public class HoldClass  : IBehaviourState
     /// </summary>  
     public void Execute()
     {
-        Debug.Log("Hold中");
+        Debug.Log("Put中");
 
     }
 
@@ -66,9 +62,8 @@ public class HoldClass  : IBehaviourState
     /// </summary>
     public void Exit()
     {
-        Debug.Log("Holdを抜ける");
+        Debug.Log("Putを抜ける");
     }
 
-  
     #endregion
 }
