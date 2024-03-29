@@ -18,6 +18,10 @@ public class HoldClass  : IBehaviourState
     /// 持つオブジェクト
     /// </summary>
     private Transform _holdObjectTransform = default;
+    /// <summary>
+    /// オブジェクトの位置
+    /// </summary>
+    private Vector3 _objectPos = new Vector3(0,0,1);
 
     private Transform _playerTransform = default;
     private Animator _playerAnimator = default;
@@ -48,6 +52,8 @@ public class HoldClass  : IBehaviourState
         Debug.Log("Holdに入る");
         //オブジェクトをプレイヤーの子オブジェクトにする
         _holdObjectTransform.parent = _playerTransform;
+        //オブジェクトをプレイヤーの正面に配置
+        _holdObjectTransform.localPosition = _objectPos;
         //アニメーションを再生
         _playerAnimator.SetBool("isHold", true);
     }
