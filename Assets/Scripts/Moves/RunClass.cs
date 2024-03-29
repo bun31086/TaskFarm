@@ -13,10 +13,14 @@ public class RunClass : IMoveState
 {
 
     #region 変数
-    public Animator Animator {get; private set; }
+    public Animator Animator
+    {
+        get; private set;
+    }
     public float _runSpeed = default;
     private bool _runAnim = false;
-    private CharacterController _characterController = new CharacterController();
+    private CharacterController _characterController = default;
+    private Animator _animator = default;
     public Vector3 _moveVec = default;
     #endregion
 
@@ -24,9 +28,11 @@ public class RunClass : IMoveState
     /// コンストラクタ
     /// </summary>
     /// <param name="moveVec"></param>
-    public RunClass(Vector3 moveVec)
+    public RunClass(Vector3 moveVec ,Animator animator,CharacterController characterController)
     {
         _moveVec = moveVec;
+        _animator = animator;
+        _characterController = characterController;
     }
     #region メソッド  
     public void Enter()
@@ -38,13 +44,6 @@ public class RunClass : IMoveState
 
     public void Execute()
     {
-        ////入力移動キー
-        //float horizontalInput = Input.GetAxis("Horizontal");
-        //float verticalInput = Input.GetAxis("Vertical");
-
-        ////歩く方向
-        //Vector3 direction = new Vector3(horizontalInput, 0f, verticalInput).normalized;
-
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             // 移動方向に速度を掛けて移動

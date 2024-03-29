@@ -12,10 +12,23 @@ using System.Collections;
 public  class IdleClass : IMoveState
 {
     #region 変数 
+    private bool _isldle = false;
+    private CharacterController _characterController = default;
     private Animator _animator = default;
-    private bool _isIdle = false;
-   
+    private Vector3 _moveVec = default;
     #endregion
+
+    /// <summary>
+    /// コンストラクタ
+    /// </summary>
+    /// <param name="moveVec"></param>
+    public IdleClass(Vector3 moveVec, Animator animator, CharacterController characterController)
+    {
+        _moveVec = moveVec;
+        _animator = animator;
+        _characterController = characterController;
+    }
+
     #region メソッド  
     public void Enter()
     {
