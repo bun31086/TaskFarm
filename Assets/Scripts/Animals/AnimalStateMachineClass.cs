@@ -1,7 +1,7 @@
 // ---------------------------------------------------------  
 // AnimalStateMachine.cs  
 // ステータス変更
-// 作成日:  
+// 作成日:  3/29
 // 作成者:  對馬礼乃
 // ---------------------------------------------------------  
 using UnityEngine;
@@ -9,43 +9,54 @@ using System.Collections;
 
 public class AnimalStateMachineClass
 {
-
-    private Animator _animator;
     #region 変数  
     /// <summary>
     /// 移動ステータスに沿ったクラス
     /// </summary>
     private IMoveState _carrentState = default;
+    public Vector3 _moveVec = default;
+    //Idleを初期動作にする
+    public Animaltype _currentAction = Animaltype.Idle;
+
+    /// <summary>
+    /// コンストラクタ
+    /// </summary>
+    /// <param name="moveVec">入力値</param>
+    public AnimalStateMachineClass(Vector3 moveVec)
+    {
+        _moveVec = moveVec;
+    }
+
+    public AnimalStateMachineClass()
+    {
+    }
+
+    //動物の動作を秒数ランダム関数で求める Idleで初期設定
+    public enum Animaltype
+    {
+        Idle = 0,
+        waik = 1,
+        run = 2,
+    }
     #endregion
 
-    #region プロパティ  
-
-    #endregion
 
     #region メソッド  
-
-    /// <summary>  
-    /// 初期化処理  
-    /// </summary>  
-    void Awake()
+    private IEnumerator ChangeAction()
     {
+        while (true)
+        {
+            // ランダムに行動を切り替える
+            _currentAction = (Animaltype)Random.Range(0, 3);
+            Debug.Log("Current Action: " + _currentAction);
+
+            // 3秒から5秒のランダムな間隔で行動を切り替える yield=一時停止
+            yield return new WaitForSeconds(Random.Range(3f, 5f));
+        }
     }
 
-    /// <summary>  
-    /// 更新前処理  
-    /// </summary>  
-    void Start()
-    {
-    }
-
-    /// <summary>  
-    /// 更新処理  
-    /// </summary>  
-    void Update()
-    {
-        //実行処理
-        _carrentState.Execute();
-    }
+    //実行中処理
+    //_carrentState.Execute();
 
     /// <summary>
     /// ステータスを変える処理
@@ -65,6 +76,5 @@ public class AnimalStateMachineClass
         //初期処理実行
         _carrentState.Enter();
     }
-
     #endregion
 }

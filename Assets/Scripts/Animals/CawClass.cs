@@ -10,18 +10,6 @@ using System.Collections;
 public class CawClass : AnimalBase, ISatisfaction
 {
     #region 変数  
-    // 餌を食べる関連の変数 
-    // 餌を食べているかどうかのフラグ
-    private bool _isEating = false;
-    // 餌を食べる時間計測用タイマー
-    private float _eatTimer = 0f;
-    // 餌を食べる時間（仮の値）
-    private float _eatDuration = 5f;
-
-    // 収穫関連の変数
-    // 収穫されたかどうかのフラグ
-    private bool _isHarvested = false;
-
     // 牛乳を出す関連の変数
     // 牛乳を出しているかどうかのフラグ
     private bool _isProducingMilk = false;
@@ -32,42 +20,8 @@ public class CawClass : AnimalBase, ISatisfaction
     #endregion
 
     #region メソッド  
-    /// <summary>
-    /// 餌を食べる
-    /// </summary>
-    public void EatBait()
-    {
-        //牛が餌を食べる状態
-        if (!_isEating)
-        {
-            _isEating = true;
-            _eatTimer = 0f;
-            Debug.Log("牛が餌を食べ始める");
-        }
-
-        // 指定時間経過したら
-        _eatTimer += Time.deltaTime;
-        if (_eatTimer >= _eatDuration)
-        {
-            _isEating = false;
-            Debug.Log("牛が餌を食べ終わる");
-        }
-    }
-
-    /// <summary>
-    /// 収穫する
-    /// </summary>
-    public void Harvest()
-    {
-        // 収穫される
-        if (!_isHarvested)
-        {
-            _isHarvested = true;
-            Debug.Log("牛が収穫する");
-        }
-    }
     // 牛乳を出す
-    public void ProduceMilk()
+    public void Produce()
     {
         // 牛乳を出す中であれば
         if (!_isProducingMilk)
@@ -90,16 +44,10 @@ public class CawClass : AnimalBase, ISatisfaction
 
     private void Update()
     {
-        // 餌を食べる中であれば、餌を食べ続ける
-        if (_isEating)
-        {
-            EatBait();
-        }
-
-        // 牛乳を出す中であれば、牛乳を出し続ける
+        // 牛乳を出す間、牛乳を出し続ける
         if (_isProducingMilk)
         {
-            ProduceMilk();
+            Produce();
         }
     } 
     #endregion

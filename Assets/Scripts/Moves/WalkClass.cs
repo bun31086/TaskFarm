@@ -13,26 +13,23 @@ public class WalkClass : IMoveState
 {
 
     #region 変数 
-    public Animator _animator;
     public float _walkSpeed = default;
-    private CharacterController _characterController = new CharacterController();
-    private Vector3 _moveVec = default;
     private bool _iswalk = false;
-
-    public WalkClass()
-    {
-    }
+    private CharacterController _characterController = default;
+    private Animator _animator = default;
+    private Vector3 _moveVec = default;
+    #endregion
 
     /// <summary>
     /// コンストラクタ
     /// </summary>
-    /// <param name="moveVec">移動するベクトル</param>
-    public WalkClass(Vector3 moveVec)
+    /// <param name="moveVec"></param>
+    public WalkClass(Vector3 moveVec, Animator animator, CharacterController characterController)
     {
         _moveVec = moveVec;
+        _animator = animator;
+        _characterController = characterController;
     }
-    #endregion
-
     #region メソッド  
     public void Enter()
     {
