@@ -9,10 +9,24 @@ using System.Collections;
 /// <summary>
 /// 掃除するクラス
 /// </summary>
-public class CleanClass : MonoBehaviour
+public class CleanClass : IBehaviourState
 {
 
     #region 変数  
+
+    private GameObject _nearObject = default;
+    private Animator _playerAnimator = default;
+
+    /// <summary>
+    /// コンストラクタ
+    /// </summary>
+    /// <param name="nearObject">掃除されるオブジェクト</param>
+    /// <param name="playerAnimator">プレイヤーのアニメータ</param>
+    public CleanClass(GameObject nearObject,Animator playerAnimator)
+    {
+        _nearObject = nearObject;
+        _playerAnimator = playerAnimator;
+    }
 
     #endregion
 
@@ -28,6 +42,8 @@ public class CleanClass : MonoBehaviour
     public void Enter()
     {
         Debug.Log("Cleanに入る");
+        //掃除アニメーションを開始する
+        //_playerAnimator.SetBool("isClean", true);
     }
 
     /// <summary>  
@@ -44,6 +60,10 @@ public class CleanClass : MonoBehaviour
     public void Exit()
     {
         Debug.Log("Cleanを抜ける");
+        //掃除アニメーションを終了する
+        //_playerAnimator.SetBool("isClean", false);
+        //掃除していたオブジェクトを消す
+        _nearObject.SetActive(false);
     }
 
     #endregion
