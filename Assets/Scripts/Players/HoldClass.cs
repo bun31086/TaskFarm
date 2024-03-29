@@ -30,7 +30,7 @@ public class HoldClass  : IBehaviourState
     /// コンストラクタ
     /// </summary>
     /// <param name="nearObject">プレイヤーに近いオブジェクト</param>
-    /// <param name="playerAnimator">プレイヤーのアニメーター</param>
+    /// <param name="playerAnimator">プレイヤーのアニメータ</param>
     /// <param name="playerTransform">プレイヤーのトランスフォーム</param>
     public HoldClass(Transform nearObject,Animator playerAnimator,Transform playerTransform)
     {
@@ -55,7 +55,7 @@ public class HoldClass  : IBehaviourState
         //オブジェクトをプレイヤーの正面に配置
         _holdObjectTransform.localPosition = _objectPos;
         //アニメーションを再生
-        _playerAnimator.SetBool("isHold", true);
+        //_playerAnimator.SetBool("isHold", true);
     }
 
     /// <summary>  

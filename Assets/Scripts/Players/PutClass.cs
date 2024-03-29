@@ -9,7 +9,7 @@ using System.Collections;
 /// <summary>
 /// ものを離すクラス
 /// </summary>
-public class PutClass : MonoBehaviour
+public class PutClass : IBehaviourState
 {
 
     #region 変数  
@@ -24,11 +24,11 @@ public class PutClass : MonoBehaviour
     /// <summary>
     /// コンストラクタ
     /// </summary>
-    /// <param name="nearObject">持っているオブジェクト</param>
-    /// <param name="playerAnimator">プレイヤーのアニメーター</param>
-    public PutClass(Transform holdObject, Animator playerAnimator)
+    /// <param name="holdObjectTransform">持っているオブジェクトのトランスフォーム</param>
+    /// <param name="playerAnimator">プレイヤーのアニメータ</param>
+    public PutClass(Transform holdObjectTransform, Animator playerAnimator)
     {
-        _holdObjectTransform = holdObject;
+        _holdObjectTransform = holdObjectTransform;
         _playerAnimator = playerAnimator;
     }
 
@@ -45,7 +45,7 @@ public class PutClass : MonoBehaviour
         //持っているオブジェクトの親オブジェクトを解除
         _holdObjectTransform.parent = null;
         //アニメーションを再生
-        _playerAnimator.SetBool("isHold", false);
+        //_playerAnimator.SetBool("isHold", false);
     }
 
     /// <summary>  

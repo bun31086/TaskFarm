@@ -1,15 +1,15 @@
 // ---------------------------------------------------------  
-// CutClass.cs  
-// 羊の毛を刈り取るクラス
-// 作成日:  3/28
+// SqeezeClass.cs  
+// 牛の乳を搾るクラス
+// 作成日:  3/29
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
 using UnityEngine;
 using System.Collections;
 /// <summary>
-/// 羊の毛を刈り取るクラス
+/// 牛の乳を搾るクラス
 /// </summary>
-public class CutClass : IBehaviourState
+public class SqeezeClass : IBehaviourState
 {
 
     #region 変数  
@@ -22,8 +22,8 @@ public class CutClass : IBehaviourState
     /// コンストラクタ
     /// </summary>
     /// <param name="playerAnimator">プレイヤーのアニメータ</param>
-    /// <param name="animalTransform">毛刈りされる羊のトランスフォーム</param>
-    public CutClass(Animator playerAnimator, Transform animalTransform)
+    /// <param name="animalTransform">搾乳される牛のトランスフォーム</param>
+    public SqeezeClass(Animator playerAnimator,Transform animalTransform)
     {
         _playerAnimator = playerAnimator;
         _animalTransform = animalTransform;
@@ -42,12 +42,12 @@ public class CutClass : IBehaviourState
     /// </summary>  
     public void Enter()
     {
-        Debug.Log("Cutに入る");
+        Debug.Log("Sqeezeに入る");
         _iSatisfaction = _animalTransform.GetComponent<ISatisfaction>();
-        //毛刈りアニメーションを再生する
-        //_playerAnimator.SetBool("isCut", true);
-        //毛刈りを実行
+        //一番近くの牛の乳を搾る
         _iSatisfaction.Harvest();
+        //乳搾りアニメーションを開始する
+        //_playerAnimator.SetBool("isHarvest", true);
     }
 
     /// <summary>  
@@ -55,7 +55,8 @@ public class CutClass : IBehaviourState
     /// </summary>  
     public void Execute()
     {
-        Debug.Log("Cut中");
+        Debug.Log("Sqeeze中");
+
     }
 
     /// <summary>
@@ -63,9 +64,9 @@ public class CutClass : IBehaviourState
     /// </summary>
     public void Exit()
     {
-        Debug.Log("Cutを抜ける");
-        //毛刈りアニメーションを終了する
-        //_playerAnimator.SetBool("isCut", false);
+        Debug.Log("Sqeezeを抜ける");
+        //乳搾りアニメーションを終了する
+        //_playerAnimator.SetBool("isHarvest", false);
     }
 
     #endregion
