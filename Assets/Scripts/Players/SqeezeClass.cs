@@ -21,9 +21,9 @@ public class SqeezeClass : IBehaviourState
     /// <summary>
     /// コンストラクタ
     /// </summary>
-    /// <param name="playerAnimator">プレイヤーのアニメータ</param>
     /// <param name="animalTransform">搾乳される牛のトランスフォーム</param>
-    public SqeezeClass(Animator playerAnimator,Transform animalTransform)
+    /// <param name="playerAnimator">プレイヤーのアニメータ</param>
+    public SqeezeClass(Transform animalTransform, Animator playerAnimator)
     {
         _playerAnimator = playerAnimator;
         _animalTransform = animalTransform;

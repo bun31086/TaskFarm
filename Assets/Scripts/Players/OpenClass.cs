@@ -1,13 +1,13 @@
 // ---------------------------------------------------------  
 // OpenClass.cs  
-// 柵を開けるクラス
+// 柵を開け閉めするクラス
 // 作成日:  3/29
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
 using UnityEngine;
 using System.Collections;
 /// <summary>
-/// 柵を開けるクラス
+/// 柵を開け閉めクラス
 /// </summary>
 public class OpenClass : IBehaviourState
 {

@@ -29,12 +29,12 @@ public class HoldClass  : IBehaviourState
     /// <summary>
     /// コンストラクタ
     /// </summary>
-    /// <param name="nearObject">プレイヤーに近いオブジェクト</param>
-    /// <param name="playerAnimator">プレイヤーのアニメータ</param>
     /// <param name="playerTransform">プレイヤーのトランスフォーム</param>
-    public HoldClass(Transform nearObject,Animator playerAnimator,Transform playerTransform)
+    /// <param name="nearObjectTransform">プレイヤーに近いオブジェクト</param>
+    /// <param name="playerAnimator">プレイヤーのアニメータ</param>
+    public HoldClass(Transform playerTransform, Transform nearObjectTransform, Animator playerAnimator)
     {
-        _holdObjectTransform = nearObject;
+        _holdObjectTransform = nearObjectTransform;
         _playerAnimator = playerAnimator;
         _playerTransform = playerTransform;
     }
