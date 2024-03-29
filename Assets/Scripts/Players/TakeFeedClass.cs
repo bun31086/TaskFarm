@@ -1,5 +1,5 @@
 // ---------------------------------------------------------  
-// TakeFoodClass.cs  
+// TakeFeedClass.cs  
 // 餌を与えるクラス
 // 作成日:  3/28
 // 作成者:  竹村綾人
@@ -9,7 +9,7 @@ using System.Collections;
 /// <summary>
 /// 餌を与えるクラス
 /// </summary>
-public class TakeFoodClass : IBehaviourState
+public class TakeFeedClass : IBehaviourState
 {
 
     #region 変数  
@@ -25,7 +25,7 @@ public class TakeFoodClass : IBehaviourState
     /// <param name="holdObject">持っているオブジェクト</param>
     /// <param name="animalTransform">餌をあげている動物のトランスフォーム</param>
     /// <param name="playerAnimator">プレイヤーのアニメータ</param>
-    public TakeFoodClass(GameObject holdObject,Transform animalTransform,Animator playerAnimator)
+    public TakeFeedClass(GameObject holdObject, Transform animalTransform,Animator playerAnimator)
     {
         _holdObject = holdObject;
         _animalTransform = animalTransform;

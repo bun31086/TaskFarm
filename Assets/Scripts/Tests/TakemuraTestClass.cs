@@ -17,7 +17,7 @@ public class TakemuraTestClass : MonoBehaviour
     private SqeezeClass _sqeeze = default;
     private HoldClass _hold = default;
     private PutClass _put = default;
-    private TakeFoodClass _takeFood = default;
+    private TakeFeedClass _takeFood = default;
 
     [SerializeField] private Transform _nearObjectTransform = default;
     [SerializeField] private Animator _playerAnimator = default;
@@ -45,7 +45,7 @@ public class TakemuraTestClass : MonoBehaviour
         _put = new PutClass(_holdObjTransform,_playerAnimator);
         _cut = new CutClass(_playerAnimator, _animalObjTransform);
         _sqeeze = new SqeezeClass(_playerAnimator, _animalObjTransform);
-        _takeFood = new TakeFoodClass(_holdObject, _animalObjTransform,_playerAnimator);
+        _takeFood = new TakeFeedClass(_holdObject, _animalObjTransform,_playerAnimator);
         _clean = new CleanClass(_nearObject, _playerAnimator);
      }
   

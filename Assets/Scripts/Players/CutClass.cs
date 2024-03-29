@@ -21,9 +21,9 @@ public class CutClass : IBehaviourState
     /// <summary>
     /// コンストラクタ
     /// </summary>
-    /// <param name="playerAnimator">プレイヤーのアニメータ</param>
     /// <param name="animalTransform">毛刈りされる羊のトランスフォーム</param>
-    public CutClass(Animator playerAnimator, Transform animalTransform)
+    /// <param name="playerAnimator">プレイヤーのアニメータ</param>
+    public CutClass(Transform animalTransform, Animator playerAnimator)
     {
         _playerAnimator = playerAnimator;
         _animalTransform = animalTransform;
