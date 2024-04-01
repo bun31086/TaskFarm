@@ -14,7 +14,6 @@ public class WalkClass : IMoveState
 
     #region 変数 
     public float _walkSpeed = default;
-    private bool _iswalk = false;
     private CharacterController _characterController = default;
     private Animator _animator = default;
     private Vector3 _moveVec = default;
@@ -39,16 +38,10 @@ public class WalkClass : IMoveState
 
     public void Execute()
     {
-        ////入力移動キー
-        //float horizontalInput = Input.GetAxis("Horizontal");
-        //float verticalInput = Input.GetAxis("Vertical");
-        
-        ////歩く方向
-        //Vector3 direction = new Vector3(horizontalInput, 0f, verticalInput).normalized;
-
         // 移動方向に速度を掛けて移動
         _characterController.Move(_moveVec * _walkSpeed * Time.deltaTime);
     }
+
     public void Exit()
     {
         _animator.SetBool("IsWalk", false);

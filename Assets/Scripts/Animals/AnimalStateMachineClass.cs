@@ -11,7 +11,7 @@ public class AnimalStateMachineClass
 {
     #region 変数  
     /// <summary>
-    /// 移動ステータスに沿ったクラス
+    /// 移動ステータスに沿ったクラス実行ステータス
     /// </summary>
     private IMoveState _carrentState = default;
     public Vector3 _moveVec = default;
@@ -55,15 +55,14 @@ public class AnimalStateMachineClass
         }
     }
 
-    //実行中処理
-    //_carrentState.Execute();
-
     /// <summary>
     /// ステータスを変える処理
     /// </summary>
     /// <param name="nextState">次のステータス</param>
     public void Change(IMoveState nextState)
     {
+        //実行中の処理
+        _carrentState.Execute();
         //現在のステータスがあるとき
         if (_carrentState != null)
         {
@@ -71,7 +70,7 @@ public class AnimalStateMachineClass
             _carrentState.Exit();
 
         }
-        //ステータス更新
+        // 新しいステートを設定して初期処理を実行
         _carrentState = nextState;
         //初期処理実行
         _carrentState.Enter();

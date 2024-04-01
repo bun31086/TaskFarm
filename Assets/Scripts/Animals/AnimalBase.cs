@@ -61,7 +61,7 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
 
         _animalStateMachineClass.Change(new WalkClass(moveVec, animator, characterController));
 
-        _animalStateMachineClass.Change(new IdleClass(moveVec, animator, characterController));
+        _animalStateMachineClass.Change(new IdleClass(animator));
         //コンストラクタにtransformをインスタンスを設定してインスタンス化(生成)
         _moveCheckClass = new MoveCheckClass<Transform>(this.transform);
     }
@@ -78,12 +78,12 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     /// </summary>
     public void EatBait()
     {
-        //鶏が餌を食べる状態
+        //動物が餌を食べる状態
         if (!_isEating)
         {
             _isEating = true;
             _eatTimer = 0f;
-            Debug.Log("鶏が餌を食べ始める");
+            Debug.Log("動物が餌を食べ始める");
         }
 
         // 指定時間経過したら
@@ -91,7 +91,7 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
         if (_eatTimer >= _eatDuration)
         {
             _isEating = false;
-            Debug.Log("鶏が餌を食べ終わる");
+            Debug.Log("動物が餌を食べ終わる");
         }
     }
     /// <summary>
@@ -103,7 +103,7 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
         if (!_isHarvested)
         {
             _isHarvested = true;
-            Debug.Log("鶏が収穫される");
+            Debug.Log("動物が収穫される");
         }
     }
     #endregion
