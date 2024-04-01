@@ -13,15 +13,15 @@ public class RunClass : IMoveState
 {
 
     #region 変数
-    public Animator Animator
-    {
-        get; private set;
-    }
+    //public Animator Animator
+    //{
+    //    get; private set;
+    //}
     public float _runSpeed = default;
-    private bool _runAnim = false;
+    public bool _isRun = false;
     private CharacterController _characterController = default;
     private Animator _animator = default;
-    public Vector3 _moveVec = default;
+    private Vector3 _moveVec = default;
     #endregion
 
     /// <summary>
@@ -48,10 +48,10 @@ public class RunClass : IMoveState
         {
             // 移動方向に速度を掛けて移動
             _characterController.Move(_moveVec * _runSpeed * Time.deltaTime);
-            _runAnim = true;
+            _isRun = true;
         } else
         {
-            _runAnim = false;
+            _isRun = false;
         }
     }
     public void Exit()

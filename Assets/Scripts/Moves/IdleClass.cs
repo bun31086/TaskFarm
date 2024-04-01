@@ -12,21 +12,18 @@ using System.Collections;
 public  class IdleClass : IMoveState
 {
     #region 変数 
-    private bool _isldle = false;
-    private CharacterController _characterController = default;
+    //private CharacterController _characterController = default;
     private Animator _animator = default;
-    private Vector3 _moveVec = default;
     #endregion
 
     /// <summary>
     /// コンストラクタ
     /// </summary>
     /// <param name="moveVec"></param>
-    public IdleClass(Vector3 moveVec, Animator animator, CharacterController characterController)
+    public IdleClass( Animator animator)
     {
-        _moveVec = moveVec;
         _animator = animator;
-        _characterController = characterController;
+        //_characterController = characterController;
     }
 
     #region メソッド  
