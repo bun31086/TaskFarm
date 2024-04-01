@@ -14,9 +14,19 @@ public class TakeFeedClass : IBehaviourState
 
     #region 変数  
 
-    private GameObject _holdObject = default;
-    private Transform _animalTransform = default;
+    /// <summary>
+    /// 動物の満足度インターフェース
+    /// </summary>
     private ISatisfaction _iSatisfaction = default;
+    /// <summary>
+    /// 持っているオブジェクトのトランスフォーム
+    /// </summary>
+    private GameObject _holdObject = default;
+    /// <summary>
+    /// 餌をあげている動物のトランスフォーム
+    /// </summary>
+    private Transform _animalTransform = default;
+
     private Animator _playerAnimator = default;
 
     /// <summary>

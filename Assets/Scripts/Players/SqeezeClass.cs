@@ -14,9 +14,13 @@ public class SqeezeClass : IBehaviourState
 
     #region 変数  
 
+    /// <summary>
+    /// 動物の満足度インターフェース
+    /// </summary>
+    private ISatisfaction _iSatisfaction = default;
+
     private Animator _playerAnimator = default;
     private Transform _animalTransform = default;
-    private ISatisfaction _iSatisfaction = default;
 
     /// <summary>
     /// コンストラクタ

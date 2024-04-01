@@ -14,9 +14,12 @@ public class CleanClass : IBehaviourState
 
     #region 変数  
 
+    /// <summary>
+    /// 掃除されるオブジェクト
+    /// </summary>
     private GameObject _nearObject = default;
-    private Animator _playerAnimator = default;
 
+    private Animator _playerAnimator = default;
     /// <summary>
     /// コンストラクタ
     /// </summary>

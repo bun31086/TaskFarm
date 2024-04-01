@@ -14,6 +14,24 @@ public class OpenClass : IBehaviourState
 
     #region 変数  
 
+    /// <summary>
+    /// 開閉するゲートのスクリプト
+    /// </summary>
+    private GateClass _gateClass = default;
+
+    private Animator _playerAnimator = default;
+
+    /// <summary>
+    /// コンストラクタ
+    /// </summary>
+    /// <param name="gateTransform">開閉するゲームのトランスフォーム</param>
+    /// <param name="playerAnimator">プレイヤーのアニメータ</param>
+    public OpenClass(Transform gateTransform, Animator playerAnimator)
+    {
+        _playerAnimator = playerAnimator;
+        _gateClass = gateTransform.GetComponent<GateClass>();
+    }
+
     #endregion
 
     #region プロパティ  
@@ -30,6 +48,18 @@ public class OpenClass : IBehaviourState
         Debug.Log("Openに入る");
         //アニメーションを再生
         //_playerAnimator.SetBool("isOpen", true);
+
+        //ゲートの開閉フラグを確認する
+        if (!_gateClass.IsOpen)
+        {
+            //ゲートを開ける
+            _gateClass.Open();
+        } 
+        else
+        {           
+            //ゲートを閉める
+            _gateClass.Close();
+        }
     }
 
     /// <summary>  
