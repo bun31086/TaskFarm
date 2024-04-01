@@ -13,7 +13,7 @@ public class AnimalStateMachineClass
     /// <summary>
     /// 移動ステータスに沿ったクラス実行ステータス
     /// </summary>
-    private IMoveState _carrentState = default;
+    private IMoveState _currentState = default;
     public Vector3 _moveVec = default;
     //Idleを初期動作にする
     public Animaltype _currentAction = Animaltype.Idle;
@@ -29,51 +29,48 @@ public class AnimalStateMachineClass
 
     public AnimalStateMachineClass()
     {
-    }
 
-    //動物の動作を秒数ランダム関数で求める Idleで初期設定
-    public enum Animaltype
-    {
-        Idle = 0,
-        waik = 1,
-        run = 2,
     }
     #endregion
 
 
     #region メソッド  
-    private IEnumerator ChangeAction()
+    public void Update()
     {
-        while (true)
-        {
-            // ランダムに行動を切り替える
-            _currentAction = (Animaltype)Random.Range(0, 3);
-            Debug.Log("Current Action: " + _currentAction);
-
-            // 3秒から5秒のランダムな間隔で行動を切り替える yield=一時停止
-            yield return new WaitForSeconds(Random.Range(3f, 5f));
-        }
+        //実行中の処理
+        _currentState.Execute();
     }
-
     /// <summary>
     /// ステータスを変える処理
     /// </summary>
     /// <param name="nextState">次のステータス</param>
     public void Change(IMoveState nextState)
     {
-        //実行中の処理
-        _carrentState.Execute();
+        Debug.Log("ステータス変更");
         //現在のステータスがあるとき
-        if (_carrentState != null)
+        if (_currentState != null)
         {
             //終了処理実行
-            _carrentState.Exit();
-
+            _currentState.Exit();
         }
         // 新しいステートを設定して初期処理を実行
-        _carrentState = nextState;
+        _currentState = nextState;
         //初期処理実行
-        _carrentState.Enter();
+        _currentState.Enter();
     }
+
+    //public IEnumerator ChangeAction()
+    //{
+    //    Debug.Log("コルーチン");
+    //    while (true)
+    //    {
+    //        // ランダムに行動を切り替える
+    //        _currentAction = (Animaltype)Random.Range(0, 3);
+    //        Debug.Log("Current Action: " + _currentAction);
+    //        // 3秒から5秒のランダムな間隔で行動を切り替える yield=一時停止
+    //        yield return new WaitForSeconds(Random.Range(3f, 5f));
+    //        Debug.Log("処理終わり");
+    //    }
+    //}
     #endregion
 }

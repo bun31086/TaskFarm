@@ -51,7 +51,7 @@ public class SheepClass : AnimalBase, ISatisfaction
         }
     }
 
-    private void Update()
+    public void Update()
     {
         // 牛乳を出す間、牛乳を出し続ける
         if (_isProducingWool)

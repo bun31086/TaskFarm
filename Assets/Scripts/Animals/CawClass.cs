@@ -23,6 +23,7 @@ public class CawClass : AnimalBase, ISatisfaction
     // 牛乳を出す
     public void Produce()
     {
+
         // 牛乳を出す中であれば
         if (!_isProducingMilk)
         {
@@ -42,13 +43,14 @@ public class CawClass : AnimalBase, ISatisfaction
         }
     }
 
-    private void Update()
+    protected void Update()
     {
+        _animalStateMachineClass.Update();
         // 牛乳を出す間、牛乳を出し続ける
         if (_isProducingMilk)
         {
             Produce();
         }
-    } 
+    }
     #endregion
 }

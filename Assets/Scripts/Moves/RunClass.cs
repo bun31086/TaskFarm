@@ -28,7 +28,9 @@ public class RunClass : IMoveState
     /// コンストラクタ
     /// </summary>
     /// <param name="moveVec"></param>
-    public RunClass(Vector3 moveVec ,Animator animator,CharacterController characterController)
+    /// <param name="animator"></param>
+    /// <param name="characterController"></param>
+    public RunClass(Vector3 moveVec, Animator animator, CharacterController characterController)
     {
         _moveVec = moveVec;
         _animator = animator;
@@ -39,11 +41,11 @@ public class RunClass : IMoveState
     {
         // 走るアニメーションを開始するなどの初期化処理
         //player.Animator.SetBool("IsRunning", true);
-        Debug.Log("Run Stateに入る");
     }
 
     public void Execute()
     {
+        Debug.Log("走りの更新処理");
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             // 移動方向に速度を掛けて移動
@@ -56,7 +58,6 @@ public class RunClass : IMoveState
     }
     public void Exit()
     {
-        Debug.Log("Run Stateを抜ける");
     }
     #endregion
 }

@@ -9,18 +9,19 @@ using System.Collections;
 /// <summary>
 /// 待機のクラス
 /// </summary>
-public  class IdleClass : IMoveState
+public class IdleClass : IMoveState
 {
     #region 変数 
     //private CharacterController _characterController = default;
     private Animator _animator = default;
     #endregion
 
+
     /// <summary>
     /// コンストラクタ
     /// </summary>
-    /// <param name="moveVec"></param>
-    public IdleClass( Animator animator)
+    /// <param name="animator">入力値</param>
+    public IdleClass(Animator animator)
     {
         _animator = animator;
         //_characterController = characterController;
@@ -30,18 +31,16 @@ public  class IdleClass : IMoveState
     public void Enter()
     {
         _animator.SetBool("IsIdle", true);
-        Debug.Log("Idle Stateに入る");
     }
 
     public void Execute()
     {
-
+        Debug.Log("待機の更新処理");
     }
 
     public void Exit()
     {
         _animator.SetBool("Isldle", false);
-        Debug.Log("Idle Stateを抜ける");
     }
     #endregion
 }
