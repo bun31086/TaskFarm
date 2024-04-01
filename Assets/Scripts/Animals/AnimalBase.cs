@@ -19,7 +19,7 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     /// <summary>
     /// 移動先確認
     /// </summary>
-    private MoveCheckClass<Transform> _moveCheckClass = default;
+    private MoveCheckClass _moveCheckClass = default;
 
     // 餌を食べる関連の変数 
     // 餌を食べているかどうかのフラグ
@@ -63,7 +63,7 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
 
         _animalStateMachineClass.Change(new IdleClass(animator));
         //コンストラクタにtransformをインスタンスを設定してインスタンス化(生成)
-        _moveCheckClass = new MoveCheckClass<Transform>(this.transform);
+        _moveCheckClass = new MoveCheckClass(this.transform);
     }
 
     /// <summary>  

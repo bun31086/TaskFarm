@@ -1,22 +1,21 @@
 // ---------------------------------------------------------  
-// GameManagerClass.cs  
-// ゲームを管理する
+// Table.cs  
+//   
 // 作成日:  
 // 作成者:  
 // ---------------------------------------------------------  
 using UnityEngine;
 using System.Collections;
-/// <summary>
-/// ゲームを管理する
-/// </summary>
-public class GameManagerClass : MonoBehaviour
+
+public class Table : MonoBehaviour
 {
-
+  
     #region 変数  
-    [Header("スクリプタブルオブジェクト")]
-    [SerializeField,Tooltip("ゲームマネジャーのデータ")]
-    private GameManageData _gameManageData = default; 
-
+  
+    #endregion
+  
+    #region プロパティ  
+  
     #endregion
   
     #region メソッド  
@@ -44,5 +43,4 @@ public class GameManagerClass : MonoBehaviour
      }
   
     #endregion
-
 }

@@ -6,6 +6,9 @@
 // ---------------------------------------------------------  
 using UnityEngine;
 using System.Collections;
+/// <summary>
+/// プレイヤーのステート管理
+/// </summary>
 public class PlayerStateMachineClass
 {
 

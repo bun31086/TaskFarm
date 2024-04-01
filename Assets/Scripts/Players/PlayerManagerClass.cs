@@ -5,8 +5,10 @@
 // 作成者:  湯元来輝
 // ---------------------------------------------------------  
 using UnityEngine;
-using System.Collections;
 using UnityEngine.InputSystem;
+/// <summary>
+/// プレイヤー管理クラス
+/// </summary>
 [RequireComponent(typeof(DrowRayDebug))]
 public class PlayerManagerClass : MonoBehaviour
 {
@@ -16,17 +18,20 @@ public class PlayerManagerClass : MonoBehaviour
     [Header("スクリプタブルオブジェクト")]
     [SerializeField, Tooltip("プレイヤーのデータ")]
     private PlayerDataClass _playerData = default;
+    [Header("キャラクターコントローラー")]
+    [SerializeField, Tooltip("プレイヤーのキャラクターコントローラー")]
+    private CharacterController _charactorContllor = default;
     [Header("スクリプタブルオブジェクト")]
     [SerializeField, Tooltip("プレイヤーのアニメーター")]
     private Animator _playerAnimator = default;
     /// <summary>
-    /// プレイヤーステートを変更するクラスのインスタンス
+    /// プレイヤーステートを変更するクラスのインスタンス取得
     /// </summary>
     private PlayerStateMachineClass _playerStateMachine = new PlayerStateMachineClass();
     /// <summary>
-    /// 移動を確認するクラスのインスタンス
+    /// 移動を確認するクラスのインスタンスが入る
     /// </summary>
-    private MoveCheckClass<Transform> _moveCheck = default;
+    private MoveCheckClass _moveCheck = default;
     /// <summary>
     /// 物体の存在と種類を検知
     /// </summary>
@@ -45,8 +50,8 @@ public class PlayerManagerClass : MonoBehaviour
     private void Awake()
     {
 
-        //自分のインスタンスをコンストラクタに渡し生成
-        _moveCheck = new MoveCheckClass<Transform>(this.transform);
+        //自分のとトランスフォームをコンストラクタに渡し生成
+        _moveCheck = new MoveCheckClass(this.transform);
 
     }
 
@@ -57,7 +62,7 @@ public class PlayerManagerClass : MonoBehaviour
     {
 
         //初期ステータスに変更
-        _playerStateMachine.ChangeMoveState(new IdleClass());
+        _playerStateMachine.ChangeMoveState(new IdleClass(_playerAnimator));
 
     }
 
@@ -78,7 +83,7 @@ public class PlayerManagerClass : MonoBehaviour
     /// 移動の値を取得
     /// </summary>
     /// <param name="context">入力値</param>
-    public void OnMove(InputAction.CallbackContext context)
+    public void OnWalk(InputAction.CallbackContext context)
     {
 
         //ボタンを押し続けるまたは離したとき
@@ -97,7 +102,7 @@ public class PlayerManagerClass : MonoBehaviour
         dire.z = dire.y;
         dire.y = 0;
         //ステート変更
-        _playerStateMachine.ChangeMoveState(new WalkClass(dire));
+        _playerStateMachine.ChangeMoveState(new WalkClass(dire,_playerAnimator,_charactorContllor));
 
     }
 
@@ -293,8 +298,6 @@ public class PlayerManagerClass : MonoBehaviour
         }
 
     }
-
-
 
     #endregion
 }

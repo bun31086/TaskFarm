@@ -2,14 +2,14 @@
 // MoveCheckClass.cs  
 // 移動先確認
 // 作成日:  4/27~
-// 作成者:  湯元来輝「
+// 作成者:  湯元来輝
 // ---------------------------------------------------------  
 using UnityEngine;
 using System.Collections;
 /// <summary>
 /// 移動先確認
 /// </summary>
-public class MoveCheckClass<T> where T : Transform
+public class MoveCheckClass
 {
 
     #region 変数  
@@ -17,7 +17,7 @@ public class MoveCheckClass<T> where T : Transform
     /// <summary>
     /// 呼び出したクラスのインスタンス
     /// </summary>
-    private T _callTrans = default;
+    private Transform _callTrans = default;
     /// <summary>
     /// BoxCastのサイズ倍率
     /// </summary>
@@ -26,7 +26,7 @@ public class MoveCheckClass<T> where T : Transform
     /// コンストラクタ
     /// </summary>
     /// <param name="callTrans">呼んだクラスがアタッチされているトランスフォーム</param>
-    public MoveCheckClass(T callTrans)
+    public MoveCheckClass(Transform callTrans)
     {
 
         //呼んだクラスがアタッチされているトランスフォーム取得

@@ -13,10 +13,9 @@ using System.Collections;
 public class PlayerDataClass : ScriptableObject
 {
 
+    [Header("プレイヤーのステータス")]
     [SerializeField,Tooltip("プレイヤーの移動速度")]
     private float _speed = 5f;
-
-
     //プロパティ
     public float Speed
     {
@@ -24,6 +23,5 @@ public class PlayerDataClass : ScriptableObject
         get => _speed;
     
     }
-
 
 }
