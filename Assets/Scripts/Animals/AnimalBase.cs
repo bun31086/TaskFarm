@@ -15,12 +15,20 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     /// <summary>
     /// ステータス変更
     /// </summary>
-    private AnimalStateMachineClass _animalStateMachineClass = new AnimalStateMachineClass();
+    protected AnimalStateMachineClass _animalStateMachineClass = new AnimalStateMachineClass();
     /// <summary>
     /// 移動先確認
     /// </summary>
     private MoveCheckClass _moveCheckClass = default;
 
+    private Animator _animalAnimator = default;
+
+    private CharacterController _characterController = default;
+
+    //Idleを初期動作にする
+    public Animaltype _currentAction = Animaltype.Idle;
+
+    public Vector3 _moveVec = default;
     // 餌を食べる関連の変数 
     // 餌を食べているかどうかのフラグ
     private bool _isEating = false;
@@ -28,51 +36,39 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     private float _eatTimer = 0f;
     // 餌を食べる時間（仮の値）
     private float _eatDuration = 5f;
-
     // 収穫関連の変数
     // 収穫されたかどうかのフラグ
     private bool _isHarvested = false;
     #endregion
 
-    public Vector3 _moveVec = default;
-    #region プロパティ  
-    #endregion
-
     #region メソッド  
-    /// <summary>  
-    /// 初期化処理  
-    /// </summary>  
-    void Awake()
-    {
-
-    }
     /// <summary>  
     /// 動物が待機する
     /// </summary>  
     private void Start()
     {
         //vector3の計算をする
-        Vector3 moveVec = new Vector3();
+        //Vector3 moveVec = new Vector3();
         //コンポーネント取得
-        Animator animator = this.GetComponent<Animator>();
-        CharacterController characterController = this.GetComponent<CharacterController>();
-        //以下クラスにコンポーネントを定義
-        _animalStateMachineClass.Change(new RunClass(moveVec,animator,characterController));
-
-        _animalStateMachineClass.Change(new WalkClass(moveVec, animator, characterController));
-
-        _animalStateMachineClass.Change(new IdleClass(animator));
+        _animalAnimator  = this.GetComponent<Animator>();
+        _characterController = this.GetComponent<CharacterController>();
+        //クラスにコンポーネントを定義
+        _animalStateMachineClass.Change(new IdleClass(_animalAnimator));
         //コンストラクタにtransformをインスタンスを設定してインスタンス化(生成)
         _moveCheckClass = new MoveCheckClass(this.transform);
+        //コルーチン開始
+        StartCoroutine(ChangeAction());
+
     }
 
     /// <summary>  
     /// 動物が歩く
     /// </summary>  
-    private void Update()
-    {
-       
-    }
+    //protected void Update()
+    //{
+    //    _animalStateMachineClass.Update();
+    //}
+
     /// <summary>
     /// 餌を食べる
     /// </summary>
@@ -94,6 +90,7 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
             Debug.Log("動物が餌を食べ終わる");
         }
     }
+
     /// <summary>
     /// 収穫する
     /// </summary>
@@ -104,6 +101,33 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
         {
             _isHarvested = true;
             Debug.Log("動物が収穫される");
+        }
+    }
+
+    public IEnumerator ChangeAction()
+    {
+        Debug.Log("コルーチン");
+        while (true)
+        {
+            // ランダムに行動を切り替える
+            _currentAction = (Animaltype)Random.Range(0, 3);
+            Debug.Log("Current Action: " + _currentAction);
+            switch (_currentAction)
+            {
+                case Animaltype.Idle:
+                    _animalStateMachineClass.Change(new IdleClass(_animalAnimator));
+                    break;
+                case Animaltype.waik:
+                    _animalStateMachineClass.Change(new WalkClass(_moveVec,_animalAnimator,_characterController));
+                    break;
+                case Animaltype.run:
+                    _animalStateMachineClass.Change(new RunClass(_moveVec, _animalAnimator, _characterController));
+                    break;
+            }
+
+            // 3秒から5秒のランダムな間隔で行動を切り替える yield=一時停止
+            yield return new WaitForSeconds(Random.Range(3f, 5f));
+            Debug.Log("処理終わり");
         }
     }
     #endregion

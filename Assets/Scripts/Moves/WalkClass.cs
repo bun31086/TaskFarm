@@ -19,10 +19,12 @@ public class WalkClass : IMoveState
     private Vector3 _moveVec = default;
     #endregion
 
-    /// <summary>
-    /// コンストラクタ
-    /// </summary>
-    /// <param name="moveVec"></param>
+  /// <summary>
+  /// コンストラクタ
+  /// </summary>
+  /// <param name="moveVec"></param>
+  /// <param name="animator"></param>
+  /// <param name="characterController"></param>
     public WalkClass(Vector3 moveVec, Animator animator, CharacterController characterController)
     {
         _moveVec = moveVec;
@@ -33,11 +35,11 @@ public class WalkClass : IMoveState
     public void Enter()
     {
         _animator.SetBool("IsWalk", true);
-        Debug.Log("Walk Stateに入る");
     }
 
     public void Execute()
     {
+        Debug.Log("歩きの更新処理");
         // 移動方向に速度を掛けて移動
         _characterController.Move(_moveVec * _walkSpeed * Time.deltaTime);
     }
@@ -45,7 +47,6 @@ public class WalkClass : IMoveState
     public void Exit()
     {
         _animator.SetBool("IsWalk", false);
-        Debug.Log("Walk Stateを抜ける");
     }
     #endregion
 }
