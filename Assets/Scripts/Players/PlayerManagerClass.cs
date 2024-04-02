@@ -33,13 +33,17 @@ public class PlayerManagerClass : MonoBehaviour
     /// </summary>
     private MoveCheckClass _moveCheck = default;
     /// <summary>
+    /// 持っているオブジェクト
+    /// </summary>
+    private GameObject _holdObj = default;
+    /// <summary>
     /// 物体の存在と種類を検知
     /// </summary>
     private RaycastHit[] _hits = default;
     /// <summary>
-    /// 持っているオブジェクト
+    /// プレイヤーの速さ
     /// </summary>
-    private GameObject _holdObj = default;
+    private float _speed = default;
     #endregion
 
     #region メソッド  
@@ -52,6 +56,8 @@ public class PlayerManagerClass : MonoBehaviour
 
         //自分のとトランスフォームをコンストラクタに渡し生成
         _moveCheck = new MoveCheckClass(this.transform);
+        //スクリプタブルオブジェクトからデータの読み込み
+        _speed = _playerData.Speed;
 
     }
 
@@ -261,7 +267,7 @@ public class PlayerManagerClass : MonoBehaviour
             {
             
                 //ドアの開閉
-                _playerStateMachine.ChangeBehaviorState(new OpenClass());
+                _playerStateMachine.ChangeBehaviorState(new OpenClass(hit.transform,_playerAnimator));
             
             }
             //当たっているオブジェクトがItemタグではない場合
@@ -271,7 +277,6 @@ public class PlayerManagerClass : MonoBehaviour
                 continue;
 
             }
-
             //オブジェクトとの距離取得
             float dist = Vector3.Distance(this.transform.position, hit.collider.transform.position);
             //現在の距離が過去の最短距離より短いとき
