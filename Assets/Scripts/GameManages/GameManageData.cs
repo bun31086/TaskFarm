@@ -56,6 +56,18 @@ public class GameManageData : ScriptableObject
         get => _upBonusLine;
 
     }
+    public int AddProductValue
+    {
+
+        get => _addProductValue;
+
+    }
+    public float SubmissionLimit
+    {
+
+        get => _submissionLimit;
+
+    }
 
     [Header("ゲームルール")]
     [Header("目標金額")]
@@ -64,6 +76,12 @@ public class GameManageData : ScriptableObject
     [Header("ボーナス金額が上がる連鎖数")]
     [SerializeField, Tooltip("ボーナス金額が上がる連鎖数")]
     private int _upBonusLine = 5;
+    [Header("製品追加量")]
+    [SerializeField, Tooltip("1度の製品追加量")]
+    private int _addProductValue = 3;
+    [Header("製品提出のタイムリミット")]
+    [SerializeField, Tooltip("製品提出のタイムリミット")]
+    private float _submissionLimit = 30;
     [Header("制限時間")]
     [SerializeField, Tooltip("分")]
     private float _timeLimetMinutes = default;
