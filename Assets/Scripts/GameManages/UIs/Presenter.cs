@@ -15,8 +15,10 @@ public class Presenter : MonoBehaviour
 
     #region 変数  
 
-    [SerializeField,Tooltip("ゲームマネージャー(Model)")]
+    [SerializeField, Tooltip("ゲームマネージャー(Model)")]
     private GameManagerClass _gameManagerClass = default;
+    [SerializeField, Tooltip("ゲームマネージャー(Model)")]
+    private TargetProductManagerClass _targetProductManagerClass = default;
     [SerializeField, Tooltip("ボーナス金額UI(View)")]
     private UIBonus _uiBonus = default;
     [SerializeField, Tooltip("タイムリミットUI(View)")]
@@ -75,7 +77,7 @@ public class Presenter : MonoBehaviour
                 _uiMoney.NowMoneyChange(nowMoney);
             }).AddTo(this);
         //連鎖ボーナスが変化したとき
-        _gameManagerClass.ChainBonus
+        _targetProductManagerClass.ChainBonus
             .Subscribe(bonus => {
                 //UI変更
                 _uiBonus.BonusTextChange(bonus);

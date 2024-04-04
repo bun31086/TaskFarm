@@ -1,8 +1,8 @@
 // ---------------------------------------------------------  
 // GameManagerClass.cs  
 // ゲームを管理する
-// 作成日:  
-// 作成者:  
+// 作成日:  4/1
+// 作成者:  湯元来輝
 // ---------------------------------------------------------  
 using System.Collections.Generic;
 using UniRx;
@@ -19,7 +19,6 @@ public class GameManagerClass : MonoBehaviour
     public IReadOnlyReactiveProperty<float> TimeLimetSeconds => _timeLimetSeconds;
     public IReadOnlyReactiveProperty<int> TargetMonay => _targetMonay;
     public IReadOnlyReactiveProperty<int> MoneyPossession => _moneyPossession;
-    public IReadOnlyReactiveProperty<int> ChainBonus => _chainBonus;
 
     #endregion
     #region 変数  
@@ -27,14 +26,7 @@ public class GameManagerClass : MonoBehaviour
     [Header("スクリプタブルオブジェクト")]
     [SerializeField, Tooltip("ゲームマネジャーのデータ")]
     private GameManageData _gameManageData = default;
-    [Header("スクリプト")]
-    [SerializeField, Tooltip("提出された製品を知るために取得")]
-    private Iteble _tableClass = default;
 
-    /// <summary>
-    /// 求める製品が入るリスト
-    /// </summary>
-    private ReactiveProperty<List<ProductState>> _productsStateList = new ReactiveProperty<List<ProductState>>(new List<ProductState> { }) ;
     /// <summary>
     /// 制限時間（分）
     /// </summary>
@@ -52,21 +44,10 @@ public class GameManagerClass : MonoBehaviour
     /// </summary>
     private ReactiveProperty<int> _moneyPossession = new ReactiveProperty<int>(default);
     /// <summary>
-    /// 連鎖ボーナス
-    /// </summary>
-    private ReactiveProperty<int> _chainBonus = new ReactiveProperty<int>(default);
-    /// <summary>
     /// ゲームマネージャーのステート
     /// </summary>
     private GameManagerSutatus _gameManagerSutatus = GameManagerSutatus.Main;
-    /// <summary>
-    /// 累計連鎖ボーナス
-    /// </summary>
-    private int _sumChainBonus = default;
-    /// <summary>
-    /// 連鎖数を数える
-    /// </summary>
-    private int _chainCount = default;
+
     #endregion
     #region メソッド  
 
@@ -80,8 +61,6 @@ public class GameManagerClass : MonoBehaviour
         _timeLimetMinutes.Value = _gameManageData.TimeLimetMinutes;
         _timeLimetSeconds.Value = _gameManageData.TimeLimetSeconds;
         _targetMonay.Value = _gameManageData.TargetMonay;
-        //リストの定義
-        //_productsStateList.Value = new List<ProductState> { };
 
      }
 
@@ -100,28 +79,7 @@ public class GameManagerClass : MonoBehaviour
                 break;
             case GameManagerSutatus.Main:
 
-                //求める製品を追加
-                AddTargetProduct();
-                //非同期で提出されているオブジェクトが変わった時に実行
-                _tableClass.CollisionObj
-                    .Subscribe
-                    (
 
-                        collisionObj =>
-                        {
-
-                            //中身がないとき
-                            if (collisionObj == null)
-                            {
-
-                                return;
-
-                            }
-                            AddMonay(collisionObj);
-
-                        }
-
-                    ).AddTo(this);
 
                 break;
             case GameManagerSutatus.Result:
@@ -188,83 +146,13 @@ public class GameManagerClass : MonoBehaviour
         
     }
 
-    /// <summary>
-    /// 農産物を置いたときに提出してほしい
-    /// 農産物とあっていれば
-    /// 所持金を増やす
-    /// </summary>
-    /// <param name="collisionObj">提出されたオブジェクト</param>
-    private void AddMonay(GameObject collisionObj)
+
+    public void AddMoney(int price)
     {
 
-        //現在求めている製品をリストから取得
-        ProductState targetProduct = _productsStateList.Value[0];
-        //求めている製品と提出されたオブジェクトがあった時
-        if (targetProduct.ToString() == collisionObj.name)
-        {
+        //提出されたオブジェクトの金額分を足す
+        _moneyPossession.Value += price;
 
-            //価格が入る
-            int price = default;
-            //提出されたオブジェクトにより処理分岐
-            switch (collisionObj.name)
-            {
-
-                case "Egg":
-
-                    //卵の価格にする
-                    price = _gameManageData.EggPrice;
-
-                    break;
-                case "Milk":
-
-                    //牛乳の価格にする
-                    price = _gameManageData.MilkPrice;
-
-                    break;
-                case "Wool":
-
-                    //ウールの価格にする
-                    price = _gameManageData.WoolPrice;
-
-                    break;
-
-            }
-            //比べた求めている製品を削除
-            _productsStateList.Value.Remove(targetProduct);
-            //求めている製品が１以下になった時
-            if (_productsStateList.Value.Count <= 1)
-            {
-
-                //求めている製品の追加
-                AddTargetProduct();
-            
-            }
-            //提出されたオブジェクトの金額分を足す
-            _moneyPossession.Value += price;
-            //連鎖を数える
-            ++_chainCount;
-            ///今の金額段階を調べる
-            int bonusStep = _chainCount / _gameManageData.UpBonusLine;
-            //今の段階分を足す
-            _chainBonus.Value += bonusStep;
-            
-
-        }
-        //合わなかったとき
-        else
-        {
-
-            //累計に足す
-            _sumChainBonus = _chainBonus.Value;
-            //初期化
-            _chainCount = 0;
-            _chainBonus.Value = 0;
-
-            return;
-        
-        }
-
-    
     }
 
     /// <summary>
@@ -303,31 +191,6 @@ public class GameManagerClass : MonoBehaviour
 
         //タイトルにステートを変更
         _gameManagerSutatus = GameManagerSutatus.Title;
-    
-    }
-
-    /// <summary>
-    /// 求める製品をリストに追加
-    /// </summary>
-    private void AddTargetProduct()
-    {
-
-        //enum型の要素数を取得
-        int maxCount = ProductState.GetNames(typeof(ProductState)).Length;
-
-        //追加量分ループ
-        for (int i = 0; _gameManageData.AddProductValue > i; ++i)
-        {
-        
-            //要素数内のランダムな値を取得
-            int number = Random.Range(0, maxCount);
-            //値に対応したステートを取得
-            ProductState chooseProduct = (ProductState)number;
-            //取得したステートをリストに格納
-            _productsStateList.Value.Add(chooseProduct);
-
-        }
-       
     
     }
   
