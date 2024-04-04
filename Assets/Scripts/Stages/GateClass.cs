@@ -9,7 +9,7 @@ using System.Collections;
 /// <summary>
 /// ゲートの動作クラス
 /// </summary>
-public class GateClass : MonoBehaviour
+public class GateClass : MonoBehaviour,IOpenClose
 {
 
     #region 変数  
