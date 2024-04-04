@@ -23,10 +23,10 @@ public class SheepClass : AnimalBase, ISatisfaction
     /// <summary>
     /// コンストラクタ
     /// </summary>
-    /// <param name="moveVec"></param>
-    public SheepClass(Vector3 moveVec)
+    /// <param name="moveVector"></param>
+    public SheepClass(Vector3 moveVector)
     {
-        _moveVec = moveVec;
+        _moveVector = moveVector;
     }
     #region メソッド  
     // 羊毛を出す

@@ -17,6 +17,7 @@ public class CawClass : AnimalBase, ISatisfaction
     private float _milkTimer = 0f;
     // 牛乳を出す間隔（仮の値）
     private float _milkInterval = 10f;
+    public AnimalBase _animalBase;
     #endregion
 
     #region メソッド  
@@ -43,14 +44,14 @@ public class CawClass : AnimalBase, ISatisfaction
         }
     }
 
-    protected void Update()
-    {
-        _animalStateMachineClass.Update();
-        // 牛乳を出す間、牛乳を出し続ける
-        if (_isProducingMilk)
-        {
-            Produce();
-        }
-    }
+    //public  void Update()
+    //{
+    //    _animalBase.Execute();
+    //    // 牛乳を出す間、牛乳を出し続ける
+    //    if (_isProducingMilk)
+    //    {
+    //        Produce();
+    //    }
+    //}
     #endregion
 }

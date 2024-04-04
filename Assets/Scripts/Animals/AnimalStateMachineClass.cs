@@ -7,7 +7,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class AnimalStateMachineClass
+public class AnimalStateMachineClass : IAnimalStateChage
 {
     #region 変数  
     /// <summary>
@@ -15,7 +15,7 @@ public class AnimalStateMachineClass
     /// </summary>
     private IMoveState _currentState = default;
     public Vector3 _moveVec = default;
-    //Idleを初期動作にする
+    ////Idleを初期動作にする
     public Animaltype _currentAction = Animaltype.Idle;
 
     /// <summary>
@@ -46,7 +46,7 @@ public class AnimalStateMachineClass
     /// <param name="nextState">次のステータス</param>
     public void Change(IMoveState nextState)
     {
-        Debug.Log("ステータス変更");
+        //Debug.Log("ステータス変更");
         //現在のステータスがあるとき
         if (_currentState != null)
         {
@@ -61,7 +61,7 @@ public class AnimalStateMachineClass
 
     //public IEnumerator ChangeAction()
     //{
-    //    Debug.Log("コルーチン");
+    //    //Debug.Log("コルーチン");
     //    while (true)
     //    {
     //        // ランダムに行動を切り替える
