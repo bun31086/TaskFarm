@@ -27,11 +27,11 @@ public class PlayerManagerClass : MonoBehaviour
     /// <summary>
     /// プレイヤーステートを変更するインターフェースのインスタンス
     /// </summary>
-    private IstateChenge _playerStateMachine = new PlayerStateMachineClass();
+    private IstateChenge _iStateChengeInterFace = new PlayerStateMachineClass();
     /// <summary>
     /// 移動を確認するインターフェースのインスタンスが入る
     /// </summary>
-    private IMoveCheck _moveCheck = default;
+    private IMoveCheck _iMoveCheckInterFace = default;
     /// <summary>
     /// 持っているオブジェクト
     /// </summary>
@@ -55,7 +55,7 @@ public class PlayerManagerClass : MonoBehaviour
     {
 
         //自分のとトランスフォームをコンストラクタに渡し生成
-        _moveCheck = new MoveCheckClass(this.transform);
+        _iMoveCheckInterFace = new MoveCheckClass(this.transform);
         //スクリプタブルオブジェクトからデータの読み込み
         _speed = _playerData.Speed;
 
@@ -68,8 +68,8 @@ public class PlayerManagerClass : MonoBehaviour
     {
 
         //初期ステータスに変更
-        _playerStateMachine.ChangeMoveState(new IdleClass(_playerAnimator));
-        _playerStateMachine.ChangeBehaviorState(null);
+        _iStateChengeInterFace.ChangeMoveState(new IdleClass(_playerAnimator));
+        _iStateChengeInterFace.ChangeBehaviorState(null);
 
     }
 
@@ -80,9 +80,9 @@ public class PlayerManagerClass : MonoBehaviour
     {
 
         //ステートマシンの更新処理
-        _playerStateMachine.Update();
+        _iStateChengeInterFace.Update();
         //移動先確認
-        _hits = _moveCheck.Check();
+        _hits = _iMoveCheckInterFace.Check();
 
     }
 
@@ -108,7 +108,7 @@ public class PlayerManagerClass : MonoBehaviour
         dire.z = dire.y;
         dire.y = 0;
         //ステート変更
-        _playerStateMachine.ChangeMoveState(new WalkClass(dire,_playerAnimator,_charactorContllor));
+        _iStateChengeInterFace.ChangeMoveState(new WalkClass(dire,_playerAnimator,_charactorContllor));
 
     }
 
@@ -199,7 +199,7 @@ public class PlayerManagerClass : MonoBehaviour
         {
 
             //置くステートに更新
-            _playerStateMachine.ChangeBehaviorState(new PutClass(nearAnimalObj.transform, _playerAnimator));
+            _iStateChengeInterFace.ChangeBehaviorState(new PutClass(nearAnimalObj.transform, _playerAnimator));
 
         }
 
@@ -218,28 +218,28 @@ public class PlayerManagerClass : MonoBehaviour
             case "Bucket":
 
                 //搾乳ステートに変更
-                _playerStateMachine.ChangeBehaviorState(new SqeezeClass(nearAnimalObj.transform,_playerAnimator));
+                _iStateChengeInterFace.ChangeBehaviorState(new SqeezeClass(nearAnimalObj.transform,_playerAnimator));
 
                 break;
 
             case "Scissors":
 
                 //毛を刈るステートに変更
-                _playerStateMachine.ChangeBehaviorState(new CutClass(nearAnimalObj.transform, _playerAnimator));
+                _iStateChengeInterFace.ChangeBehaviorState(new CutClass(nearAnimalObj.transform, _playerAnimator));
 
                 break;
 
             case "Broom":
 
                 //掃除ステートに変更
-                _playerStateMachine.ChangeBehaviorState(new CleanClass(nearAnimalObj,_playerAnimator));
+                _iStateChengeInterFace.ChangeBehaviorState(new CleanClass(nearAnimalObj,_playerAnimator));
 
                 break;
 
             case "Feed":
 
                 //餌をやるステートに変更
-                _playerStateMachine.ChangeBehaviorState(new TakeFeedClass(_holdObj,nearAnimalObj.transform,_playerAnimator));
+                _iStateChengeInterFace.ChangeBehaviorState(new TakeFeedClass(_holdObj,nearAnimalObj.transform,_playerAnimator));
 
                 break;
            
@@ -257,7 +257,6 @@ public class PlayerManagerClass : MonoBehaviour
         GameObject nearItemObj = default;
         //オブジェクトとの一番近い距離が入る(初期値に探索範囲外の値を設定)
         float nearItemDist = 100;
-
         //取得したオブジェクトを見ていくループ
         foreach (RaycastHit hit in _hits)
         {
@@ -267,7 +266,7 @@ public class PlayerManagerClass : MonoBehaviour
             {
             
                 //ドアの開閉
-                _playerStateMachine.ChangeBehaviorState(new OpenClass(hit.transform,_playerAnimator));
+                _iStateChengeInterFace.ChangeBehaviorState(new OpenClass(hit.transform,_playerAnimator));
             
             }
             //当たっているオブジェクトがItemタグではない場合
@@ -297,7 +296,7 @@ public class PlayerManagerClass : MonoBehaviour
             //持っているオブジェクト取得
             _holdObj = nearItemObj;
             //持つステートに変更
-            _playerStateMachine.ChangeBehaviorState(new HoldClass(this.transform,nearItemObj.transform, _playerAnimator));
+            _iStateChengeInterFace.ChangeBehaviorState(new HoldClass(this.transform,nearItemObj.transform, _playerAnimator));
 
         }
 
