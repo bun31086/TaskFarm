@@ -135,9 +135,9 @@ GameObject:
   - component: {fileID: 199123157}
   - component: {fileID: 199123156}
   - component: {fileID: 199123155}
-  - component: {fileID: 199123159}
   - component: {fileID: 199123160}
   - component: {fileID: 199123161}
+  - component: {fileID: 199123159}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -243,7 +243,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6b4a4a0ef79a7748b0e3d905f7d2c3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveVec: {x: 0, y: 0, z: 0}
+  _currentDirection: 0
+  _currentAction: 0
+  _moveVector: {x: 0, y: 0, z: 0}
+  _walkSpeed: 0
+  _runSpeed: 0
 --- !u!95 &199123160
 Animator:
   serializedVersion: 5
@@ -376,8 +380,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1816555339}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: -0.08717229, y: 0.8995905, z: -0.21045253, w: -0.37262273}
+  m_LocalPosition: {x: 2.5835848, y: 1.8085091, z: 2.583585}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
