@@ -26,6 +26,9 @@ public class TakemuraTestClass : MonoBehaviour
     [SerializeField] private Transform _holdObjTransform = default;
     [SerializeField] private GameObject _holdObject = default;
     [SerializeField] private GameObject _nearObject = default;
+    [SerializeField] private GameObject _gateObject = default;
+
+    private IOpenClose _iOpenClose = default;
 
     #endregion
 
@@ -54,7 +57,7 @@ public class TakemuraTestClass : MonoBehaviour
      /// </summary>  
      void Start ()
      {
-  
+        _iOpenClose = _gateObject.GetComponent<IOpenClose>();
      }
   
      /// <summary>  
@@ -90,6 +93,14 @@ public class TakemuraTestClass : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.J))
         {
             _clean.Exit();
+        }
+        else if (Input.GetKeyDown(KeyCode.K))
+        {
+            _iOpenClose.Open();
+        }
+        else if (Input.GetKeyDown(KeyCode.L))
+        {
+            _iOpenClose.Close();
         }
      }
   

@@ -890,6 +890,7 @@ MonoBehaviour:
   _holdObjTransform: {fileID: 1048925268}
   _holdObject: {fileID: 1048925264}
   _nearObject: {fileID: 985233667}
+  _gateObject: {fileID: 1248446945}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
