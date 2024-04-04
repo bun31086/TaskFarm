@@ -4,9 +4,8 @@
 // 作成日:  4/1
 // 作成者:  湯元来輝
 // ---------------------------------------------------------  
-using UnityEngine;
-using System.Collections;
 using UniRx;
+using UnityEngine;
 /// <summary>
 /// 提出台にモノを置かれたときの処理
 /// </summary>
@@ -18,7 +17,7 @@ public class TableClass : MonoBehaviour
     /// <summary>
     /// 提出台に当たったオブジェクト
     /// </summary>
-    private ReactiveProperty<GameObject> _collisionObj = default;
+    private ReactiveProperty<GameObject> _collisionObj = new ReactiveProperty<GameObject>();
 
     /// <summary>
     /// 農産物に当たった時

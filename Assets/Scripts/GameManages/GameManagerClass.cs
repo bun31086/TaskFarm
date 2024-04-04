@@ -28,13 +28,13 @@ public class GameManagerClass : MonoBehaviour
     [SerializeField, Tooltip("ゲームマネジャーのデータ")]
     private GameManageData _gameManageData = default;
     [Header("スクリプト")]
-    [SerializeField, Tooltip("提出された農産物を知るために取得")]
-    private TableClass _tableClass = default;
+    [SerializeField, Tooltip("提出された製品を知るために取得")]
+    private Iteble _tableClass = default;
 
     /// <summary>
     /// 求める製品が入るリスト
     /// </summary>
-    private ReactiveProperty<List<ProductState>> _productsStateList = new ReactiveProperty<List<ProductState>>() { };
+    private ReactiveProperty<List<ProductState>> _productsStateList = new ReactiveProperty<List<ProductState>>(new List<ProductState> { }) ;
     /// <summary>
     /// 制限時間（分）
     /// </summary>
@@ -80,6 +80,8 @@ public class GameManagerClass : MonoBehaviour
         _timeLimetMinutes.Value = _gameManageData.TimeLimetMinutes;
         _timeLimetSeconds.Value = _gameManageData.TimeLimetSeconds;
         _targetMonay.Value = _gameManageData.TargetMonay;
+        //リストの定義
+        //_productsStateList.Value = new List<ProductState> { };
 
      }
 
@@ -99,15 +101,22 @@ public class GameManagerClass : MonoBehaviour
             case GameManagerSutatus.Main:
 
                 //求める製品を追加
-                TargetProduct();
+                AddTargetProduct();
                 //非同期で提出されているオブジェクトが変わった時に実行
-                _tableClass.CollisionObj.
-                    Subscribe
+                _tableClass.CollisionObj
+                    .Subscribe
                     (
 
                         collisionObj =>
                         {
 
+                            //中身がないとき
+                            if (collisionObj == null)
+                            {
+
+                                return;
+
+                            }
                             AddMonay(collisionObj);
 
                         }
@@ -160,6 +169,22 @@ public class GameManagerClass : MonoBehaviour
                 break;
 
         }
+        //スペースを押した時
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    //求める製品を追加
+        //    AddTargetProduct();
+        //    //リストの数を出力
+        //    print(_productsStateList.Value.Count);
+        //    foreach (ProductState product in _productsStateList.Value)
+        //    {
+
+        //        //リストの中を出力
+        //        print(product);
+            
+        //    }
+        
+        //}
         
     }
 
@@ -183,6 +208,7 @@ public class GameManagerClass : MonoBehaviour
             //提出されたオブジェクトにより処理分岐
             switch (collisionObj.name)
             {
+
                 case "Egg":
 
                     //卵の価格にする
@@ -202,10 +228,17 @@ public class GameManagerClass : MonoBehaviour
 
                     break;
 
-
             }
             //比べた求めている製品を削除
             _productsStateList.Value.Remove(targetProduct);
+            //求めている製品が１以下になった時
+            if (_productsStateList.Value.Count <= 1)
+            {
+
+                //求めている製品の追加
+                AddTargetProduct();
+            
+            }
             //提出されたオブジェクトの金額分を足す
             _moneyPossession.Value += price;
             //連鎖を数える
@@ -276,16 +309,25 @@ public class GameManagerClass : MonoBehaviour
     /// <summary>
     /// 求める製品をリストに追加
     /// </summary>
-    private void TargetProduct()
+    private void AddTargetProduct()
     {
+
         //enum型の要素数を取得
         int maxCount = ProductState.GetNames(typeof(ProductState)).Length;
-        //要素数内のランダムな値を取得
-        int number = Random.Range(0, maxCount);
-        //値に対応したステートを取得
-        ProductState chooseProduct = (ProductState)number;
-        //取得したステートをリストに格納
-        _productsStateList.Value.Add(chooseProduct);
+
+        //追加量分ループ
+        for (int i = 0; _gameManageData.AddProductValue > i; ++i)
+        {
+        
+            //要素数内のランダムな値を取得
+            int number = Random.Range(0, maxCount);
+            //値に対応したステートを取得
+            ProductState chooseProduct = (ProductState)number;
+            //取得したステートをリストに格納
+            _productsStateList.Value.Add(chooseProduct);
+
+        }
+       
     
     }
   

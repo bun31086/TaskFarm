@@ -9,7 +9,7 @@ using System.Collections;
 /// <summary>
 /// プレイヤーのステート管理
 /// </summary>
-public class PlayerStateMachineClass
+public class PlayerStateMachineClass : IstateChenge
 {
 
     /// <summary>
@@ -24,7 +24,7 @@ public class PlayerStateMachineClass
     /// <summary>
     /// 移動系のステートを変えるときの処理
     /// </summary>
-    /// <param name="nextState">次のステータス</param>
+    /// <param name="nextState">次のステート</param>
     public void ChangeMoveState(IMoveState nextState)
     {
 
@@ -47,7 +47,7 @@ public class PlayerStateMachineClass
     /// <summary>
     /// 振る舞い系のステートを変えるときの処理
     /// </summary>
-    /// <param name="nextState"></param>
+    /// <param name="nextState">次のステート</param>
     public void ChangeBehaviorState(IBehaviourState nextState)
     {
 
@@ -61,8 +61,15 @@ public class PlayerStateMachineClass
         }
         //現在のステートを更新
         _currentBehaviorState = nextState;
-        //現在のクラスの開始処理
-        _currentBehaviorState.Enter();
+        //現在のステートがあるとき
+        if (_currentBehaviorState != null)
+        {
+
+            //現在のクラスの開始処理
+            _currentBehaviorState.Enter();
+
+        }
+
 
     }
 
@@ -74,8 +81,14 @@ public class PlayerStateMachineClass
 
         //現在の移動系クラスの実行処理
         _currentMoveState.Execute();
-        //現在の振る舞い系クラスの実行処理
-        _currentBehaviorState.Execute();
+        //現在のステートがあるとき
+        if (_currentBehaviorState != null)
+        {
+
+            //現在の振る舞い系クラスの実行処理
+            _currentBehaviorState.Execute();
+
+        }
 
     }
 }

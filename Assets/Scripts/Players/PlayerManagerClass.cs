@@ -25,13 +25,13 @@ public class PlayerManagerClass : MonoBehaviour
     [SerializeField, Tooltip("プレイヤーのアニメーター")]
     private Animator _playerAnimator = default;
     /// <summary>
-    /// プレイヤーステートを変更するクラスのインスタンス取得
+    /// プレイヤーステートを変更するインターフェースのインスタンス
     /// </summary>
-    private PlayerStateMachineClass _playerStateMachine = new PlayerStateMachineClass();
+    private IstateChenge _playerStateMachine = new PlayerStateMachineClass();
     /// <summary>
-    /// 移動を確認するクラスのインスタンスが入る
+    /// 移動を確認するインターフェースのインスタンスが入る
     /// </summary>
-    private MoveCheckClass _moveCheck = default;
+    private IMoveCheck _moveCheck = default;
     /// <summary>
     /// 持っているオブジェクト
     /// </summary>
@@ -69,6 +69,7 @@ public class PlayerManagerClass : MonoBehaviour
 
         //初期ステータスに変更
         _playerStateMachine.ChangeMoveState(new IdleClass(_playerAnimator));
+        _playerStateMachine.ChangeBehaviorState(null);
 
     }
 
@@ -99,7 +100,6 @@ public class PlayerManagerClass : MonoBehaviour
             return;
 
         }
-
         //入力方向を取得
         Vector3 dire = context.ReadValue<Vector2>();
         /*
@@ -290,7 +290,6 @@ public class PlayerManagerClass : MonoBehaviour
             }
 
         }
-
         //中身がある場合
         if (nearItemObj != null)
         {

@@ -5,11 +5,10 @@
 // 作成者:  湯元来輝
 // ---------------------------------------------------------  
 using UnityEngine;
-using System.Collections;
 /// <summary>
 /// 移動先確認
 /// </summary>
-public class MoveCheckClass
+public class MoveCheckClass : IMoveCheck
 {
 
     #region 変数  
