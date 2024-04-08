@@ -37,11 +37,19 @@ public class GateClass : MonoBehaviour,IOpenClose
     /// <summary>
     /// 回転する回数
     /// </summary>
-    private const int CONST_ROTATE_COUNT = 90;
+    private const int ROTATE_COUNT = 90;
     /// <summary>
     /// 回転する角度
     /// </summary>
-    private const int CONST_ONE_ROTATE = 1;
+    private const int ROTATE_ANGLE = 1;
+    /// <summary>
+    /// 一度ずらすごとに発生する待ち時間
+    /// </summary>
+    private const float ROTATE_WAIT_TIME = 0.005f;
+    /// <summary>
+    /// 直径を半径にするために使用
+    /// </summary>
+    private const int RADIUS_CONVERT = 2;
 
     #endregion
 
@@ -63,11 +71,11 @@ public class GateClass : MonoBehaviour,IOpenClose
     void Start()
     {
         //待ち時間を設定
-        _waitTime = new WaitForSeconds(0.005f);
+        _waitTime = new WaitForSeconds(ROTATE_WAIT_TIME);
         //現在のポジションを取得
         _rotatePoint = this.transform.position;
         //回転軸を計算する
-        _rotatePoint.x -= this.transform.localScale.x / 2;
+        _rotatePoint.x -= this.transform.localScale.x / RADIUS_CONVERT;
     }
 
     /// <summary>
@@ -114,12 +122,12 @@ public class GateClass : MonoBehaviour,IOpenClose
     {
         int count = 0;
         //CONST_ROTATE_COUNT回繰り返す
-        while (count < CONST_ROTATE_COUNT)
+        while (count < ROTATE_COUNT)
         {
             //カウントアップ
             count++;
             //回転させる
-            this.transform.RotateAround(_rotatePoint, _rotateDirection, CONST_ONE_ROTATE);
+            this.transform.RotateAround(_rotatePoint, _rotateDirection, ROTATE_ANGLE);
             //待つ
             yield return _waitTime;
         }

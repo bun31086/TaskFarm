@@ -23,12 +23,12 @@ public class Presenter : MonoBehaviour
     private UIBonus _uiBonus = default;
     [SerializeField, Tooltip("タイムリミットUI(View)")]
     private UITimeLimit _uiTimeLimit = default;
-    [SerializeField, Tooltip("求める製品UI(View)")]
-    private UITargetProduct _uiTargetProduct = default;
     [SerializeField, Tooltip("目標金額UI(View)")]
     private UITargetMoney _uiTargetMoney = default;
     [SerializeField, Tooltip("所持金UI(View)")]
     private UIMoney _uiMoney = default;
+    //[SerializeField, Tooltip("求める製品UI(View)")]
+    //private UITargetProduct _uiTargetProduct = default;
 
     /// <summary>
     /// 分数
@@ -82,6 +82,8 @@ public class Presenter : MonoBehaviour
                 //UI変更
                 _uiBonus.BonusTextChange(bonus);
             }).AddTo(this);
+        //求める製品が変化したとき
+        //_targetProductManagerClass.
      }
     
     #endregion

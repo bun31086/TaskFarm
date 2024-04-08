@@ -44,7 +44,7 @@ public class TakemuraTestClass : MonoBehaviour
     void Awake()
      {
         //インスタンス生成
-        _hold = new HoldClass(_nearObjectTransform, _playerTransform,_playerAnimator);
+        _hold = new HoldClass(_playerTransform,_nearObjectTransform,_playerAnimator);
         _put = new PutClass(_holdObjTransform,_playerAnimator);
         _cut = new CutClass(_animalObjTransform,_playerAnimator);
         _sqeeze = new SqeezeClass(_animalObjTransform,_playerAnimator);
