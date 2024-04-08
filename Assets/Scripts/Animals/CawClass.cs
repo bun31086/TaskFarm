@@ -6,8 +6,10 @@
 // ---------------------------------------------------------  
 using UnityEngine;
 using System.Collections;
-
-public class CawClass : AnimalBase, ISatisfaction
+/// <summary>
+/// 牛が牛乳を出す
+/// </summary>
+public class CawClass : AnimalBase
 {
     #region 変数  
     // 牛乳を出す関連の変数
@@ -17,14 +19,13 @@ public class CawClass : AnimalBase, ISatisfaction
     private float _milkTimer = 0f;
     // 牛乳を出す間隔（仮の値）
     private float _milkInterval = 10f;
-    public AnimalBase _animalBase;
+    [SerializeField] GameObject _milk;
     #endregion
 
     #region メソッド  
     // 牛乳を出す
     public void Produce()
     {
-
         // 牛乳を出す中であれば
         if (!_isProducingMilk)
         {
@@ -33,6 +34,7 @@ public class CawClass : AnimalBase, ISatisfaction
             // タイマーを初期化
             _milkTimer = 0f;
             Debug.Log("牛が牛乳を出し始める.");
+            Instantiate(_milk);
         }
 
         // 指定の間隔で牛乳を出す
@@ -43,15 +45,5 @@ public class CawClass : AnimalBase, ISatisfaction
             _milkTimer = 0f;
         }
     }
-
-    //public  void Update()
-    //{
-    //    _animalBase.Execute();
-    //    // 牛乳を出す間、牛乳を出し続ける
-    //    if (_isProducingMilk)
-    //    {
-    //        Produce();
-    //    }
-    //}
     #endregion
 }

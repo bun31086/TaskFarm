@@ -10,8 +10,7 @@
 // </ summary >
 public interface IAnimalStateChage
 {
-   // public void Move();
-
     public void Change(IMoveState nextState);
-    //public void RandomMove();
+
+    public void Execute();
 }

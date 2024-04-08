@@ -6,10 +6,11 @@
 // ---------------------------------------------------------  
 using UnityEngine;
 using System.Collections;
-
-public class SheepClass : AnimalBase, ISatisfaction
+/// <summary>
+/// 羊が羊毛を出す
+/// </summary>
+public class SheepClass : AnimalBase
 {
-
     #region 変数  
     // 牛乳を出す関連の変数
     // 牛乳を出しているかどうかのフラグ
@@ -18,16 +19,9 @@ public class SheepClass : AnimalBase, ISatisfaction
     private float _woolTimer = 0f;
     // 牛乳を出す間隔（仮の値）
     private float _woolInterval = 10f;
+    [SerializeField] GameObject _wool;
     #endregion
 
-    /// <summary>
-    /// コンストラクタ
-    /// </summary>
-    /// <param name="moveVector"></param>
-    public SheepClass(Vector3 moveVector)
-    {
-        _moveVector = moveVector;
-    }
     #region メソッド  
     // 羊毛を出す
     public void Produce()
@@ -40,6 +34,7 @@ public class SheepClass : AnimalBase, ISatisfaction
             // タイマーを初期化
             _woolTimer = 0f;
             Debug.Log("羊が羊毛を出し始める.");
+            Instantiate(_wool);
         }
 
         // 指定の間隔で卵を出す
@@ -50,14 +45,5 @@ public class SheepClass : AnimalBase, ISatisfaction
             _woolTimer = 0f;
         }
     }
-
-    public void Update()
-    {
-        // 牛乳を出す間、牛乳を出し続ける
-        if (_isProducingWool)
-        {
-            Produce();
-        }
-        #endregion
-    }
+    #endregion
 }

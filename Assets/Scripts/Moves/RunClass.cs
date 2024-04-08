@@ -17,11 +17,11 @@ public class RunClass : IMoveState
     //{
     //    get; private set;
     //}
-    public float _runSpeed = default;
-    public bool _isRun = false;
+    private float _runSpeed = 4f;
+    private bool _isRun = false;
     private CharacterController _characterController = default;
     private Animator _animator = default;
-    private Vector3 _moveVec = default;
+    private Vector3 _moveVector = default;
     #endregion
 
     /// <summary>
@@ -30,9 +30,10 @@ public class RunClass : IMoveState
     /// <param name="moveVec"></param>
     /// <param name="animator"></param>
     /// <param name="characterController"></param>
-    public RunClass(Vector3 moveVec, Animator animator, CharacterController characterController)
+    public RunClass(Vector3 moveVec,/*float runSpeed,*/ Animator animator, CharacterController characterController)
     {
-        _moveVec = moveVec;
+        _moveVector = moveVec;
+        //_runSpeed = runSpeed;
         _animator = animator;
         _characterController = characterController;
     }
@@ -40,24 +41,20 @@ public class RunClass : IMoveState
     public void Enter()
     {
         // 走るアニメーションを開始するなどの初期化処理
-        //player.Animator.SetBool("IsRunning", true);
+        _animator.SetBool("IsRun", true);
+        _characterController.transform.LookAt(_moveVector);
     }
 
     public void Execute()
     {
         Debug.Log("走りの更新処理");
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            // 移動方向に速度を掛けて移動
-            _characterController.Move(_moveVec * _runSpeed * Time.deltaTime);
-            _isRun = true;
-        } else
-        {
-            _isRun = false;
-        }
+        Debug.Log(_moveVector + ":" + _runSpeed);
+        // 移動方向に速度を掛けて移動
+        _characterController.Move(_moveVector * _runSpeed * Time.deltaTime);
     }
     public void Exit()
     {
+        _animator.SetBool("IsRun", true);
     }
     #endregion
 }

@@ -12,7 +12,6 @@ using System.Collections;
 public class IdleClass : IMoveState
 {
     #region 変数 
-    //private CharacterController _characterController = default;
     private Animator _animator = default;
     #endregion
 
@@ -24,7 +23,6 @@ public class IdleClass : IMoveState
     public IdleClass(Animator animator)
     {
         _animator = animator;
-        //_characterController = characterController;
     }
 
     #region メソッド  

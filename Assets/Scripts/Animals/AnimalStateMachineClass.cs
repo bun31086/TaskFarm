@@ -1,6 +1,6 @@
 // ---------------------------------------------------------  
 // AnimalStateMachine.cs  
-// ステータス変更
+// 動物ステータス変更
 // 作成日:  3/29
 // 作成者:  對馬礼乃
 // ---------------------------------------------------------  
@@ -14,9 +14,9 @@ public class AnimalStateMachineClass : IAnimalStateChage
     /// 移動ステータスに沿ったクラス実行ステータス
     /// </summary>
     private IMoveState _currentState = default;
-    public Vector3 _moveVec = default;
+    private Vector3 _moveVec = default;
     ////Idleを初期動作にする
-    public Animaltype _currentAction = Animaltype.Idle;
+    private Animaltype _currentAction = Animaltype.Idle;
 
     /// <summary>
     /// コンストラクタ
@@ -35,7 +35,7 @@ public class AnimalStateMachineClass : IAnimalStateChage
 
 
     #region メソッド  
-    public void Update()
+    public void Execute()
     {
         //実行中の処理
         _currentState.Execute();
@@ -58,19 +58,5 @@ public class AnimalStateMachineClass : IAnimalStateChage
         //初期処理実行
         _currentState.Enter();
     }
-
-    //public IEnumerator ChangeAction()
-    //{
-    //    //Debug.Log("コルーチン");
-    //    while (true)
-    //    {
-    //        // ランダムに行動を切り替える
-    //        _currentAction = (Animaltype)Random.Range(0, 3);
-    //        Debug.Log("Current Action: " + _currentAction);
-    //        // 3秒から5秒のランダムな間隔で行動を切り替える yield=一時停止
-    //        yield return new WaitForSeconds(Random.Range(3f, 5f));
-    //        Debug.Log("処理終わり");
-    //    }
-    //}
     #endregion
 }
