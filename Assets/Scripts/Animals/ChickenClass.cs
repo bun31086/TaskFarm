@@ -19,10 +19,10 @@ public class ChickenClass : AnimalBase, ISatisfaction
     private float _eggTimer = 0f;
     // 卵を出す間隔（仮の値）
     private float _eggInterval = 10f;
+    [SerializeField] GameObject _chichken;
     #endregion
 
     #region メソッド  
-  
     // 卵を出す
     public void Produce()
     {
@@ -34,6 +34,7 @@ public class ChickenClass : AnimalBase, ISatisfaction
             // タイマーを初期化
             _eggTimer = 0f;
             Debug.Log("鶏が卵を出し始める.");
+            Instantiate(_chichken);
         }
 
         // 指定の間隔で卵を出す
@@ -42,14 +43,6 @@ public class ChickenClass : AnimalBase, ISatisfaction
         {
             Debug.Log("卵を出し終わる");
             _eggTimer = 0f;
-        }
-    }
-    private void Update()
-    {
-        // 卵を出す間、卵を出し続ける
-        if (_isProducingEgg)
-        {
-            EatBait();
         }
     }
     #endregion
