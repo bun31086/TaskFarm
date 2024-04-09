@@ -11,50 +11,48 @@ using System.Collections;
 /// </summary>
 public class RunClass : IMoveState
 {
-
     #region 変数
-    //public Animator Animator
-    //{
-    //    get; private set;
-    //}
-    private float _runSpeed = 4f;
-    private bool _isRun = false;
-    private CharacterController _characterController = default;
+    private Rigidbody _rigidbody = default;
     private Animator _animator = default;
-    private Vector3 _moveVector = default;
-    #endregion
+    private Vector3 _moveVector = default;  
+    private float _runSpeed = default;
 
     /// <summary>
     /// コンストラクタ
     /// </summary>
-    /// <param name="moveVec"></param>
+    /// <param name="moveVector"></param>
+    /// <param name="runSpeed">走る速度</param>
     /// <param name="animator"></param>
-    /// <param name="characterController"></param>
-    public RunClass(Vector3 moveVec,/*float runSpeed,*/ Animator animator, CharacterController characterController)
+    /// <param name="rigidbody"></param>
+    public RunClass(Vector3 moveVector, float runSpeed, Animator animator, Rigidbody rigidbody)
     {
-        _moveVector = moveVec;
-        //_runSpeed = runSpeed;
+        _moveVector = moveVector;
+        _runSpeed = runSpeed;
         _animator = animator;
-        _characterController = characterController;
+        _rigidbody = rigidbody;
     }
-    #region メソッド  
+    #endregion
+
+    #region メソッド
     public void Enter()
     {
-        // 走るアニメーションを開始するなどの初期化処理
         _animator.SetBool("IsRun", true);
-        _characterController.transform.LookAt(_moveVector);
+        //移動する方向に向きを変える
+        Vector3 lookPos = _moveVector + (Vector3.up * _rigidbody.transform.position.y);
+        _rigidbody.transform.LookAt(lookPos);
     }
 
     public void Execute()
     {
         Debug.Log("走りの更新処理");
-        Debug.Log(_moveVector + ":" + _runSpeed);
         // 移動方向に速度を掛けて移動
-        _characterController.Move(_moveVector * _runSpeed * Time.deltaTime);
+        _rigidbody.velocity = (_rigidbody.transform.forward * _runSpeed) +
+                               (Vector3.up * _rigidbody.velocity.y);
     }
     public void Exit()
     {
-        _animator.SetBool("IsRun", true);
+        // Runアニメーションを終了
+        _animator.SetBool("IsRun", false);
     }
     #endregion
 }

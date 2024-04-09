@@ -12,57 +12,48 @@ using System.Collections;
 public class WalkClass : IMoveState
 {
     #region 変数 
-    protected CharacterController _characterController = default;
+    private Rigidbody _rigidbody = default;
     private Animator _animator = default;
-    protected Vector3 _moveVector = default;
-    private float _walkSpeed = 2f;
+    private Vector3 _moveVector = default;
+    private float _walkSpeed = default;
 
     /// <summary>
     /// コンストラクタ
     /// </summary>
-    /// <param name="moveVec"></param>
+    /// <param name="moveVector"></param>
+    /// <param name="walkspeed">歩く速度</param>
     /// <param name="animator"></param>
-    /// <param name="characterController"></param>
-    public WalkClass(Vector3 moveVector, /*float walkspeed,*/Animator animator, CharacterController characterController)
+    /// <param name="rigidbody"></param>
+    public WalkClass(Vector3 moveVector, float walkspeed, Animator animator, Rigidbody rigidbody)
     {
         _moveVector = moveVector;
-        //_walkSpeed = walkspeed;
+        _walkSpeed = walkspeed;
         _animator = animator;
-        _characterController = characterController;
+        _rigidbody = rigidbody;
     }
-    //WalkClass _walkClass = new WalkClass(_moveVector, animator, characterController);
-    //walkClass.MoveDirection(transform, walkSpeed);
     #endregion
 
     #region メソッド
-    //public void MoveDirection(Transform transform, float walkSpeed )
-    //{
-    //    _transform = transform;
-    //    _walkSpeed = walkSpeed;
-    //}
     public void Enter()
     {
-        Debug.Log("enter");
         _animator.SetBool("IsWalk", true);
         //移動する方向に向きを変える
-        _characterController.transform.LookAt(_moveVector);
+        Vector3 lookPos = _moveVector + (Vector3.up * _rigidbody.transform.position.y);
+        _rigidbody.transform.LookAt(lookPos);
     }
 
     public void Execute()
     {
-        Debug.Log(_moveVector +":"+ _walkSpeed);
+        Debug.Log("歩きの更新処理");
         // 移動速度を掛けて移動
-        _characterController.Move(_moveVector * _walkSpeed * Time.deltaTime);
-        // 移動処理 例右方向に移動する
-        //Vector3 moveDirection = new Vector3(1, 0, 0);
-        //_transform.Translate(moveDirection * _walkSpeed * Time.deltaTime);
+        _rigidbody.velocity = (_rigidbody.transform.forward * _walkSpeed) +
+                              (Vector3.up * _rigidbody.velocity.y);
     }
+
     public void Exit()
     {
-        
         // Walkアニメーションを終了
         _animator.SetBool("IsWalk", false);
-        Debug.Log("exit");
     }
     #endregion
 }

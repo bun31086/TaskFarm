@@ -11,19 +11,20 @@ using System.Collections;
 /// </summary>
 public class CawClass : AnimalBase
 {
-    #region 変数  
-    // 牛乳を出す関連の変数
+    #region 変数      
+    [SerializeField] GameObject _milk;
     // 牛乳を出しているかどうかのフラグ
     private bool _isProducingMilk = false;
     // 牛乳を出す間隔計測用タイマー
     private float _milkTimer = 0f;
     // 牛乳を出す間隔（仮の値）
     private float _milkInterval = 10f;
-    [SerializeField] GameObject _milk;
     #endregion
 
     #region メソッド  
-    // 牛乳を出す
+    /// <summary>
+    /// 牛乳を出す
+    /// </summary>
     public void Produce()
     {
         // 牛乳を出す中であれば
