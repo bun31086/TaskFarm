@@ -10,18 +10,19 @@ using System.Collections;
 /// プレイヤーの情報管理
 /// </summary>
 [CreateAssetMenu(fileName ="PlayerData",menuName = "ScriptableObjects/PlayerData")]
-public class PlayerDataClass : ScriptableObject
+public class PlayerManagerData : ScriptableObject
 {
 
-    [Header("プレイヤーのステータス")]
-    [SerializeField,Tooltip("プレイヤーの移動速度")]
-    private float _speed = 5f;
     //プロパティ
     public float Speed
     {
 
         get => _speed;
-    
+
     }
+
+    [Header("プレイヤーのステータス")]
+    [SerializeField,Tooltip("プレイヤーの移動速度")]
+    private float _speed = 5f;
 
 }

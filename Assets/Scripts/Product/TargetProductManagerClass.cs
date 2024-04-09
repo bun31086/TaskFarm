@@ -53,6 +53,9 @@ public class TargetProductManagerClass : MonoBehaviour
     #endregion
     #region メソッド  
 
+    /// <summary>
+    /// 更新前処理
+    /// </summary>
     private void Start()
     {
 

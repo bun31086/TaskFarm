@@ -8,7 +8,7 @@ using UnityEngine;
 /// <summary>
 /// 移動先確認
 /// </summary>
-public class MoveCheckClass : IMoveCheck
+public class ForwardCheckClass : IMoveCheck
 {
 
     #region 変数  
@@ -25,7 +25,7 @@ public class MoveCheckClass : IMoveCheck
     /// コンストラクタ
     /// </summary>
     /// <param name="callTrans">呼んだクラスがアタッチされているトランスフォーム</param>
-    public MoveCheckClass(Transform callTrans)
+    public ForwardCheckClass(Transform callTrans)
     {
 
         //呼んだクラスがアタッチされているトランスフォーム取得
@@ -61,14 +61,6 @@ public class MoveCheckClass : IMoveCheck
         layer = ~(1 << layer);
         //Boxcast内のすべてのオブジェクト取得
         hits = Physics.BoxCastAll(pos, size, _callTrans.forward, dire, dist,layer);
-        //モノが入った時
-        if (hits.Length > 0)
-        {
-
-            //最初に入ったものの名前
-            Debug.Log(hits[0].collider.name);
-        
-        }
         //Rayの情報を返す
         return hits;
 

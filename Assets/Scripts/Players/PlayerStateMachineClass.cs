@@ -15,11 +15,20 @@ public class PlayerStateMachineClass : IstateChenge
     /// <summary>
     /// 現在の移動系のステート
     /// </summary>
-    private IMoveState _currentMoveState;
+    private IMoveState _currentMoveState = default;
     /// <summary>
     /// 現在の振る舞い系のステート
     /// </summary>
-    private IBehaviourState _currentBehaviorState;
+    private IBehaviourState _currentBehaviorState = default;
+
+    public PlayerStateMachineClass(IBehaviourState iBehaviourState, IMoveState iMoveState)
+    {
+
+        //初期ステートの受け取り
+        _currentBehaviorState = iBehaviourState;
+        _currentMoveState = iMoveState;
+
+    }
 
     /// <summary>
     /// 移動系のステートを変えるときの処理
@@ -28,14 +37,8 @@ public class PlayerStateMachineClass : IstateChenge
     public void ChangeMoveState(IMoveState nextState)
     {
 
-        //現在のステートがあるとき
-        if (_currentMoveState != null)
-        {
-
-            //現在のクラスの終了処理
-            _currentMoveState.Exit();
-
-        }
+        //現在のクラスの終了処理
+        _currentMoveState.Exit();
         //現在のステートを更新
         _currentMoveState = nextState;
         //現在のクラスの開始処理
@@ -51,24 +54,12 @@ public class PlayerStateMachineClass : IstateChenge
     public void ChangeBehaviorState(IBehaviourState nextState)
     {
 
-        //現在のステートがあるとき
-        if (_currentBehaviorState != null)
-        {
-
-            //現在のクラスの終了処理
-            _currentBehaviorState.Exit();
-
-        }
+        //現在のクラスの終了処理
+        _currentBehaviorState.Exit();
         //現在のステートを更新
         _currentBehaviorState = nextState;
-        //現在のステートがあるとき
-        if (_currentBehaviorState != null)
-        {
-
-            //現在のクラスの開始処理
-            _currentBehaviorState.Enter();
-
-        }
+        //現在のクラスの開始処理
+        _currentBehaviorState.Enter();
 
 
     }
@@ -81,14 +72,8 @@ public class PlayerStateMachineClass : IstateChenge
 
         //現在の移動系クラスの実行処理
         _currentMoveState.Execute();
-        //現在のステートがあるとき
-        if (_currentBehaviorState != null)
-        {
-
-            //現在の振る舞い系クラスの実行処理
-            _currentBehaviorState.Execute();
-
-        }
+        //現在の振る舞い系クラスの実行処理
+        _currentBehaviorState.Execute();
 
     }
 }

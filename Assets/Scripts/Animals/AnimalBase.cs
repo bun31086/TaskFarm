@@ -15,7 +15,7 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     /// <summary>
     /// 移動先確認
     /// </summary>
-    private MoveCheckClass _moveCheckClass = default;
+    private ForwardCheckClass _moveCheckClass = default;
 
     private Animator _animalAnimator = default;
 
@@ -59,7 +59,7 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
         //クラスにコンポーネントを定義
         //_animalStateMachineClass.Change(new IdleClass(_animalAnimator));
         //コンストラクタにtransformをインスタンスを設定してインスタンス化(生成)
-        _moveCheckClass = new MoveCheckClass(this.transform);
+        _moveCheckClass = new ForwardCheckClass(this.transform);
         //コルーチン開始
         StartCoroutine(ChangeAction());
         StartCoroutine(ChangeDirection());
