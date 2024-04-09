@@ -15,7 +15,7 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     /// <summary>
     /// 移動先確認
     /// </summary>
-    private MoveCheckClass _moveCheckClass = default;
+    private ForwardCheckClass _moveCheckClass = default;
 
     private Animator _animalAnimator = default;
 

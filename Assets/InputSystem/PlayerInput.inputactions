@@ -1,5 +1,5 @@
 {
-    "name": "Produce",
+    "name": "PlayerInput",
     "maps": [
         {
             "name": "Player",
@@ -33,7 +33,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "MmanualWork",
+                    "name": "ManualWork",
                     "type": "Button",
                     "id": "04a6ada5-6b43-4c94-b016-d5018357371e",
                     "expectedControlType": "Button",
@@ -270,7 +270,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "MmanualWork",
+                    "action": "ManualWork",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

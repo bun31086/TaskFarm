@@ -351,8 +351,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerData: {fileID: 11400000, guid: 6fa8e13989daed04bab6806ba71baad2, type: 2}
-  _charactorContllor: {fileID: 447324997}
+  _characterController: {fileID: 0}
   _playerAnimator: {fileID: 447324996}
+  _onManual: {fileID: 4583744724174923550, guid: c6d2f435895eb50438bd034c31463f60, type: 3}
+  _onWalk: {fileID: -3359621333722404624, guid: c6d2f435895eb50438bd034c31463f60, type: 3}
 --- !u!114 &447324995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -519,7 +521,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameManageData: {fileID: 11400000, guid: a2a56bb89dd2ba542af1be6cf12ad83e, type: 2}
-  _tableClass: {fileID: 2034620486}
 --- !u!4 &615586876
 Transform:
   m_ObjectHideFlags: 0
@@ -634,7 +635,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: c6d2f435895eb50438bd034c31463f60, type: 3}
-  m_NotificationBehavior: 2
+  m_NotificationBehavior: 0
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
