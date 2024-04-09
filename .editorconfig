@@ -249,3 +249,6 @@ dotnet_naming_style.定数.required_prefix =
 dotnet_naming_style.定数.required_suffix = 
 dotnet_naming_style.定数.word_separator = _
 dotnet_naming_style.定数.capitalization = all_upper
+
+[*.{cs,vb}]
+dotnet_style_parentheses_in_other_operators=never_if_unnecessary:silent
