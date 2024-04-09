@@ -6,7 +6,9 @@
 // ---------------------------------------------------------  
 using UnityEngine;
 using System.Collections;
-
+/// <summary>
+/// 動物ステータス変更
+/// </summary>
 public class AnimalStateMachineClass : IAnimalStateChage
 {
     #region 変数  
@@ -14,25 +16,7 @@ public class AnimalStateMachineClass : IAnimalStateChage
     /// 移動ステータスに沿ったクラス実行ステータス
     /// </summary>
     private IMoveState _currentState = default;
-    private Vector3 _moveVec = default;
-    ////Idleを初期動作にする
-    private Animaltype _currentAction = Animaltype.Idle;
-
-    /// <summary>
-    /// コンストラクタ
-    /// </summary>
-    /// <param name="moveVec">入力値</param>
-    public AnimalStateMachineClass(Vector3 moveVec)
-    {
-        _moveVec = moveVec;
-    }
-
-    public AnimalStateMachineClass()
-    {
-
-    }
     #endregion
-
 
     #region メソッド  
     public void Execute()
@@ -40,13 +24,13 @@ public class AnimalStateMachineClass : IAnimalStateChage
         //実行中の処理
         _currentState.Execute();
     }
+
     /// <summary>
     /// ステータスを変える処理
     /// </summary>
     /// <param name="nextState">次のステータス</param>
     public void Change(IMoveState nextState)
     {
-        //Debug.Log("ステータス変更");
         //現在のステータスがあるとき
         if (_currentState != null)
         {

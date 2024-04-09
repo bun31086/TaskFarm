@@ -15,7 +15,6 @@ public class IdleClass : IMoveState
     private Animator _animator = default;
     #endregion
 
-
     /// <summary>
     /// コンストラクタ
     /// </summary>
@@ -38,7 +37,8 @@ public class IdleClass : IMoveState
 
     public void Exit()
     {
-        _animator.SetBool("Isldle", false);
+        // Idleアニメーションを終了
+        _animator.SetBool("IsIdle", false);
     }
     #endregion
 }

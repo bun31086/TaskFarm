@@ -16,18 +16,13 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     /// 移動先確認
     /// </summary>
     private ForwardCheckClass _moveCheckClass = default;
-
     private Animator _animalAnimator = default;
-
-    private CharacterController _characterController = default;
+    private Rigidbody _rigidbody = default;
     //インターフェース依存関係
     private IAnimalStateChage _iAnimalStateChage = new AnimalStateMachineClass { };
-
     //Idleを初期動作にする
     private Animaltype _currentAction = Animaltype.Idle;
-
     private Vector3 _moveVector = default;
-    // 餌を食べる関連の変数 
     // 餌を食べているかどうかのフラグ
     private bool _isEating = false;
     // 餌を食べる時間計測用タイマー
@@ -38,13 +33,9 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     private float _walkSpeed = 2f;
     //動物の走る速度
     private float _runSpeed = 4f;
-    // 収穫関連の変数
     // 収穫されたかどうかのフラグ
     private bool _isHarvested = false;
-
     private WalkClass _walkClass;
-
-    //private IMoveState _currentState = default;
     #endregion
 
     #region メソッド  
@@ -55,15 +46,12 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     {
         //コンポーネント取得
         _animalAnimator = this.GetComponent<Animator>();
-        _characterController = this.GetComponent<CharacterController>();
-        //クラスにコンポーネントを定義
-        //_animalStateMachineClass.Change(new IdleClass(_animalAnimator));
+        _rigidbody = this.GetComponent<Rigidbody>();
         //コンストラクタにtransformをインスタンスを設定してインスタンス化(生成)
         _moveCheckClass = new ForwardCheckClass(this.transform);
         //コルーチン開始
         StartCoroutine(ChangeAction());
         StartCoroutine(ChangeDirection());
-
         // ランダムな方向の単位ベクトルを取得
         _moveVector = Random.onUnitSphere;
     }
@@ -123,10 +111,10 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
                     _iAnimalStateChage.Change(new IdleClass(_animalAnimator));
                     break;
                 case Animaltype.Walk:
-                    _iAnimalStateChage.Change(new WalkClass(_moveVector,/*_walkSpeed,*/ _animalAnimator, _characterController));
+                    _iAnimalStateChage.Change(new WalkClass(_moveVector, _walkSpeed, _animalAnimator, _rigidbody));
                     break;
                 case Animaltype.Run:
-                    _iAnimalStateChage.Change(new RunClass(_moveVector, /*_runSpeed,*/_animalAnimator, _characterController));
+                    _iAnimalStateChage.Change(new RunClass(_moveVector, _runSpeed, _animalAnimator, _rigidbody));
                     break;
             }
             // 3秒から5秒のランダムな間隔で行動を切り替える yield=一時停止
@@ -142,14 +130,8 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
             _moveVector = Random.insideUnitSphere;
             // 上下方向は移動しない
             _moveVector.y = 0;
-
-            // ランダムな方向に向かって移動
-           // _characterController.Move(randomDirection);
-
-
             // ランダムな間隔で行動を切り替える
             yield return new WaitForSeconds(Random.Range(3f, 5f));
-           // Debug.Log("Random Direction: " + randomDirection);
         }
     }
     #endregion
