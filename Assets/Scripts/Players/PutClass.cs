@@ -18,6 +18,10 @@ public class PutClass : IBehaviourState
     /// 持っているオブジェクトのトランスフォーム
     /// </summary>
     private Transform _holdObjectTransform = default;
+    /// <summary>
+    /// 持っているオブジェクトのリジッドボディー
+    /// </summary>
+    private BoxCollider _holdObjectBoxCollider = default;
 
     private Animator _playerAnimator = default;
 
@@ -30,6 +34,7 @@ public class PutClass : IBehaviourState
     {
         _holdObjectTransform = holdObjectTransform;
         _playerAnimator = playerAnimator;
+        _holdObjectBoxCollider = holdObjectTransform.GetComponent<BoxCollider>();
     }
 
     #endregion
@@ -42,10 +47,26 @@ public class PutClass : IBehaviourState
     public void Enter()
     {
         Debug.Log("Putに入る");
+        RaycastHit hit = default;
+        // Rayの長さを定義
+        float rayLength = 5f;
+        // Rayを出し、当たったらTrue
+        bool isHit = Physics.Raycast(_holdObjectTransform.position, Vector3.down,out hit, rayLength);
+        // 置くものの下に地面がないか
+        if (!isHit)
+        {
+            return;
+        }
         // オブジェクトを床に置くときの位置を定義
-        Vector3 putPosition = new Vector3(0,-1,1);
+        Vector3 putPosition = hit.point;
+        // オブジェクトを直径から半径にするために使用
+        const int CONVERT_HALF = 2;
+        // オブジェクトの半径を計算する
+        float objectHeight = _holdObjectBoxCollider.size.y * (_holdObjectTransform.localScale.y / CONVERT_HALF);
+        // オブジェクトの半径分、座標をあげる
+        putPosition.y += objectHeight;
         // オブジェクトを地面に置く
-        _holdObjectTransform.localPosition = putPosition;
+        _holdObjectTransform.position = putPosition;
         // 持っているオブジェクトの親オブジェクトを解除
         _holdObjectTransform.parent = null;
         // アニメーションを再生
