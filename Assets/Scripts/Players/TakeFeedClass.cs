@@ -44,10 +44,6 @@ public class TakeFeedClass : IBehaviourState
 
     #endregion
 
-    #region プロパティ  
-
-    #endregion
-
     #region メソッド  
 
     /// <summary>  
@@ -57,9 +53,9 @@ public class TakeFeedClass : IBehaviourState
     {
         Debug.Log("TakeFoodに入る");
         _iSatisfaction = _animalTransform.GetComponent<ISatisfaction>();
-        //牛に餌を与える
+        // 動物に餌を与える
         _iSatisfaction.EatBait();
-        //餌を与えるアニメーションを再生する
+        // 餌を与えるアニメーションを再生する
         //_playerAnimator.SetBool("isTake",true);
     }
 
@@ -78,11 +74,11 @@ public class TakeFeedClass : IBehaviourState
     public void Exit()
     {
         Debug.Log("TakeFoodを抜ける");
-        //餌を与えるアニメーションを終了する
+        // 餌を与えるアニメーションを終了する
         //_playerAnimator.SetBool("isTake", false);
-        //持っているオブジェクト(餌オブジェクト)の親子関係を外す
+        // 持っているオブジェクト(餌オブジェクト)の親子関係を外す
         _holdObject.transform.parent = null;
-        //オブジェクトを消す
+        // オブジェクトを消す
         _holdObject.SetActive(false);
     }
 

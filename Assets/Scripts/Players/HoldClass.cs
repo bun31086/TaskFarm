@@ -19,7 +19,7 @@ public class HoldClass  : IBehaviourState
     /// </summary>
     private Transform _holdObjectTransform = default;
     /// <summary>
-    /// オブジェクトの位置
+    /// オブジェクトを持つ位置
     /// </summary>
     private Vector3 _objectPos = new Vector3(0,0,1);
 
@@ -50,11 +50,13 @@ public class HoldClass  : IBehaviourState
     public void Enter()
     {
        
-        //オブジェクトをプレイヤーの子オブジェクトにする
+        // オブジェクトをプレイヤーの子オブジェクトにする
         _holdObjectTransform.parent = _playerTransform;
-        //オブジェクトをプレイヤーの正面に配置
+        // オブジェクトをプレイヤーの正面に配置
         _holdObjectTransform.localPosition = _objectPos;
-        //アニメーションを再生
+        // オブジェクトの向きを固定する
+        _holdObjectTransform.localRotation = Quaternion.identity;
+        // アニメーションを再生
         //_playerAnimator.SetBool("isHold", true);
     }
 

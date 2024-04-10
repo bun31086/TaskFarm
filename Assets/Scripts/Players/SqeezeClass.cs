@@ -35,10 +35,6 @@ public class SqeezeClass : IBehaviourState
 
     #endregion
 
-    #region プロパティ  
-
-    #endregion
-
     #region メソッド  
 
     /// <summary>  
@@ -48,9 +44,9 @@ public class SqeezeClass : IBehaviourState
     {
         Debug.Log("Sqeezeに入る");
         _iSatisfaction = _animalTransform.GetComponent<ISatisfaction>();
-        //一番近くの牛の乳を搾る
+        // 一番近くの牛の乳を搾る
         _iSatisfaction.Harvest();
-        //乳搾りアニメーションを開始する
+        // 乳搾りアニメーションを開始する
         //_playerAnimator.SetBool("isHarvest", true);
     }
 
@@ -69,7 +65,7 @@ public class SqeezeClass : IBehaviourState
     public void Exit()
     {
         Debug.Log("Sqeezeを抜ける");
-        //乳搾りアニメーションを終了する
+        // 乳搾りアニメーションを終了する
         //_playerAnimator.SetBool("isHarvest", false);
     }
 
