@@ -351,7 +351,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerData: {fileID: 11400000, guid: 6fa8e13989daed04bab6806ba71baad2, type: 2}
-  _characterController: {fileID: 0}
+  _characterController: {fileID: 447324997}
   _playerAnimator: {fileID: 447324996}
   _onManual: {fileID: 4583744724174923550, guid: c6d2f435895eb50438bd034c31463f60, type: 3}
   _onWalk: {fileID: -3359621333722404624, guid: c6d2f435895eb50438bd034c31463f60, type: 3}

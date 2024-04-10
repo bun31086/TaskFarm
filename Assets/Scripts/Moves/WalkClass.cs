@@ -38,7 +38,7 @@ public class WalkClass : IMoveState
     {
         _animator.SetBool("IsWalk", true);
         //移動する方向に向きを変える
-        Vector3 lookPos = _moveVector + (Vector3.up * _rigidbody.transform.position.y);
+        Vector3 lookPos = _moveVector + _rigidbody.transform.position;
         _rigidbody.transform.LookAt(lookPos);
     }
 

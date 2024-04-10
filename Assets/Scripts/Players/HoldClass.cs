@@ -49,7 +49,7 @@ public class HoldClass  : IBehaviourState
     /// </summary>  
     public void Enter()
     {
-        Debug.Log("Holdに入る");
+       
         //オブジェクトをプレイヤーの子オブジェクトにする
         _holdObjectTransform.parent = _playerTransform;
         //オブジェクトをプレイヤーの正面に配置
@@ -63,7 +63,7 @@ public class HoldClass  : IBehaviourState
     /// </summary>  
     public void Execute()
     {
-        Debug.Log("Hold中");
+     
 
     }
 
@@ -72,7 +72,7 @@ public class HoldClass  : IBehaviourState
     /// </summary>
     public void Exit()
     {
-        Debug.Log("Holdを抜ける");
+    
     }
 
   

@@ -20,7 +20,7 @@ public class PlayerManagerClass : MonoBehaviour
     private PlayerManagerData _playerData = default;
     [Header("キャラクターコントローラー")]
     [SerializeField, Tooltip("プレイヤーのキャラクターコントローラー")]
-    private CharacterController _characterController = default;
+    private Rigidbody _playerRigidbody = default;
     [Header("スクリプタブルオブジェクト")]
     [SerializeField, Tooltip("プレイヤーのアニメーター")]
     private Animator _playerAnimator = default;
@@ -41,7 +41,7 @@ public class PlayerManagerClass : MonoBehaviour
     /// <summary>
     /// 持っているオブジェクト
     /// </summary>
-    private GameObject _holdObj = default;
+    private GameObject _holdObj = null;
     /// <summary>
     /// インプットシステム本体
     /// </summary>
@@ -104,8 +104,12 @@ public class PlayerManagerClass : MonoBehaviour
         //インプットシステムを有効化
         _playerInput.Enable();
         //対応した関数の登録
+        _onManual.action.started += OnManualWork;
         _onManual.action.performed += OnManualWork;
+        _onManual.action.canceled += OnManualWork;
+        _onWalk.action.started += OnMove;
         _onWalk.action.performed += OnMove;
+        _onWalk.action.canceled += OnMove;
 
     }
 
@@ -130,23 +134,12 @@ public class PlayerManagerClass : MonoBehaviour
     private void OnMove(InputAction.CallbackContext context)
     {
 
-        if (context.started)
-        {
-            // 入力が開始された時の処理
-             Debug.Log("入力開始");
-        } else if (context.canceled)
-        {
-            // 入力が終了した時の処理
-            Debug.Log("入力終了");
-        } else
-        {
-            // 入力中の処理
-            Debug.Log("入力中");
-        }
-        //ボタンを押し続けるまたは離したとき
-        if (!context.started)
+        //入力を終えた時
+        if (context.canceled)
         {
 
+            //止まるステート変更
+            _iStateChengeInterFace.ChangeMoveState(new IdleClass(_playerAnimator));
             return;
 
         }
@@ -157,8 +150,8 @@ public class PlayerManagerClass : MonoBehaviour
          */
         direction.z = direction.y;
         direction.y = 0;
-        //ステート変更
-        //_iStateChengeInterFace.ChangeMoveState(new WalkClass(direction,_playerAnimator,_characterController));
+        //歩くステートに変更
+        _iStateChengeInterFace.ChangeMoveState(new WalkClass(direction,_walkSpeed,_playerAnimator,_playerRigidbody));
 
     }
 
@@ -170,28 +163,8 @@ public class PlayerManagerClass : MonoBehaviour
     private void OnManualWork(InputAction.CallbackContext context)
     {
 
-        if (context.started)
-        {
-            // 入力が開始された時の処理
-            Debug.Log("入力開始");
-        } else if (context.canceled)
-        {
-            // 入力が終了した時の処理
-            Debug.Log("入力終了");
-        } else
-        {
-            // 入力中の処理
-           Debug.Log("入力中");
-        }
         //ボタンを押し続けるまたは離したとき
         if (!context.started)
-        {
-
-            return;
-
-        }
-        //範囲内に何もない時
-        if (_hits.Length <= 0)
         {
 
             return;
@@ -230,13 +203,19 @@ public class PlayerManagerClass : MonoBehaviour
         foreach (RaycastHit hit in _hits)
         {
 
+            print(hit.collider + " = 入ってきたアイテム");
+            print(hit.collider.tag + " = 入ってきたアイテムのタグ");
+            print(hit.collider.CompareTag("Item") + " = Itemタグ比較");
+            print(hit.collider.CompareTag("Floor") + " = Flooタグ比較");
             //当たっているものがItemタグの場合
-            if (hit.collider.CompareTag("Item"))
+            if (hit.collider.CompareTag("Item")　|| hit.collider.CompareTag("Floor"))
             {
 
+                print("帰る");
                 continue;
 
             }
+            print("通る");
             //オブジェクトとの距離取得
             float distance = Vector3.Distance(this.transform.position, hit.collider.transform.position);
             //現在の距離が過去の最短距離より短いとき
@@ -254,6 +233,7 @@ public class PlayerManagerClass : MonoBehaviour
         if (nearAnimalObj != null)
         {
 
+            print(_holdObj+"を使うPlayerの使うアクションをする");
             //モノを持った時の行動処理
             ManualAction(nearAnimalObj);
 
@@ -263,7 +243,9 @@ public class PlayerManagerClass : MonoBehaviour
         {
 
             //置くステートに更新
-            _iStateChengeInterFace.ChangeBehaviorState(new PutClass(nearAnimalObj.transform, _playerAnimator));
+            _iStateChengeInterFace.ChangeBehaviorState(new PutClass(_holdObj.transform, _playerAnimator));
+            //持っているオブジェクトを空にする
+            _holdObj = null;
 
         }
 
