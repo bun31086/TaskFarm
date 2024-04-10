@@ -59,6 +59,8 @@ public class PutClass : IBehaviourState
         }
         // オブジェクトを床に置くときの位置を定義
         Vector3 putPosition = hit.point;
+        // 持っているオブジェクトの親オブジェクトを解除
+        _holdObjectTransform.parent = null;
         // オブジェクトを直径から半径にするために使用
         const int CONVERT_HALF = 2;
         // オブジェクトの半径を計算する
@@ -67,8 +69,6 @@ public class PutClass : IBehaviourState
         putPosition.y += objectHeight;
         // オブジェクトを地面に置く
         _holdObjectTransform.position = putPosition;
-        // 持っているオブジェクトの親オブジェクトを解除
-        _holdObjectTransform.parent = null;
         // アニメーションを再生
         //_playerAnimator.SetBool("isHold", false);
     }
