@@ -50,6 +50,7 @@ public class PlayerManagerClass : MonoBehaviour
     /// 物体の存在と種類を検知
     /// </summary>
     private RaycastHit[] _hits = default;
+    #region タグや動物などの名前をコンストで設定
     /*
      * タグ名
      */
@@ -57,6 +58,22 @@ public class PlayerManagerClass : MonoBehaviour
     /// アイテムについてるタグ
     /// </summary>
     private const string TAG_ITEM = "Item";
+    /// <summary>
+    /// ゲート（門）についているタグ
+    /// </summary>
+    private const string TAG_GATE = "Gate";
+    /// <summary>
+    /// 動物についているタグ
+    /// </summary>
+    private const string TAG_ANIMAL = "Animal";
+    /// <summary>
+    /// ステージについているタグ
+    /// </summary>
+    private const string TAG_STAGE = "Stage";
+    /// <summary>
+    /// ゴミについているタグ
+    /// </summary>
+    private const string TAG_RUBBISH = "rubbish";
     /*
      * アイテムの名前
      */
@@ -76,6 +93,22 @@ public class PlayerManagerClass : MonoBehaviour
     /// 餌についている名前
     /// </summary>
     private const string NAME_FEED = "Feed";
+    /*
+     * 動物の名前
+     */
+    /// <summary>
+    /// 牛についているなまえ
+    /// </summary>
+    private const string NAME_CAW = "Caw";
+    /// <summary>
+    /// 鳥についている名前
+    /// </summary>
+    private const string NAME_SHEEP = "Sheep";
+    /// <summary>
+    /// 鳥についている名前
+    /// </summary>
+    private const string NAME_CHICKEN = "Chicken";
+    #endregion
     /// <summary>
     /// プレイヤーの速さ
     /// </summary>
@@ -195,53 +228,49 @@ public class PlayerManagerClass : MonoBehaviour
     private void HoldProcess()
     {
 
-        //一番近い動物オブジェクトが入る
-        GameObject nearAnimalObj = default;
+        //一番近いアイテムとステージ以外のオブジェクトが入る
+        GameObject nearObj = default;
         //オブジェクトとの一番近い距離が入る(初期値に探索範囲外の値を設定)
-        float nearItemDist = 100;
+        float nearDistans = 100;
         //取得したオブジェクトを見ていくループ
         foreach (RaycastHit hit in _hits)
         {
 
-            print(hit.collider + " = 入ってきたアイテム");
-            print(hit.collider.tag + " = 入ってきたアイテムのタグ");
-            print(hit.collider.CompareTag("Item") + " = Itemタグ比較");
-            print(hit.collider.CompareTag("Floor") + " = Flooタグ比較");
-            //当たっているものがItemタグの場合
-            if (hit.collider.CompareTag("Item")　|| hit.collider.CompareTag("Floor"))
+            //当たっているものがItemとStageタグ以外の場合
+            if (hit.collider.CompareTag(TAG_ITEM)  || hit.collider.CompareTag(TAG_STAGE))
             {
 
-                print("帰る");
                 continue;
 
             }
-            print("通る");
-            //オブジェクトとの距離取得
+            //動物オブジェクトとの距離取得
             float distance = Vector3.Distance(this.transform.position, hit.collider.transform.position);
             //現在の距離が過去の最短距離より短いとき
-            if (distance < nearItemDist)
+            if (distance < nearDistans)
             {
 
                 //一番近いオブジェクトとの距離と一番近い動物を更新
-                nearItemDist = distance;
-                nearAnimalObj = hit.collider.gameObject;
+                nearDistans = distance;
+                nearObj = hit.collider.gameObject;
 
             }
 
         }
         //オブジェクトがある場合
-        if (nearAnimalObj != null)
+        if (nearObj != null)
         {
 
             print(_holdObj+"を使うPlayerの使うアクションをする");
             //モノを持った時の行動処理
-            ManualAction(nearAnimalObj);
+            ManualAction(nearObj);
 
         }
         //オブジェクトがない場合
         else
         {
 
+
+            print(_holdObj + "を置く");
             //置くステートに更新
             _iStateChengeInterFace.ChangeBehaviorState(new PutClass(_holdObj.transform, _playerAnimator));
             //持っているオブジェクトを空にする
@@ -261,22 +290,48 @@ public class PlayerManagerClass : MonoBehaviour
         switch (_holdObj.name)
         {
 
-            case "Bucket":
+            case NAME_BUCKET:
 
+                print(nearAnimalObj);
+                print((nearAnimalObj.name.CompareTo(NAME_CAW) == 0));
+                //近くにある動物オブジェクトが牛の以外場合
+                if (!(nearAnimalObj.name.CompareTo(NAME_CAW) == 0))
+                {
+
+                    return;
+                
+                }
+                print("牛にアクション");
                 //搾乳ステートに変更
                 _iStateChengeInterFace.ChangeBehaviorState(new SqeezeClass(nearAnimalObj.transform, _playerAnimator));
 
                 break;
 
-            case "Scissors":
+            case NAME_SCISSORS:
 
+                //近くにある動物オブジェクトが羊の以外場合
+                if (!(nearAnimalObj.name.CompareTo(NAME_SHEEP) == 0))
+                {
+
+                    return;
+
+                }
+                print("羊にアクション");
                 //毛を刈るステートに変更
                 _iStateChengeInterFace.ChangeBehaviorState(new CutClass(nearAnimalObj.transform, _playerAnimator));
 
                 break;
 
-            case "Broom":
+            case NAME_BROOM:
 
+                //ゴミのタグ以外がついているとき
+                if (!nearAnimalObj.CompareTag(TAG_RUBBISH))
+                {
+
+                    return;
+
+                }
+                print("ゴミにアクション");
                 //掃除ステートに変更
                 _iStateChengeInterFace.ChangeBehaviorState(new CleanClass(nearAnimalObj, _playerAnimator));
 
@@ -284,6 +339,14 @@ public class PlayerManagerClass : MonoBehaviour
 
             case  NAME_FEED:
 
+                //動物のタグ以外がついているとき
+                if (!nearAnimalObj.CompareTag(TAG_ANIMAL))
+                {
+
+                    return;
+
+                }
+                print("動物にアクション");
                 //餌をやるステートに変更
                 _iStateChengeInterFace.ChangeBehaviorState(new TakeFeedClass(_holdObj, nearAnimalObj.transform, _playerAnimator));
 
@@ -308,7 +371,7 @@ public class PlayerManagerClass : MonoBehaviour
         {
 
             //当たっているオブジェクトが扉の場合
-            if (hit.collider.CompareTag("Gate"))
+            if (hit.collider.CompareTag(TAG_GATE))
             {
 
                 //ドアの開閉
@@ -316,7 +379,7 @@ public class PlayerManagerClass : MonoBehaviour
 
             }
             //当たっているオブジェクトがItemタグではない場合
-            if (!hit.collider.CompareTag("Item"))
+            if (!hit.collider.CompareTag(TAG_ITEM))
             {
 
                 continue;
