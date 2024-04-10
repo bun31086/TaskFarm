@@ -8,6 +8,8 @@ TagManager:
   - Animal
   - Item
   - Product
+  - Floor
+  - Stage
   layers:
   - Default
   - TransparentFX
