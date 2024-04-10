@@ -34,10 +34,6 @@ public class OpenClass : IBehaviourState
 
     #endregion
 
-    #region プロパティ  
-
-    #endregion
-
     #region メソッド  
 
     /// <summary>  
@@ -46,18 +42,18 @@ public class OpenClass : IBehaviourState
     public void Enter()
     {
         Debug.Log("Openに入る");
-        //アニメーションを再生
+        // アニメーションを再生
         //_playerAnimator.SetBool("isOpen", true);
 
-        //ゲートの開閉フラグを確認する
+        // ゲートの開閉フラグを確認する
         if (!_iGate.IsOpen)
         {
-            //ゲートを開ける
+            // ゲートを開ける
             _iGate.Open();
         } 
         else
         {
-            //ゲートを閉める
+            // ゲートを閉める
             _iGate.Close();
         }
     }
@@ -77,7 +73,7 @@ public class OpenClass : IBehaviourState
     public void Exit()
     {
         Debug.Log("Openを抜ける");
-        //アニメーションを再生
+        // アニメーションを再生
         //_playerAnimator.SetBool("isOpen", false);
     }
 

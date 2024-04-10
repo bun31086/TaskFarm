@@ -35,10 +35,6 @@ public class CutClass : IBehaviourState
 
     #endregion
 
-    #region プロパティ  
-
-    #endregion
-
     #region メソッド  
 
     /// <summary>  
@@ -48,9 +44,9 @@ public class CutClass : IBehaviourState
     {
         Debug.Log("Cutに入る");
         _iSatisfaction = _animalTransform.GetComponent<ISatisfaction>();
-        //毛刈りアニメーションを再生する
+        // 毛刈りアニメーションを再生する
         //_playerAnimator.SetBool("isCut", true);
-        //毛刈りを実行
+        // 毛刈りを実行
         _iSatisfaction.Harvest();
     }
 
@@ -68,7 +64,7 @@ public class CutClass : IBehaviourState
     public void Exit()
     {
         Debug.Log("Cutを抜ける");
-        //毛刈りアニメーションを終了する
+        // 毛刈りアニメーションを終了する
         //_playerAnimator.SetBool("isCut", false);
     }
 

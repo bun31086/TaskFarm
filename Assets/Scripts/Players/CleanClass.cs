@@ -33,10 +33,6 @@ public class CleanClass : IBehaviourState
 
     #endregion
 
-    #region プロパティ  
-
-    #endregion
-
     #region メソッド  
 
     /// <summary>  
@@ -45,7 +41,7 @@ public class CleanClass : IBehaviourState
     public void Enter()
     {
         Debug.Log("Cleanに入る");
-        //掃除アニメーションを開始する
+        // 掃除アニメーションを開始する
         //_playerAnimator.SetBool("isClean", true);
     }
 
@@ -63,9 +59,9 @@ public class CleanClass : IBehaviourState
     public void Exit()
     {
         Debug.Log("Cleanを抜ける");
-        //掃除アニメーションを終了する
+        // 掃除アニメーションを終了する
         //_playerAnimator.SetBool("isClean", false);
-        //掃除していたオブジェクトを消す
+        // 掃除していたオブジェクトを消す
         _nearObject.SetActive(false);
     }
 

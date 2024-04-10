@@ -42,9 +42,13 @@ public class PutClass : IBehaviourState
     public void Enter()
     {
         Debug.Log("Putに入る");
-        //持っているオブジェクトの親オブジェクトを解除
+        // オブジェクトを床に置くときの位置を定義
+        Vector3 putPosition = new Vector3(0,-1,1);
+        // オブジェクトを地面に置く
+        _holdObjectTransform.localPosition = putPosition;
+        // 持っているオブジェクトの親オブジェクトを解除
         _holdObjectTransform.parent = null;
-        //アニメーションを再生
+        // アニメーションを再生
         //_playerAnimator.SetBool("isHold", false);
     }
 
