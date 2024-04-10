@@ -15,6 +15,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "ManualWork",
+                    "type": "Button",
+                    "id": "04a6ada5-6b43-4c94-b016-d5018357371e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Look",
                     "type": "Value",
                     "id": "cd14c906-37b4-46e7-b0c7-3c2c85ed2dd6",
@@ -27,15 +36,6 @@
                     "name": "Fire",
                     "type": "Button",
                     "id": "7b4a3b16-a5ed-454a-ba34-cb4798051737",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "ManualWork",
-                    "type": "Button",
-                    "id": "04a6ada5-6b43-4c94-b016-d5018357371e",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
