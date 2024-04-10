@@ -119,7 +119,6 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
             }
             // 3秒から5秒のランダムな間隔で行動を切り替える yield=一時停止
             yield return new WaitForSeconds(Random.Range(3f, 5f));
-            Debug.Log("処理終わり");
         }
     }
     public IEnumerator ChangeDirection()

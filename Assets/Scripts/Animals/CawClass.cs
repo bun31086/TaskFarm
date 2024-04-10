@@ -27,6 +27,7 @@ public class CawClass : AnimalBase
     /// </summary>
     public void Produce()
     {
+        Debug.Log("ぎゅうにゅう");
         // 牛乳を出す中であれば
         if (!_isProducingMilk)
         {
