@@ -295,6 +295,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""ManualWork"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eac21741-87d7-4455-8378-cd788a1be013"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""ManualWork"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
