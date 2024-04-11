@@ -1,10 +1,10 @@
 using UniRx;
 using UnityEngine;
 
-interface Iteble
+public interface Iteble
 {
 
-    ReactiveProperty<GameObject> CollisionObj { get; }
+    public IReadOnlyReactiveProperty<GameObject> CollisionObj { get; }
 
 }
 

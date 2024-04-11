@@ -37,7 +37,7 @@ public class PlayerManagerClass : MonoBehaviour
     /// <summary>
     /// 移動を確認するインターフェースのインスタンスが入る
     /// </summary>
-    private IMoveCheck _iMoveCheckInterFace = default;
+    private IForwardCheck _iMoveCheckInterFace = default;
     /// <summary>
     /// 持っているオブジェクト
     /// </summary>
@@ -376,6 +376,7 @@ public class PlayerManagerClass : MonoBehaviour
 
                 //ドアの開閉
                 _iStateChengeInterFace.ChangeBehaviorState(new OpenClass(hit.transform, _playerAnimator));
+                break;
 
             }
             //当たっているオブジェクトがItemタグではない場合

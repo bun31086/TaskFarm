@@ -1,6 +1,6 @@
 using UnityEngine;
 
-interface IMoveCheck
+interface IForwardCheck
 {
 
     RaycastHit[] Check();

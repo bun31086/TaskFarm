@@ -8,7 +8,7 @@ using UnityEngine;
 /// <summary>
 /// 移動先確認
 /// </summary>
-public class ForwardCheckClass : IMoveCheck
+public class ForwardCheckClass : IForwardCheck
 {
 
     #region 変数  
@@ -20,7 +20,7 @@ public class ForwardCheckClass : IMoveCheck
     /// <summary>
     /// BoxCastのサイズ倍率
     /// </summary>
-    private float _magnification = 5;
+    private float _magnification = 3;
     /// <summary>
     /// コンストラクタ
     /// </summary>
@@ -46,9 +46,9 @@ public class ForwardCheckClass : IMoveCheck
         //Rayに当たった全ての情報が入る
         RaycastHit[] hits = default;
         //倍率をかけたサイズ取得
-        Vector3 size = _callTrans.lossyScale * _magnification;
+        Vector3 size = _callTrans.localScale * _magnification;
         //サイズのYを呼び出したクラスのトランスフォームに変える
-        size.y = _callTrans.lossyScale.y;
+        size.y = _callTrans.localScale.y;
         //開始位置
         Vector3 pos = _callTrans.position + _callTrans.forward * size.z / 2;
         //向き
