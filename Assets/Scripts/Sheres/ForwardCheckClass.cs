@@ -20,7 +20,7 @@ public class ForwardCheckClass : IForwardCheck
     /// <summary>
     /// BoxCastのサイズ倍率
     /// </summary>
-    private float _magnification = 3;
+    private float _magnification = 1;
     /// <summary>
     /// コンストラクタ
     /// </summary>

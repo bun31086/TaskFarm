@@ -1031,6 +1031,9 @@ GameObject:
   - component: {fileID: 7204069589078678728}
   - component: {fileID: 4178316241338912823}
   - component: {fileID: 8137245485657179054}
+  - component: {fileID: 6132932613729671901}
+  - component: {fileID: 3791161262174089731}
+  - component: {fileID: 106172153926375234}
   m_Layer: 0
   m_Name: MiniCharacter_Father
   m_TagString: Untagged
@@ -1126,6 +1129,49 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6132932613729671901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6796878292299513149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24f1771345e5efd4aa3d63993e4aa98c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _magnification: 5
+--- !u!114 &3791161262174089731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6796878292299513149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d25a90fdb3fb60141bf11c204310b793, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerData: {fileID: 11400000, guid: 6fa8e13989daed04bab6806ba71baad2, type: 2}
+  _playerRigidbody: {fileID: 4178316241338912823}
+  _playerAnimator: {fileID: 7204069589078678728}
+  _onManual: {fileID: 4583744724174923550, guid: c6d2f435895eb50438bd034c31463f60, type: 3}
+  _onWalk: {fileID: -3359621333722404624, guid: c6d2f435895eb50438bd034c31463f60, type: 3}
+--- !u!114 &106172153926375234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6796878292299513149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24f1771345e5efd4aa3d63993e4aa98c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _magnification: 5
 --- !u!1 &6823982529789313723
 GameObject:
   m_ObjectHideFlags: 0

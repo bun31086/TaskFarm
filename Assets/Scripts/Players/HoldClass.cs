@@ -21,7 +21,7 @@ public class HoldClass  : IBehaviourState
     /// <summary>
     /// オブジェクトを持つ位置
     /// </summary>
-    private Vector3 _objectPos = new Vector3(0,0,1);
+    private Vector3 _objectPos = new Vector3(0,0,0.5f);
 
     private Transform _playerTransform = default;
     private Animator _playerAnimator = default;
@@ -57,7 +57,7 @@ public class HoldClass  : IBehaviourState
         // オブジェクトの向きを固定する
         _holdObjectTransform.localRotation = Quaternion.identity;
         // アニメーションを再生
-        //_playerAnimator.SetBool("isHold", true);
+        _playerAnimator.SetTrigger("IsHold");
     }
 
     /// <summary>  

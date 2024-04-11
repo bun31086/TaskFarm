@@ -376,6 +376,8 @@ public class PlayerManagerClass : MonoBehaviour
 
                 //ドアの開閉
                 _iStateChengeInterFace.ChangeBehaviorState(new OpenClass(hit.transform, _playerAnimator));
+                //登録したアイテム削除
+                nearItemObj = null;
                 break;
 
             }

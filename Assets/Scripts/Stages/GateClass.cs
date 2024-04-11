@@ -50,6 +50,10 @@ public class GateClass : MonoBehaviour,IOpenClose
     /// 直径を半径にするために使用
     /// </summary>
     private const int RADIUS_CONVERT = 2;
+    /// <summary>
+    /// アセットの分の調整量
+    /// </summary>
+    private const float ASSET_ADJUSTMENT = 0.25f;
 
     #endregion
 
@@ -75,7 +79,7 @@ public class GateClass : MonoBehaviour,IOpenClose
         //現在のポジションを取得
         _rotatePoint = this.transform.position;
         //回転軸を計算する
-        _rotatePoint.x -= this.transform.localScale.x / RADIUS_CONVERT;
+        _rotatePoint.z -= this.transform.localScale.z / RADIUS_CONVERT + ASSET_ADJUSTMENT;
     }
 
     /// <summary>
