@@ -47,7 +47,7 @@ public class SqeezeClass : IBehaviourState
         // 一番近くの牛の乳を搾る
         _iSatisfaction.Harvest();
         // 乳搾りアニメーションを開始する
-        //_playerAnimator.SetBool("isHarvest", true);
+        _playerAnimator.SetTrigger("IsMilk");
     }
 
     /// <summary>  

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 433fec1c06f7bb84aac410b526987c3d
+guid: aa27e0733cb16cc4189bcfd3ab03dab7
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -33,21 +33,21 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Cow Milking
+      name: Carrying
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
-      lastFrame: 272
+      lastFrame: 600
       wrapMode: 0
       orientationOffsetY: 0
       level: 1.5
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
-      loopBlendPositionY: 1
+      loopBlendPositionY: 0
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
       keepOriginalPositionY: 1

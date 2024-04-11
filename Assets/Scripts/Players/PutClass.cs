@@ -46,7 +46,6 @@ public class PutClass : IBehaviourState
     /// </summary>  
     public void Enter()
     {
-        Debug.Log("Putに入る");
         RaycastHit hit = default;
         // Rayの長さを定義
         float rayLength = 5f;
@@ -70,7 +69,7 @@ public class PutClass : IBehaviourState
         // オブジェクトを地面に置く
         _holdObjectTransform.position = putPosition;
         // アニメーションを再生
-        //_playerAnimator.SetBool("isHold", false);
+        _playerAnimator.SetTrigger("IsPut");
     }
 
     /// <summary>  
@@ -78,7 +77,6 @@ public class PutClass : IBehaviourState
     /// </summary>  
     public void Execute()
     {
-        Debug.Log("Put中");
 
     }
 
@@ -87,7 +85,7 @@ public class PutClass : IBehaviourState
     /// </summary>
     public void Exit()
     {
-        Debug.Log("Putを抜ける");
+
     }
 
     #endregion
