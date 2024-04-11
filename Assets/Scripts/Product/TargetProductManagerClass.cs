@@ -60,9 +60,7 @@ public class TargetProductManagerClass : MonoBehaviour
     {
 
         //求める製品を追加
-        AddTargetProduct();
-        //一定時間後に求める製品の追加
-        StartCoroutine(CallAddTargetProduct());
+        //AddTargetProduct();
         //非同期で提出されているオブジェクトが変わった時に実行
         _tableInterFace.CollisionObj
             .Subscribe
@@ -134,14 +132,13 @@ public class TargetProductManagerClass : MonoBehaviour
             {
 
                 //求めている製品の追加
-                AddTargetProduct();
+                //AddTargetProduct();
 
             }
             ///今の金額段階を調べる
             int bonusStep = _chainCount / _targetProductManagerData.UpBonusLine;
             //今の段階分を足す
             _chainBonus.Value += bonusStep;
-
 
         }
         //合わなかったとき
@@ -163,18 +160,12 @@ public class TargetProductManagerClass : MonoBehaviour
     /// <summary>
     /// 求める製品をリストに追加
     /// </summary>
-    private void AddTargetProduct()
+    private void AddTargetProduct(ProductState chooseProduct)
     {
 
-        //enum型の要素数を取得
-        int maxCount = ProductState.GetNames(typeof(ProductState)).Length;
-        //要素数内のランダムな値を取得
-        int number = Random.Range(0, maxCount);
-        //値に対応したステートを取得
-        ProductState chooseProduct = (ProductState)number;
         //取得したステートをリストに格納
         _targetProductsList.Value.Add(chooseProduct);
-        
+
         //_productsClass = ProductsClass();
 
     }
@@ -191,21 +182,7 @@ public class TargetProductManagerClass : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// 一定時間後にAddTargetProductメソッドを呼び出す
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator CallAddTargetProduct()
-    {
 
-        //設定時間後まで待つ
-        yield return new WaitForSeconds(_targetProductManagerData.ProductAddTime);
-        //求める製品の追加
-        AddTargetProduct();
-        //再起呼び出し
-        CallAddTargetProduct();
-
-    }
 
     #endregion
 }

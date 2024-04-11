@@ -9,7 +9,7 @@ using UnityEngine;
 /// <summary>
 /// 提出台にモノを置かれたときの処理
 /// </summary>
-public class TableClass : MonoBehaviour
+public class TableClass : MonoBehaviour , Iteble
 {
 
     //プロパティ
