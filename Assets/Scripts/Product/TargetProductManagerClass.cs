@@ -166,8 +166,6 @@ public class TargetProductManagerClass : MonoBehaviour
         //取得したステートをリストに格納
         _targetProductsList.Value.Add(chooseProduct);
 
-        //_productsClass = ProductsClass();
-
     }
 
     /// <summary>
