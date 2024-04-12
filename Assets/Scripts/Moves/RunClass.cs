@@ -46,8 +46,7 @@ public class RunClass : IMoveState
     {
         Debug.Log("走りの更新処理");
         // 移動方向に速度を掛けて移動
-        _rigidbody.velocity = (_rigidbody.transform.forward * _runSpeed) +
-                               (Vector3.up * _rigidbody.velocity.y);
+        _rigidbody.velocity = (_rigidbody.transform.forward * _runSpeed) + (Vector3.up * _rigidbody.velocity.y);
     }
     public void Exit()
     {

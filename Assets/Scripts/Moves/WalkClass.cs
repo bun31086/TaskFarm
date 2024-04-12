@@ -11,7 +11,7 @@ using System.Collections;
 /// </summary>
 public class WalkClass : IMoveState
 {
-    #region 変数 
+    #region 変数
     private Rigidbody _rigidbody = default;
     private Animator _animator = default;
     private Vector3 _moveVector = default;
@@ -46,8 +46,7 @@ public class WalkClass : IMoveState
     {
         Debug.Log("歩きの更新処理");
         // 移動速度を掛けて移動
-        _rigidbody.velocity = (_rigidbody.transform.forward * _walkSpeed) +
-                              (Vector3.up * _rigidbody.velocity.y);
+        _rigidbody.velocity = (_rigidbody.transform.forward * _walkSpeed) + (Vector3.up * _rigidbody.velocity.y);
     }
 
     public void Exit()
