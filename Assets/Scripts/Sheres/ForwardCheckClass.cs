@@ -20,7 +20,7 @@ public class ForwardCheckClass : IForwardCheck
     /// <summary>
     /// BoxCastのサイズ倍率
     /// </summary>
-    private float _magnification = 1;
+    private float _magnification = 2;
     /// <summary>
     /// コンストラクタ
     /// </summary>
@@ -43,6 +43,7 @@ public class ForwardCheckClass : IForwardCheck
     /// <returns>Rayの情報</returns>
     public RaycastHit[] Check()
     {
+
         //Rayに当たった全ての情報が入る
         RaycastHit[] hits = default;
         //倍率をかけたサイズ取得
@@ -50,7 +51,7 @@ public class ForwardCheckClass : IForwardCheck
         //サイズのYを呼び出したクラスのトランスフォームに変える
         size.y = _callTrans.localScale.y;
         //開始位置
-        Vector3 pos = _callTrans.position + _callTrans.forward * size.z / 2;
+        Vector3 pos = _callTrans.position + _callTrans.forward * (size.z / 2);
         //向き
         Quaternion dire = _callTrans.rotation;
         //距離

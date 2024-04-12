@@ -44,10 +44,6 @@ public class TargetProductManagerClass : MonoBehaviour
     /// 連鎖数を数える
     /// </summary>
     private ReactiveProperty<int> _chainCount = new ReactiveProperty<int>(default);
-    /// <summary>
-    /// 製品の詳細情報が入ったクラス
-    /// </summary>
-    private TargetProductsClass _productsClass = default;
 
     #endregion
     #region メソッド  

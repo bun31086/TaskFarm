@@ -15,10 +15,6 @@ public class TableClass : MonoBehaviour
     [Header("スクリプト")]
     [SerializeField, Tooltip("求めている製品の管理をするクラス")]
     private TargetProductManagerClass _targetProductManagerClass = default;
-    /// <summary>
-    /// 提出台に当たったオブジェクト
-    /// </summary>
-    private GameObject _collisionObj = default;
 
     /// <summary>
     /// 農産物に当たった時
