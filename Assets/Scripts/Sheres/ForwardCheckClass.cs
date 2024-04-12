@@ -47,9 +47,9 @@ public class ForwardCheckClass : IForwardCheck
         //Rayに当たった全ての情報が入る
         RaycastHit[] hits = default;
         //倍率をかけたサイズ取得
-        Vector3 size = _callTrans.localScale * _magnification;
+        Vector3 size = _callTrans.localScale * _magnification / 2;
         //サイズのYを呼び出したクラスのトランスフォームに変える
-        size.y = _callTrans.localScale.y;
+        size.y = _callTrans.localScale.y　/ 2 - 0.1f;
         //開始位置
         Vector3 pos = _callTrans.position + _callTrans.forward * (size.z / 2);
         //向き
