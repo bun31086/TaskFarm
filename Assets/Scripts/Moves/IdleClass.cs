@@ -27,12 +27,12 @@ public class IdleClass : IMoveState
     #region メソッド  
     public void Enter()
     {
+        Debug.Log("待機開始");
         _animator.SetBool("IsIdle", true);
     }
 
     public void Execute()
     {
-        Debug.Log("待機の更新処理");
     }
 
     public void Exit()

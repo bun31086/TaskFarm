@@ -45,6 +45,7 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     // 収穫されたかどうかのフラグ
     private bool _isHarvested = false;
     private bool _garbage = false;
+    private float _wasteProbability;
     #endregion
 
     #region メソッド  
@@ -61,7 +62,8 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
         StartCoroutine(ChangeDirection());
         StartCoroutine(ChangeFood());
         // ランダムな方向の単位ベクトルを取得
-        _moveVector = Random.onUnitSphere;
+        //_moveVector = Random.onUnitSphere;
+        print(_moveVector + "原因の可能性");
     }
     /// <summary>  
     /// 動物が歩く
@@ -106,6 +108,12 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
             _isEating = true;
             _eatTimer = 0f;
             Debug.Log("動物が餌を食べ始める");
+
+            // ランダムな確率でごみを出す
+            if (Random.value <= _wasteProbability)
+            {
+                DropWaste();
+            }
         }
 
         // 指定時間経過したら
@@ -114,10 +122,26 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
         {
             _isEating = false;
             Debug.Log("動物が餌を食べ終わる");
-
-            _garbage = true;
-            Debug.Log("ゴミを出した");
         }
+    }
+    /// <summary>
+    /// ごみを出す
+    /// </summary>
+    private void DropWaste()
+    {
+        Debug.Log("動物がごみを出す");
+        // ごみのプレハブを読み込む
+        GameObject wastePrefab = Resources.Load<GameObject>("WastePrefab");
+
+        // プレハブからインスタンスを生成
+        GameObject waste = Instantiate(wastePrefab, transform.position, Quaternion.identity);
+
+        // ごみを一定時間後に破棄する
+        //Destroy(waste, 5f);
+
+        GameObject prefabInstance = Instantiate(waste);
+        // Prefabを非アクティブで機能を停止
+        prefabInstance.SetActive(false);
     }
 
     /// <summary>
@@ -135,52 +159,53 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
 
     public IEnumerator ChangeAction()
     {
-        while (true)
+       
+        // ランダムに行動を切り替える
+        _currentAction = (Animaltype)Random.Range(0, 3);
+        switch (_currentAction)
         {
-            // ランダムに行動を切り替える
-            _currentAction = (Animaltype)Random.Range(0, 3);
-            Debug.Log("Current Action: " + _currentAction);
-            switch (_currentAction)
-            {
-                case Animaltype.Idle:
-                    _iAnimalStateChage.Change(new IdleClass(_animalAnimator));
-                    break;
-                case Animaltype.Walk:
-                    _iAnimalStateChage.Change(new WalkClass(_moveVector, _walkSpeed, _animalAnimator, _rigidbody));
-                    break;
-                case Animaltype.Run:
-                    _iAnimalStateChage.Change(new RunClass(_moveVector, _runSpeed, _animalAnimator, _rigidbody));
-                    break;
-            }
-            // 3秒から5秒のランダムな間隔で行動を切り替える yield=一時停止
-            yield return new WaitForSeconds(Random.Range(3f, 5f));
+            case Animaltype.Idle:
+                _iAnimalStateChage.Change(new IdleClass(_animalAnimator));
+                break;
+            case Animaltype.Walk:
+                _iAnimalStateChage.Change(new WalkClass(_moveVector, _walkSpeed, _animalAnimator, _rigidbody));
+                break;
+            case Animaltype.Run:
+                _iAnimalStateChage.Change(new RunClass(_moveVector, _runSpeed, _animalAnimator, _rigidbody));
+                break;
         }
+        // 3秒から5秒のランダムな間隔で行動を切り替える yield=一時停止
+        yield return new WaitForSeconds(Random.Range(3f, 5f));
+        //コルーチン終了
+        StopCoroutine(ChangeAction());
+        //再起処理
+        StartCoroutine(ChangeAction());
+
     }
     public IEnumerator ChangeDirection()
     {
-        while (true)
-        {
-            // ランダムな方向の単位ベクトルを取得
-            _moveVector = Random.insideUnitSphere;
-            // 上下方向は移動しない
-            _moveVector.y = 0;
-            // ランダムな間隔で行動を切り替える
-            yield return new WaitForSeconds(Random.Range(3f, 5f));
-        }
+
+        // ランダムな間隔で行動を切り替える
+        yield return new WaitForSeconds(Random.Range(3f, 5f));
+        // ランダムな方向の単位ベクトルを取得
+        _moveVector = Random.insideUnitSphere;
+        // 上下方向は移動しない
+        _moveVector.y = 0;
+        //再起処理
+        StartCoroutine(ChangeDirection());
+
     }
 
     public IEnumerator ChangeFood()
     {
+
         //動物がランダムで選択した食べ物を要求する
-        while (true)
-        {
-            _currentFood = (AnimalFoodtype)Random.Range(0, 3);
-            Debug.Log("Change Food " + _currentAction);
+        _currentFood = (AnimalFoodtype)Random.Range(0, 3);
+        Debug.Log("Change Food " + _currentFood);
 
-            //ランダムな間隔で行動を切り替える
-            yield return new WaitForSeconds(Random.Range(5f, 10f));
-        }
-
+        //ランダムな間隔で行動を切り替える
+        yield return new WaitForSeconds(Random.Range(5f, 10f));
+        
     }
     #endregion
 }
