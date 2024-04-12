@@ -254,7 +254,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &262217752
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -353,6 +353,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6b4a4a0ef79a7748b0e3d905f7d2c3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _animalAnimator: {fileID: 262217757}
+  _rigidbody: {fileID: 262217758}
   _milk: {fileID: 1519895829}
 --- !u!95 &262217757
 Animator:
@@ -433,8 +435,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 447324989}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.51, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -541,7 +543,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24f1771345e5efd4aa3d63993e4aa98c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _magnification: 5
+  _magnification: 2
 --- !u!95 &447324996
 Animator:
   serializedVersion: 5
@@ -1708,6 +1710,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7583fb10e8283ce49894dfad7b7617ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _targetProductManagerClass: {fileID: 0}
 --- !u!4 &2034620487
 Transform:
   m_ObjectHideFlags: 0
