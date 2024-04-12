@@ -36,6 +36,8 @@ public class WalkClass : IMoveState
     #region メソッド
     public void Enter()
     {
+        Debug.Log("歩き開始");
+        Debug.Log(_moveVector);
         _animator.SetBool("IsWalk", true);
         //移動する方向に向きを変える
         Vector3 lookPos = _moveVector + _rigidbody.transform.position;
@@ -44,7 +46,6 @@ public class WalkClass : IMoveState
 
     public void Execute()
     {
-        Debug.Log("歩きの更新処理");
         // 移動速度を掛けて移動
         _rigidbody.velocity = (_rigidbody.transform.forward * _walkSpeed) + (Vector3.up * _rigidbody.velocity.y);
     }

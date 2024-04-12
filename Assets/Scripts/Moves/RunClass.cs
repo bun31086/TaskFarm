@@ -36,15 +36,16 @@ public class RunClass : IMoveState
     #region メソッド
     public void Enter()
     {
+        Debug.Log("走り開始");
+        Debug.Log(_moveVector);
         _animator.SetBool("IsRun", true);
         //移動する方向に向きを変える
-        Vector3 lookPos = _moveVector + (Vector3.up * _rigidbody.transform.position.y);
+        Vector3 lookPos = _moveVector + _rigidbody.transform.position;
         _rigidbody.transform.LookAt(lookPos);
     }
 
     public void Execute()
     {
-        Debug.Log("走りの更新処理");
         // 移動方向に速度を掛けて移動
         _rigidbody.velocity = (_rigidbody.transform.forward * _runSpeed) + (Vector3.up * _rigidbody.velocity.y);
     }
