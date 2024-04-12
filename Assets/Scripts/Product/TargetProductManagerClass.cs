@@ -4,10 +4,10 @@
 // 作成日:  4/4
 // 作成者:  湯元来輝
 // ---------------------------------------------------------  
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UniRx;
+using UnityEngine;
 
 
 public class TargetProductManagerClass : MonoBehaviour
@@ -15,40 +15,39 @@ public class TargetProductManagerClass : MonoBehaviour
 
     #region プロパティ  
 
-    public IReadOnlyReactiveProperty<List<ProductState>> TargetProductList => _targetProductsList;
+    public IReadOnlyReactiveProperty<List<ITargetProduct>> TargetProductList => _targetProductsList;
     public IReadOnlyReactiveProperty<int> ChainBonus => _chainBonus;
+    public IReadOnlyReactiveProperty<int> ChaiCount => _chainCount;
 
     #endregion
     #region 変数  
+
     [Header("スクリプタブルオブジェクト")]
     [SerializeField, Tooltip("ターゲットプロダクトのデータ")]
     private TargetProductManagerData _targetProductManagerData = default;
+    [Header("オブジェクト（プレハブ）")]
+    [SerializeField,Tooltip("目的の製品オブジェクト（プレハブ）")]
+    private GameObject _targetProductPrefab = default;
     [Header("スクリプト")]
-    [SerializeField, Tooltip("提出された製品を知るために取得")]
-    private Iteble _tableInterFace = default;
     [SerializeField, Tooltip("お金を増やすために取得")]
     private GameManagerClass _gameManagerClass = default;
 
     /// <summary>
     /// 求める製品が入るリスト
     /// </summary>
-    private ReactiveProperty<List<ProductState>> _targetProductsList = new ReactiveProperty<List<ProductState>>(new List<ProductState> { });
+    private ReactiveProperty<List<ITargetProduct>> _targetProductsList = new ReactiveProperty<List<ITargetProduct>>(new List<ITargetProduct> { });
     /// <summary>
     /// 連鎖ボーナス
     /// </summary>
     private ReactiveProperty<int> _chainBonus = new ReactiveProperty<int>(default);
     /// <summary>
-    /// 残り時間が０になった時に消してもらうために取得
-    /// </summary>
-    private ProductsClass _productsClass  = default;
-    /// <summary>
-    /// 累計連鎖ボーナス
-    /// </summary>
-    private int _sumChainBonus = default;
-    /// <summary>
     /// 連鎖数を数える
     /// </summary>
-    private int _chainCount = default;
+    private ReactiveProperty<int> _chainCount = new ReactiveProperty<int>(default);
+    /// <summary>
+    /// 製品の詳細情報が入ったクラス
+    /// </summary>
+    private TargetProductsClass _productsClass = default;
 
     #endregion
     #region メソッド  
@@ -60,48 +59,30 @@ public class TargetProductManagerClass : MonoBehaviour
     {
 
         //求める製品を追加
-        //AddTargetProduct();
-        //非同期で提出されているオブジェクトが変わった時に実行
-        _tableInterFace.CollisionObj
-            .Subscribe
-            (
-
-                collisionObj =>
-                {
-
-                            //中身がないとき
-                            if (collisionObj == null)
-                    {
-
-                        return;
-
-                    }
-                    MatchCheck(collisionObj);
-
-                }
-
-            ).AddTo(this);
+        AddTargetProduct();
+        //一定時間後に求める製品の追加
+        StartCoroutine(CallAddTargetProduct());
 
     }
 
     /// <summary>
-    /// 農産物を置いたときに提出してほしい
-    /// 農産物とあっていれば
-    /// 所持金を増やすメソッドを呼びリストから削除
+    /// 提出された製品を_targetProductsListの先頭に
+    /// 格納されているインタフェースのメソッドに渡し
+    /// 実行結果により処理分岐させる
     /// </summary>
     /// <param name="collisionObj">提出されたオブジェクト</param>
-    private void MatchCheck(GameObject collisionObj)
+    public void SubmissionProcess(GameObject collisionObj)
     {
 
-        //現在求めている製品をリストから取得
-        ProductState targetProduct = _targetProductsList.Value[0];
-        //求めている製品と提出されたオブジェクトがあった時
-        if (targetProduct.ToString() == collisionObj.name)
+        //リストの先頭に格納されているインタフェースに対し製品比較を実行し実行結果が返ってくる
+        bool result = _targetProductsList.Value[0].MatchCheck(collisionObj);
+        //合っていた時
+        if (result)
         {
 
             //価格が入る
             int price = default;
-            //提出されたオブジェクトにより処理分岐
+            //提出されたオブジェクトにより価格分岐
             switch (collisionObj.name)
             {
 
@@ -125,46 +106,56 @@ public class TargetProductManagerClass : MonoBehaviour
                     break;
 
             }
-            //比べた求めている製品を削除
-            _targetProductsList.Value.Remove(targetProduct);
-            //求めている製品が１以下になった時
-            if (_targetProductsList.Value.Count <= 1)
-            {
-
-                //求めている製品の追加
-                //AddTargetProduct();
-
-            }
+            //コンボ数を増やす
+            _chainCount.Value++;
             ///今の金額段階を調べる
-            int bonusStep = _chainCount / _targetProductManagerData.UpBonusLine;
-            //今の段階分を足す
-            _chainBonus.Value += bonusStep;
+            int bonusStep = _chainCount.Value / _targetProductManagerData.UpBonusLine;
+            //ゲームマネージャーに金額を渡す
+            _gameManagerClass.AddMoney(price + bonusStep);
 
         }
         //合わなかったとき
         else
         {
 
-            //累計に足す
-            _sumChainBonus = _chainBonus.Value;
             //初期化
-            _chainCount = 0;
+            _chainCount.Value = 0;
             _chainBonus.Value = 0;
-            return;
 
         }
+        //比べた求めている製品を削除
+        _targetProductsList.Value.RemoveAt(0);
+        //求めている製品が１以下になった時
+        if (_targetProductsList.Value.Count <= 1)
+        {
 
+            //求めている製品の追加
+            AddTargetProduct();
+
+        }
 
     }
 
     /// <summary>
     /// 求める製品をリストに追加
     /// </summary>
-    private void AddTargetProduct(ProductState chooseProduct)
+    private void AddTargetProduct()
     {
 
-        //取得したステートをリストに格納
-        _targetProductsList.Value.Add(chooseProduct);
+        //enum型の要素数を取得
+        int maxCount = ProductState.GetNames(typeof(ProductState)).Length;
+        //要素数内のランダムな値を取得
+        int number = Random.Range(0, maxCount);
+        //値に対応したステートを取得
+        ProductState chooseProduct = (ProductState)number;
+        //求める製品を生成
+        GameObject targetProductObj = Instantiate(_targetProductPrefab);
+        //インタフェース取得
+        ITargetProduct iTargetProduct = targetProductObj.GetComponent<ITargetProduct>();
+        //製品情報を渡す
+        iTargetProduct.SetProductInformation(new TargetProductManagerClass(),_targetProductManagerData.SubmissionTimeLimit,chooseProduct);
+        //取得したインタフェースをリストに格納
+        _targetProductsList.Value.Add(iTargetProduct);
 
     }
 
@@ -180,7 +171,21 @@ public class TargetProductManagerClass : MonoBehaviour
 
     }
 
+    // <summary>
+    // 一定時間後にAddTargetProductメソッドを呼び出す
+    // </summary>
+    // <returns></returns>
+    private IEnumerator CallAddTargetProduct()
+    {
 
+        //設定時間後まで待つ
+        yield return new WaitForSeconds(_targetProductManagerData.ProductAddTime);
+        //求める製品の選択
+        AddTargetProduct();
+        //再起呼び出し
+        StartCoroutine(CallAddTargetProduct());
+
+    }
 
     #endregion
 }

@@ -9,15 +9,16 @@ using UnityEngine;
 /// <summary>
 /// 提出台にモノを置かれたときの処理
 /// </summary>
-public class TableClass : MonoBehaviour , Iteble
+public class TableClass : MonoBehaviour 
 {
 
-    //プロパティ
-    public IReadOnlyReactiveProperty<GameObject> CollisionObj => _collisionObj;
+    [Header("スクリプト")]
+    [SerializeField, Tooltip("求めている製品の管理をするクラス")]
+    private TargetProductManagerClass _targetProductManagerClass = default;
     /// <summary>
     /// 提出台に当たったオブジェクト
     /// </summary>
-    private ReactiveProperty<GameObject> _collisionObj = new ReactiveProperty<GameObject>();
+    private GameObject _collisionObj = default;
 
     /// <summary>
     /// 農産物に当たった時
@@ -30,8 +31,7 @@ public class TableClass : MonoBehaviour , Iteble
         if (collision.collider.CompareTag("Product"))
         {
 
-            //当たったオブジェクトを更新
-            _collisionObj.Value = collision.gameObject;
+            _targetProductManagerClass.SubmissionProcess(collision.gameObject);
         
         }
 

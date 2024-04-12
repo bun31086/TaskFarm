@@ -39,10 +39,10 @@ public class TargetProductManagerData : ScriptableObject
         get => _addProductValue;
 
     }
-    public float SubmissionLimit
+    public float SubmissionTimeLimit
     {
 
-        get => _submissionLimit;
+        get => _submissionTimeLimit;
 
     }
     public float ProductAddTime
@@ -60,7 +60,7 @@ public class TargetProductManagerData : ScriptableObject
     private int _addProductValue = 3;
     [Header("製品提出のタイムリミット")]
     [SerializeField, Tooltip("製品提出のタイムリミット")]
-    private float _submissionLimit = 30;
+    private float _submissionTimeLimit = 30;
     [Header("ボーナス金額が上がる連鎖数")]
     [SerializeField, Tooltip("ボーナス金額が上がる連鎖数")]
     private int _upBonusLine = 5;

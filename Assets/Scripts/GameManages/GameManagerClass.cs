@@ -127,26 +127,13 @@ public class GameManagerClass : MonoBehaviour
                 break;
 
         }
-        //スペースを押した時
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    //求める製品を追加
-        //    AddTargetProduct();
-        //    //リストの数を出力
-        //    print(_productsStateList.Value.Count);
-        //    foreach (ProductState product in _productsStateList.Value)
-        //    {
-
-        //        //リストの中を出力
-        //        print(product);
-            
-        //    }
-        
-        //}
         
     }
 
-
+    /// <summary>
+    /// 外部から金額を取得し加算
+    /// </summary>
+    /// <param name="price"></param>
     public void AddMoney(int price)
     {
 
