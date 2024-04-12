@@ -19,6 +19,10 @@ public class CawClass : AnimalBase
     private float _milkTimer = 0f;
     // 牛乳を出す間隔（仮の値）
     private float _milkInterval = 10f;
+    //動物お腹
+    private float _stomach = default;
+    //満腹度MAXになったら摂取可能
+    private bool _isSatietyLevel = false;
     #endregion
 
     #region メソッド  

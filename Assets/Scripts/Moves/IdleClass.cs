@@ -32,7 +32,7 @@ public class IdleClass : IMoveState
 
     public void Execute()
     {
-      
+        Debug.Log("待機の更新処理");
     }
 
     public void Exit()

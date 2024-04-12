@@ -15,7 +15,7 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     /// <summary>
     /// 移動先確認
     /// </summary>
-    private ForwardCheckClass _moveCheckClass = default;
+    private ForwardCheckClass _forwardCheckClass = default;
     [SerializeField]
     private Animator _animalAnimator = default;
     [SerializeField]
@@ -24,10 +24,13 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     private IAnimalStateChage _iAnimalStateChage = new AnimalStateMachineClass { };
     //Idleを初期動作にする
     private Animaltype _currentAction = Animaltype.Idle;
+    private AnimalFoodtype _currentFood = default;
+    private IForwardCheck _iMoveCheck = default;
+    private WalkClass _walkClass = default;
     private Vector3 _moveVector = default;
 
     private const string TAG_ITEM = "Item";
-    private const string NAME_WALL = "Wall";
+    private const string TAG_STAGE = "Stage";
 
     // 餌を食べているかどうかのフラグ
     private bool _isEating = false;
@@ -35,15 +38,13 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     private float _eatTimer = 0f;
     // 餌を食べる時間（仮の値）
     private float _eatDuration = 5f;
-    //動物の歩く速度
+    // 動物の歩く速度
     private float _walkSpeed = 2f;
-    //動物の走る速度
+    // 動物の走る速度
     private float _runSpeed = 4f;
     // 収穫されたかどうかのフラグ
     private bool _isHarvested = false;
-    private WalkClass _walkClass;
-
-    private IForwardCheck _iMoveCheck = default;
+    private bool _garbage = false;
     #endregion
 
     #region メソッド  
@@ -52,12 +53,13 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     /// </summary>  
     private void Start()
     {
-        //コンポーネント取得
-        //コンストラクタにtransformをインスタンスを設定してインスタンス化(生成)
+        // コンポーネント取得
+        // コンストラクタにtransformをインスタンスを設定してインスタンス化(生成)
         _iMoveCheck = new ForwardCheckClass(this.transform);
-        //コルーチン開始
+        // コルーチン開始
         StartCoroutine(ChangeAction());
         StartCoroutine(ChangeDirection());
+        StartCoroutine(ChangeFood());
         // ランダムな方向の単位ベクトルを取得
         _moveVector = Random.onUnitSphere;
     }
@@ -66,32 +68,31 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     /// </summary>  
     private void Update()
     {
-
+        //Rayが当たった判定を取得
         RaycastHit[] hits = _iMoveCheck.Check();
         bool isbark = false;
 
         foreach (RaycastHit hit in hits)
         {
-
-            if (hit.collider.name.CompareTo(NAME_WALL) == 0 || hit.collider.CompareTag(TAG_ITEM))
+            //壁とアイテムタグを対象
+            if (hit.collider.CompareTag(TAG_STAGE) || hit.collider.CompareTag(TAG_ITEM))
             {
-
+                print(hit.collider);
                 isbark = true;
                 break;
-            
             }
-        
-        
         }
 
         //当たったら引き返す
         if (isbark)
         {
-            Debug.LogError("return");
+            Debug.LogWarning("return");
+            _moveVector *= -1;
+            _iAnimalStateChage.Change(new WalkClass(_moveVector, _walkSpeed, _animalAnimator, _rigidbody));
             return;
         }
+        //更新処理実行
         _iAnimalStateChage.Execute();
-
     }
 
     /// <summary>
@@ -99,7 +100,7 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     /// </summary>
     public void EatBait()
     {
-        //動物が餌を食べる状態
+        // 動物が餌を食べる状態
         if (!_isEating)
         {
             _isEating = true;
@@ -113,6 +114,9 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
         {
             _isEating = false;
             Debug.Log("動物が餌を食べ終わる");
+
+            _garbage = true;
+            Debug.Log("ゴミを出した");
         }
     }
 
@@ -163,6 +167,20 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
             // ランダムな間隔で行動を切り替える
             yield return new WaitForSeconds(Random.Range(3f, 5f));
         }
+    }
+
+    public IEnumerator ChangeFood()
+    {
+        //動物がランダムで選択した食べ物を要求する
+        while (true)
+        {
+            _currentFood = (AnimalFoodtype)Random.Range(0, 3);
+            Debug.Log("Change Food " + _currentAction);
+
+            //ランダムな間隔で行動を切り替える
+            yield return new WaitForSeconds(Random.Range(5f, 10f));
+        }
+
     }
     #endregion
 }
