@@ -57,7 +57,8 @@ public class HoldClass  : IBehaviourState
         // オブジェクトの向きを固定する
         _holdObjectTransform.localRotation = Quaternion.identity;
         // アニメーションを再生
-        _playerAnimator.SetTrigger("IsHold");
+        _playerAnimator.SetBool("IsHold", true);
+
     }
 
     /// <summary>  
@@ -74,9 +75,11 @@ public class HoldClass  : IBehaviourState
     /// </summary>
     public void Exit()
     {
-    
+        // アニメーションを終了
+        _playerAnimator.SetBool("IsHold", false);
+
     }
 
-  
+
     #endregion
 }

@@ -14,6 +14,9 @@ public class GateClass : MonoBehaviour,IOpenClose
 
     #region 変数  
 
+    private Transform _transform = default;
+    private float _yRotation = default;
+
     /// <summary>
     /// 柵が開いているか
     /// </summary>
@@ -53,7 +56,14 @@ public class GateClass : MonoBehaviour,IOpenClose
     /// <summary>
     /// アセットの分の調整量
     /// </summary>
-    private const float ASSET_ADJUSTMENT = 0.25f;
+    private const float ASSET_ADJUSTMENT = 0.5f;
+    /// <summary>
+    /// 回転軸を設定するときに使用
+    /// </summary>
+    private const int ROTATE_NORTH = 0;
+    private const int ROTATE_EAST = 90;
+    private const int ROTATE_SOUTH = 180;
+    private const int ROTATE_WEST = 270;
 
     #endregion
 
@@ -77,9 +87,39 @@ public class GateClass : MonoBehaviour,IOpenClose
         //待ち時間を設定
         _waitTime = new WaitForSeconds(ROTATE_WAIT_TIME);
         //現在のポジションを取得
-        _rotatePoint = this.transform.position;
-        //回転軸を計算する
-        _rotatePoint.z -= this.transform.localScale.z / RADIUS_CONVERT + ASSET_ADJUSTMENT;
+        _transform = this.transform;
+        _rotatePoint = _transform.position;
+        //柵の角度を取得
+        _yRotation = _transform.localRotation.eulerAngles.y;
+        Debug.LogError(_yRotation);
+        //0度のとき
+        if (_yRotation  == ROTATE_NORTH)
+        {
+            print("0");
+            //回転軸を計算する
+            _rotatePoint.x -= this.transform.localScale.x / RADIUS_CONVERT + ASSET_ADJUSTMENT;
+        }
+        //90度のとき
+        else if (_yRotation == ROTATE_EAST)
+        {
+            print("90");
+            //回転軸を計算する
+            _rotatePoint.z += this.transform.localScale.z / RADIUS_CONVERT + ASSET_ADJUSTMENT;
+        }
+        //180度のとき
+        else if (_yRotation == ROTATE_SOUTH)
+        {
+            print("180");
+            //回転軸を計算する
+            _rotatePoint.x += this.transform.localScale.x / RADIUS_CONVERT + ASSET_ADJUSTMENT;
+        }
+        //270度のとき
+        else if (_yRotation == ROTATE_WEST)
+        {
+            print("270");
+            //回転軸を計算する
+            _rotatePoint.z -= this.transform.localScale.z / RADIUS_CONVERT + ASSET_ADJUSTMENT;
+        }
     }
 
     /// <summary>
