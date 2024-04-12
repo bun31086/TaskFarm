@@ -16,13 +16,19 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     /// 移動先確認
     /// </summary>
     private ForwardCheckClass _moveCheckClass = default;
+    [SerializeField]
     private Animator _animalAnimator = default;
+    [SerializeField]
     private Rigidbody _rigidbody = default;
     //インターフェース依存関係
     private IAnimalStateChage _iAnimalStateChage = new AnimalStateMachineClass { };
     //Idleを初期動作にする
     private Animaltype _currentAction = Animaltype.Idle;
     private Vector3 _moveVector = default;
+
+    private const string TAG_ITEM = "Item";
+    private const string NAME_WALL = "Wall";
+
     // 餌を食べているかどうかのフラグ
     private bool _isEating = false;
     // 餌を食べる時間計測用タイマー
@@ -36,6 +42,8 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     // 収穫されたかどうかのフラグ
     private bool _isHarvested = false;
     private WalkClass _walkClass;
+
+    private IMoveCheck _iMoveCheck = default;
     #endregion
 
     #region メソッド  
@@ -45,10 +53,8 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     private void Start()
     {
         //コンポーネント取得
-        _animalAnimator = this.GetComponent<Animator>();
-        _rigidbody = this.GetComponent<Rigidbody>();
         //コンストラクタにtransformをインスタンスを設定してインスタンス化(生成)
-        _moveCheckClass = new ForwardCheckClass(this.transform);
+        _iMoveCheck = new ForwardCheckClass(this.transform);
         //コルーチン開始
         StartCoroutine(ChangeAction());
         StartCoroutine(ChangeDirection());
@@ -60,7 +66,32 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     /// </summary>  
     private void Update()
     {
-       _iAnimalStateChage.Execute();
+
+        RaycastHit[] hits = _iMoveCheck.Check();
+        bool isbark = false;
+
+        foreach (RaycastHit hit in hits)
+        {
+
+            if (hit.collider.name.CompareTo(NAME_WALL) == 0 || hit.collider.CompareTag(TAG_ITEM))
+            {
+
+                isbark = true;
+                break;
+            
+            }
+        
+        
+        }
+
+        //当たったら引き返す
+        if (isbark)
+        {
+            Debug.LogError("return");
+            return;
+        }
+        _iAnimalStateChage.Execute();
+
     }
 
     /// <summary>
