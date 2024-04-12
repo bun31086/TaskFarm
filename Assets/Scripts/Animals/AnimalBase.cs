@@ -43,7 +43,7 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     private bool _isHarvested = false;
     private WalkClass _walkClass;
 
-    private IMoveCheck _iMoveCheck = default;
+    private IForwardCheck _iMoveCheck = default;
     #endregion
 
     #region メソッド  
