@@ -2881,6 +2881,7 @@ GameObject:
   - component: {fileID: 744561321}
   - component: {fileID: 744561320}
   - component: {fileID: 744561319}
+  - component: {fileID: 744561323}
   m_Layer: 0
   m_Name: Chicken
   m_TagString: Animal
@@ -2959,14 +2960,27 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 744561318}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 9.09, y: -0.8195482, z: -4.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4406191581937780}
   m_Father: {fileID: 604473880}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &744561323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 744561318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24f1771345e5efd4aa3d63993e4aa98c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _magnification: 2
 --- !u!1 &756494189
 GameObject:
   m_ObjectHideFlags: 0
@@ -3492,6 +3506,7 @@ GameObject:
   - component: {fileID: 813527108}
   - component: {fileID: 813527111}
   - component: {fileID: 813527110}
+  - component: {fileID: 813527112}
   m_Layer: 0
   m_Name: Caw
   m_TagString: Animal
@@ -3523,7 +3538,7 @@ Transform:
   m_GameObject: {fileID: 813527107}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.1, y: 0.58, z: 10.44}
+  m_LocalPosition: {x: 4.0999985, y: 0.5799999, z: 10.439999}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3578,6 +3593,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &813527112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 813527107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24f1771345e5efd4aa3d63993e4aa98c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _magnification: 2
 --- !u!1 &831812351
 GameObject:
   m_ObjectHideFlags: 0
@@ -5379,6 +5407,7 @@ GameObject:
   - component: {fileID: 1291254335}
   - component: {fileID: 1291254334}
   - component: {fileID: 1291254333}
+  - component: {fileID: 1291254337}
   m_Layer: 0
   m_Name: Sheep
   m_TagString: Animal
@@ -5457,14 +5486,27 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1291254332}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: -0.8784421, z: 0, w: 0.47784886}
   m_LocalPosition: {x: 14.09, y: -0.04954815, z: 9.79}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9161208148581763758}
   m_Father: {fileID: 604473880}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -122.91, z: 0}
+--- !u!114 &1291254337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1291254332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24f1771345e5efd4aa3d63993e4aa98c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _magnification: 2
 --- !u!1 &1309286159
 GameObject:
   m_ObjectHideFlags: 0
@@ -9892,7 +9934,7 @@ Transform:
   m_GameObject: {fileID: 1576753066312025}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 1.7, y: 0.5, z: 44.36}
+  m_LocalPosition: {x: 1.97, y: 0.5, z: 44.36}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10535,19 +10577,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &106172153738197465
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6796878292421497766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24f1771345e5efd4aa3d63993e4aa98c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _magnification: 5
 --- !u!137 &137883690968418766
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
@@ -15447,7 +15476,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24f1771345e5efd4aa3d63993e4aa98c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _magnification: 5
+  _magnification: 2
 --- !u!4 &6161675676615846290
 Transform:
   m_ObjectHideFlags: 0
@@ -15690,12 +15719,11 @@ GameObject:
   - component: {fileID: 7949344388818400442}
   - component: {fileID: 7204069588931261011}
   - component: {fileID: 8137245485509700917}
+  - component: {fileID: 8137245485509700918}
   - component: {fileID: 6132932613910328390}
   - component: {fileID: 3791161262026529944}
-  - component: {fileID: 106172153738197465}
-  - component: {fileID: 8137245485509700918}
   m_Layer: 3
-  m_Name: MiniCharacter_Father
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
