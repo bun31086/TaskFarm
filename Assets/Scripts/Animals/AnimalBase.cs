@@ -43,8 +43,6 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     private bool _isHarvested = false;
     //餌を食べているかどうかのフラグ
     private bool _isEating = false;
-    //餌の種類（食べ物か水か）
-    private FoodType _foodType;
 
     //private bool _isKinematic; 
     private int _hungerLevel = 0;
@@ -176,7 +174,6 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
             StopCoroutine(ChangeAction());
             StopCoroutine(ChangeDirection());
             StopCoroutine(ChangeFood());
-            //_isKinematic = true;
             //動物の動きが止まる
             if (_rigidbody != null)
             {
@@ -201,12 +198,11 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
                 StartCoroutine(ChangeDirection());
                 StartCoroutine(ChangeFood());
                 _rigidbody.isKinematic = false;
-                _animalAnimator.SetBool("IsIdle", false);
+                //_animalAnimator.SetBool("IsIdle", false);
                 _isHarvested = false;
                 return true;
 
             }
-            
         }
         return false;
     }
