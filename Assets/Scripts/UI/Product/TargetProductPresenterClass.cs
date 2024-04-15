@@ -6,6 +6,8 @@
 // ---------------------------------------------------------  
 using UnityEngine;
 using UniRx;
+using System.Collections.Generic;
+using System;
 
 /// <summary>
 /// 求める製品を管理するクラスのリストを監視し表示するためのクラスに渡す
@@ -25,14 +27,12 @@ public class TargetProductPresenterClass : MonoBehaviour
     private void Start()
     {
 
-        _targetProductManagerClass.TargetProductList.
-                                    Subscribe
+        _targetProductManagerClass.TargetProductList.Subscribe
                                     ( targetProductList =>
                                     {
 
                                         //画面に表示
-                                        _uITargetProductManager.ViewTargetProduct
-                                        (targetProductList);
+                                        _uITargetProductManager.ViewTargetProduct((IObservable<ITargetProduct>)targetProductList);
 
                                     }
                                     ).AddTo(_targetProductManagerClass);

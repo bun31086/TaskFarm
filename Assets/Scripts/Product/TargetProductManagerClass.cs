@@ -5,7 +5,7 @@
 // 作成者:  湯元来輝
 // ---------------------------------------------------------  
 using System.Collections;
-using System.Collections.Generic;
+using System;
 using UniRx;
 using UnityEngine;
 
@@ -17,7 +17,7 @@ public class TargetProductManagerClass : MonoBehaviour
 
     #region プロパティ  
 
-    public IReadOnlyReactiveProperty<List<ITargetProduct>> TargetProductList => _targetProductsList;
+    public IObservable<CollectionReplaceEvent<ITargetProduct>> TargetProductList => _targetProductsList.ObserveReplace();
     public IReadOnlyReactiveProperty<int> ChainBonus => _chainBonus;
     public IReadOnlyReactiveProperty<int> ChaiCount => _chainCount;
 
@@ -27,9 +27,11 @@ public class TargetProductManagerClass : MonoBehaviour
     [Header("スクリプタブルオブジェクト")]
     [SerializeField, Tooltip("ターゲットプロダクトのデータ")]
     private TargetProductManagerData _targetProductManagerData = default;
-    [Header("オブジェクト（プレハブ）")]
-    [SerializeField,Tooltip("目的の製品オブジェクト（プレハブ）")]
+    [Header("オブジェクト")]
+    [SerializeField,Tooltip("目的の製品オブジェクト")]
     private GameObject _targetProductPrefab = default;
+    [SerializeField, Tooltip("目的の製品の親オブジェクトになるパネル")]
+    private GameObject _parentPanel = default;
     [Header("スクリプト")]
     [SerializeField, Tooltip("お金を増やすために取得")]
     private GameManagerClass _gameManagerClass = default;
@@ -37,7 +39,9 @@ public class TargetProductManagerClass : MonoBehaviour
     /// <summary>
     /// 求める製品が入るリスト
     /// </summary>
-    private ReactiveProperty<List<ITargetProduct>> _targetProductsList = new ReactiveProperty<List<ITargetProduct>>(new List<ITargetProduct> { });
+    private ReactiveCollection<ITargetProduct> _targetProductsList = new ReactiveCollection<ITargetProduct>();
+
+    public List<ITargetProduct> ValueList => _targetProductsList.ToList();
     /// <summary>
     /// 連鎖ボーナス
     /// </summary>
@@ -73,7 +77,7 @@ public class TargetProductManagerClass : MonoBehaviour
     {
 
         //リストの先頭に格納されているインタフェースに対し製品比較を実行し実行結果が返ってくる
-        bool result = _targetProductsList.Value[0].MatchCheck(collisionObj);
+        bool result = _targetProductsList[0].MatchCheck(collisionObj);
         //合っていた時
         if (result)
         {
@@ -122,9 +126,9 @@ public class TargetProductManagerClass : MonoBehaviour
 
         }
         //比べた求めている製品を削除
-        _targetProductsList.Value.RemoveAt(0);
+        _targetProductsList.RemoveAt(0);
         //求めている製品が１以下になった時
-        if (_targetProductsList.Value.Count <= 1)
+        if (_targetProductsList.Count <= 1)
         {
 
             //求めている製品の追加
@@ -147,13 +151,13 @@ public class TargetProductManagerClass : MonoBehaviour
         //値に対応したステートを取得
         ProductState chooseProduct = (ProductState)number;
         //求める製品を生成
-        GameObject targetProductObj = Instantiate(_targetProductPrefab);
+        GameObject targetProductObj = Instantiate(_targetProductPrefab,_parentPanel.transform);
         //インタフェース取得
         ITargetProduct iTargetProduct = targetProductObj.GetComponent<ITargetProduct>();
         //製品情報を渡す
         iTargetProduct.SetProductInformation(new TargetProductManagerClass(),_targetProductManagerData.SubmissionTimeLimit,chooseProduct);
         //取得したインタフェースをリストに格納
-        _targetProductsList.Value.Add(iTargetProduct);
+        _targetProductsList.Add(iTargetProduct);
 
     }
 
@@ -163,9 +167,9 @@ public class TargetProductManagerClass : MonoBehaviour
     /// </summary>
     public void DeleteTargetProduct()
     {
-
+        
         //インデックス0番を消す
-        _targetProductsList.Value.RemoveAt(0);
+        _targetProductsList.RemoveAt(0);
 
     }
 
