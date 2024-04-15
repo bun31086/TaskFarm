@@ -44,8 +44,6 @@ public class SqeezeClass : IBehaviourState
     {
         Debug.Log("Sqeezeに入る");
         _iSatisfaction = _animalTransform.GetComponent<ISatisfaction>();
-        // 一番近くの牛の乳を搾る
-        _iSatisfaction.Harvest();
         // 乳搾りアニメーションを開始する
         _playerAnimator.SetTrigger("IsMilk");
     }
@@ -56,7 +54,14 @@ public class SqeezeClass : IBehaviourState
     public void Execute()
     {
         Debug.Log("Sqeeze中");
-
+        // 搾乳中か調べる
+        bool isSqeeze = _iSatisfaction.Harvest();
+        // 搾乳が終わったら
+        if (!_iSatisfaction.Harvest())
+        {
+            // 乳搾りアニメーションを終了する
+            //_playerAnimator.SetBool("isHarvest", false);
+        }
     }
 
     /// <summary>
@@ -65,8 +70,6 @@ public class SqeezeClass : IBehaviourState
     public void Exit()
     {
         Debug.Log("Sqeezeを抜ける");
-        // 乳搾りアニメーションを終了する
-        //_playerAnimator.SetBool("isHarvest", false);
     }
 
     #endregion

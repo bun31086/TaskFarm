@@ -46,7 +46,6 @@ public class PutClass : IBehaviourState
     /// </summary>  
     public void Enter()
     {
-        Debug.LogError("置いた");
         RaycastHit hit = default;
         // Rayの長さを定義
         float rayLength = 5f;
