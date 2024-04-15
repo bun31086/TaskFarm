@@ -43,7 +43,7 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     //牛乳を出す間隔（仮の値）
     private float _interval = 10f;
     private float _satisfaction = 0;
-    private float _maxsatisfaction = 100;
+    private float _maxsatisfaction = 10;
     //収穫されたかどうかのフラグ
     private bool _isHarvested = false;
     //餌を食べているかどうかのフラグ

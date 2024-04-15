@@ -6,8 +6,8 @@
 // ---------------------------------------------------------  
 public enum TakeType
 {
-    Red,
-    Green,
-    Blue,
-    Water
+    RedBait,
+    GreenBait,
+    BlueBait,
+    Bucket
 }

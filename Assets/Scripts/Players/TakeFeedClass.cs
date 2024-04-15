@@ -30,15 +30,13 @@ public class TakeFeedClass : IBehaviourState
     private Animator _playerAnimator = default;
 
     private bool _isWater = false;
+    private bool _isTaked = false;
     private BaitClass _baitClass = default;
-    private const string GREEN_BAIT = "GreenBait";
-    private const string RED_BAIT = "RedBait";
-    private const string BLUE_BAIT = "BlueBait";
-    private const string WATER = "Water";
+
     /// <summary>
     /// 新しいバケツの名前
     /// </summary>
-    private const string NEW_BUCKET_NAME = "Feed";
+    private const string NEW_BUCKET_NAME = "Bucket_Enpty";
     /// <summary>
     /// バケツオブジェクトの水の箇所のオブジェクト名
     /// </summary>
@@ -66,6 +64,7 @@ public class TakeFeedClass : IBehaviourState
     /// </summary>  
     public void Enter()
     {
+        _isTaked = false;
         Debug.Log("TakeFoodに入る");
         _iSatisfaction = _animalTransform.GetComponent<ISatisfaction>();
         // 持っているオブジェクトにBaitClassがアタッチされているとき
@@ -75,16 +74,16 @@ public class TakeFeedClass : IBehaviourState
             // 餌の種類によって処理を分ける
             switch (_baitClass.TakeType)
             {
-                case TakeType.Red:
+                case TakeType.RedBait:
                     _isWater = false;
                     break;
-                case TakeType.Blue:
+                case TakeType.BlueBait:
                     _isWater = false;
                     break;
-                case TakeType.Green:
+                case TakeType.GreenBait:
                     _isWater = false;
                     break;
-                case TakeType.Water:
+                case TakeType.Bucket:
                     _isWater = true;
                     break;
             }
@@ -98,12 +97,18 @@ public class TakeFeedClass : IBehaviourState
     /// </summary>  
     public void Execute()
     {
-        Debug.Log("TakeFood中");
+        if (_isTaked)
+        {
+            return;
+        }
+        Debug.LogError("餌やり中：" + _baitClass.TakeType);
         // 動物に餌を与える
         bool isTake = _iSatisfaction.EatBait(_baitClass);
         // 動物が餌を食べ終わったら
-        if (!isTake)
+        if (isTake)
         {
+            Debug.LogError("餌やり後：" + isTake);
+            _isTaked = isTake;
             // 餌を与えるアニメーションを終了する
             _playerAnimator.SetTrigger("IsTake");
             // 水を与えたとき
@@ -122,6 +127,8 @@ public class TakeFeedClass : IBehaviourState
                 _holdObject.transform.parent = null;
                 // オブジェクトを消す
                 _holdObject.SetActive(false);
+                // 持つアニメーションを終了する
+                _playerAnimator.SetTrigger("IsPut");
             }
         }
     }
