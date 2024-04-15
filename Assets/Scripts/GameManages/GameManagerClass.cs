@@ -4,9 +4,9 @@
 // 作成日:  4/1
 // 作成者:  湯元来輝
 // ---------------------------------------------------------  
-using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
+
 /// <summary>
 /// ゲームを管理する
 /// </summary>
