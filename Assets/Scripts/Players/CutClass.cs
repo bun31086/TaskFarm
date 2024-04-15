@@ -46,8 +46,6 @@ public class CutClass : IBehaviourState
         _iSatisfaction = _animalTransform.GetComponent<ISatisfaction>();
         // 毛刈りアニメーションを再生する
         //_playerAnimator.SetBool("isCut", true);
-        // 毛刈りを実行
-        _iSatisfaction.Harvest();
     }
 
     /// <summary>  
@@ -55,7 +53,16 @@ public class CutClass : IBehaviourState
     /// </summary>  
     public void Execute()
     {
-        Debug.Log("Cut中");
+        Debug.Log("Cut中");        
+        // 毛刈りしているか調べる
+        bool isCut = _iSatisfaction.Harvest();
+        // 毛刈りが終わったら
+        if (!_iSatisfaction.Harvest())
+        {
+            // 毛刈りアニメーションを終了する
+            //_playerAnimator.SetBool("isCut", false);
+        }
+
     }
 
     /// <summary>
@@ -64,8 +71,6 @@ public class CutClass : IBehaviourState
     public void Exit()
     {
         Debug.Log("Cutを抜ける");
-        // 毛刈りアニメーションを終了する
-        //_playerAnimator.SetBool("isCut", false);
     }
 
     #endregion

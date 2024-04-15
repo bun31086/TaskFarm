@@ -11,5 +11,8 @@
 public interface ISatisfaction
 {
     public void EatBait();
-    public void Harvest();
+    public bool Harvest();
+    public float Satisfaction {
+        get;
+    }
 }

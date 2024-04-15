@@ -10,6 +10,7 @@ TagManager:
   - Product
   - Floor
   - Stage
+  - River
   layers:
   - Default
   - TransparentFX

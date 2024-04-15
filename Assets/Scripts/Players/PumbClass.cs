@@ -26,7 +26,7 @@ public class PumbClass : IBehaviourState
     /// <summary>
     /// 新しいバケツの名前
     /// </summary>
-    private const string NEW_BUCKET_NAME = "Bucket_Water";
+    private const string NEW_BUCKET_NAME = "Feed";
     /// <summary>
     /// バケツオブジェクトの水の箇所のオブジェクト名
     /// </summary>
@@ -55,7 +55,7 @@ public class PumbClass : IBehaviourState
         //持っているオブジェクトの名前を切り替える
         _holdObj.name = NEW_BUCKET_NAME;
         //バケツオブジェクトの水の箇所の見た目を表示する
-        _holdObj.transform.FindChild(NAME_BUCKET_WATER).gameObject.SetActive(true);
+        _holdObj.transform.Find(NAME_BUCKET_WATER).gameObject.SetActive(true);
     
     }
 
