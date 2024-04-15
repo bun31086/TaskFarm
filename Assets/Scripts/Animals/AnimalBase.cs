@@ -20,17 +20,16 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     private Animator _animalAnimator = default;
     [SerializeField]
     private Rigidbody _rigidbody = default;
+    [SerializeField] GameObject _milk;
     //インターフェース依存関係
     private IAnimalStateChage _iAnimalStateChage = new AnimalStateMachineClass { };
-    //Idleを初期動作にする
-    private Animaltype _currentAction = Animaltype.Idle;
-    private AnimalFoodtype _currentFood = default;
+    private Animaltype _currentAction;
+    private TakeType _currentFood = default;
     private IForwardCheck _iMoveCheck = default;
     private Vector3 _moveVector = default;
-
     private const string TAG_ITEM = "Item";
     private const string TAG_STAGE = "Stage";
-
+    private const float SATISFACTION = 10;
     //餌を食べる時間計測用タイマー
     private float _eatTimer = 0f;
     //餌を食べる時間（仮の値）
@@ -39,27 +38,23 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     private float _walkSpeed = 2f;
     //動物の走る速度
     private float _runSpeed = 4f;
+    //収穫間隔計測用タイマー
+    private float _timer = 0f;
+    //牛乳を出す間隔（仮の値）
+    private float _interval = 10f;
+    private float _satisfaction = 0;
+    private float _maxsatisfaction = 100;
     //収穫されたかどうかのフラグ
     private bool _isHarvested = false;
     //餌を食べているかどうかのフラグ
     private bool _isEating = false;
-
-    //private bool _isKinematic; 
-    private int _hungerLevel = 0;
-    private int _maxHungerLevel = 3;
-
-    [SerializeField] GameObject _milk;
-    // 牛乳を出しているかどうかのフラグ
-    private bool _isProducing = false;
-    // 牛乳を出す間隔計測用タイマー
-    private float _timer = 0f;
-    // 牛乳を出す間隔（仮の値）
-    private float _interval = 10f;
     private bool _isMaxSatisfaction = false;
+
     public bool IsMaxSatisfaction
     {
         get => _isMaxSatisfaction;
     }
+    private GameObject _animalFoodType;
     #endregion
 
     #region メソッド  
@@ -68,16 +63,12 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     /// </summary>  
     private void Start()
     {
-        //コンポーネント取得
         //コンストラクタにtransformをインスタンスを設定してインスタンス化(生成)
         _iMoveCheck = new ForwardCheckClass(this.transform);
         //コルーチン開始
         StartCoroutine(ChangeAction());
         StartCoroutine(ChangeDirection());
         StartCoroutine(ChangeFood());
-        //ランダムな方向の単位ベクトルを取得
-        //_moveVector = Random.onUnitSphere;
-        print(_moveVector + "原因の可能性");
     }
 
     /// <summary>  
@@ -114,48 +105,51 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
         _iAnimalStateChage.Execute();
     }
 
-    public void EatBait()
-    {
-    }
     /// <summary>
     /// 動物が餌を食べる処理
     /// </summary>
-    public void EatBait(GameObject foodGameObject)
+    public bool EatBait(BaitClass baitClass)
     {
-        //animalFoodtype 
         if (!_isEating)
         {
             _isEating = true;
             _eatTimer = 0f;
-            Debug.Log("餌を食べる");
-        } else
-        {
-            //要求と違う場合プレイヤーに返す
-            return;
         }
 
-        //指定時間経過したら
+        //タイマーを進める
         _eatTimer += Time.deltaTime;
+        //餌が食べ終わったら
         if (_eatTimer >= _eatDuration)
         {
             _isEating = false;
-            Debug.Log("動物が餌を食べ終わる");
 
-            //餌を食べ終わった時点でごみを出す
+            //プレイヤーが渡した餌が同じか
+            if (baitClass.TakeType == _currentFood)
+            {
+                _satisfaction += SATISFACTION;
+            }
+            if (_satisfaction >= _maxsatisfaction)
+            {
+                _isMaxSatisfaction = true;
+            } else if (_satisfaction < _maxsatisfaction)
+            {
+                _isMaxSatisfaction = false;
+            }
+            //餌を食べ終わった時点でゴミを出す
             DropWaste();
+            return true;
         }
+        return false;
     }
 
-
     /// <summary>
-    /// ごみを出す
+    /// 動物がごみを出す
     /// </summary>
     private void DropWaste()
     {
         Debug.Log("動物がごみを出す");
         //ごみのプレハブを読み込む
         GameObject wastePrefab = Resources.Load<GameObject>("WastePrefab");
-
         //プレハブからインスタンスを生成
         Instantiate(wastePrefab, transform.position, Quaternion.identity);
     }
@@ -163,7 +157,7 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     /// <summary>
     /// 収穫する
     /// </summary>
-    public  bool Harvest()
+    public bool Harvest()
     {
         //収穫中は動物が止まる
         if (!_isHarvested)
@@ -183,7 +177,6 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
             {
                 _animalAnimator.SetBool("IsIdle", true);
             }
-
             Debug.Log("動物が収穫される");
         } else
         {
@@ -198,10 +191,8 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
                 StartCoroutine(ChangeDirection());
                 StartCoroutine(ChangeFood());
                 _rigidbody.isKinematic = false;
-                //_animalAnimator.SetBool("IsIdle", false);
                 _isHarvested = false;
                 return true;
-
             }
         }
         return false;
@@ -230,6 +221,7 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
         //再起処理
         StartCoroutine(ChangeAction());
     }
+
     public IEnumerator ChangeDirection()
     {
         //ランダムな間隔で行動を切り替える
@@ -245,13 +237,11 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     public IEnumerator ChangeFood()
     {
         //動物がランダムで選択した食べ物を要求する
-        _currentFood = (AnimalFoodtype)Random.Range(0, 3);
-        Debug.Log("Change Food " + _currentFood);
-
+        _currentFood = (TakeType)Random.Range(0, 4);
         //ランダムな間隔で行動を切り替える
         yield return new WaitForSeconds(Random.Range(10f, 15f));
         StartCoroutine(ChangeFood());
-
+        Debug.Log("Change Food " + _currentFood);
     }
     #endregion
 }
