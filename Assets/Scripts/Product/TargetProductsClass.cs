@@ -1,12 +1,14 @@
 // ---------------------------------------------------------  
 // Products.cs  
-//   
-// 作成日:  
-// 作成者:  
+//   求めている製品の情報が入る
+// 作成日:  4/13
+// 作成者:  湯元来輝
 // ---------------------------------------------------------  
 using UnityEngine;
-using System.Collections;
 
+/// <summary>
+/// 求めている製品の情報が入る
+/// </summary>
 public class TargetProductsClass : MonoBehaviour, ITargetProduct
 {
 
@@ -32,6 +34,10 @@ public class TargetProductsClass : MonoBehaviour, ITargetProduct
     /// </summary>
     private float _submissionTimeLimit = default;
     /// <summary>
+    /// 残り時間を記憶しておく
+    /// </summary>
+    private float _submissionTimeLimitMemory = default;
+    /// <summary>
     /// 求める製品
     /// </summary>
     private ProductState _productState = default;
@@ -47,7 +53,8 @@ public class TargetProductsClass : MonoBehaviour, ITargetProduct
 
             //求めている製品とヒエラルキーから自分を消す
             _targetProductManagerClass.DeleteTargetProduct();
-            Destroy(this);
+            //非アクティブ化
+            this.gameObject.SetActive(false);
 
         }
 
@@ -86,8 +93,20 @@ public class TargetProductsClass : MonoBehaviour, ITargetProduct
          */
         this._targetProductManagerClass = targetProductManagerClass;
         this._submissionTimeLimit = submissionTimeLimit;
+        this._submissionTimeLimitMemory = submissionTimeLimit;
         this._productState = productState;
 
+    }
+
+    /// <summary>
+    /// 初期化
+    /// </summary>
+    public void Initialization()
+    {
+
+        Debug.LogError("初期化");
+        _submissionTimeLimit = _submissionTimeLimitMemory;
+    
     }
 
 }
