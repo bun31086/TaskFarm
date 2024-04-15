@@ -10,7 +10,7 @@
 /// </summary>
 public interface ISatisfaction
 {
-    public void EatBait();
+    public bool EatBait(BaitClass baitClass);
     public bool Harvest();
     public bool IsMaxSatisfaction{
         get;
