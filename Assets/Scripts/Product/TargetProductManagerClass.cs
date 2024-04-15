@@ -9,7 +9,9 @@ using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 
-
+/// <summary>
+///  求める製品の管理
+/// </summary>
 public class TargetProductManagerClass : MonoBehaviour
 {
 

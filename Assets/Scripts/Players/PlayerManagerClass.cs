@@ -59,6 +59,10 @@ public class PlayerManagerClass : MonoBehaviour
     /// </summary>
     private const string TAG_ITEM = "Item";
     /// <summary>
+    /// 川についているタグ
+    /// </summary>
+    private const string TAG_RIVER = "River";
+    /// <summary>
     /// ゲート（門）についているタグ
     /// </summary>
     private const string TAG_GATE = "Gate";
@@ -78,9 +82,13 @@ public class PlayerManagerClass : MonoBehaviour
      * アイテムの名前
      */
     /// <summary>
-    /// バケツについてる名前
+    /// 空のバケツについてる名前
     /// </summary>
-    private const string NAME_BUCKET = "Bucket";
+    private const string NAME_BUCKET_ENPTY = "Bucket_Enpty";
+    /// <summary>
+    /// 水入りバケツについている名前
+    /// </summary>
+    private const string NAME_BUCKET_WATER = "Bucket_Water";
     /// <summary>
     /// ハサミについている名前
     /// </summary>
@@ -290,10 +298,50 @@ public class PlayerManagerClass : MonoBehaviour
         switch (_holdObj.name)
         {
 
-            case NAME_BUCKET:
+            case NAME_BUCKET_ENPTY:
 
-                print(nearAnimalObj);
-                print((nearAnimalObj.name.CompareTo(NAME_CAW) == 0));
+                //川のタグ以外がついているとき
+                if (!(nearAnimalObj.CompareTag(TAG_RIVER)))
+                {
+
+                    return;
+
+                }
+                print("川にアクション");
+                //組むステートに変更
+                _iStateChengeInterFace.ChangeBehaviorState(new PumbClass(_holdObj, _playerAnimator));
+
+                break;
+            case NAME_BROOM:
+
+                //ゴミのタグ以外がついているとき
+                if (!nearAnimalObj.CompareTag(TAG_RUBBISH))
+                {
+
+                    return;
+
+                }
+                print("ゴミにアクション");
+                //掃除ステートに変更
+                _iStateChengeInterFace.ChangeBehaviorState(new CleanClass(nearAnimalObj, _playerAnimator));
+
+                break;
+            case NAME_FEED:
+
+                //動物のタグ以外がついているとき
+                if (!nearAnimalObj.CompareTag(TAG_ANIMAL))
+                {
+
+                    return;
+
+                }
+                print("動物にアクション");
+                //餌をやるステートに変更
+                _iStateChengeInterFace.ChangeBehaviorState(new TakeFeedClass(_holdObj, nearAnimalObj.transform, _playerAnimator));
+
+                break;
+            case NAME_BUCKET_WATER:
+
                 //近くにある動物オブジェクトが牛の以外場合
                 if (!(nearAnimalObj.name.CompareTo(NAME_CAW) == 0))
                 {
@@ -319,36 +367,6 @@ public class PlayerManagerClass : MonoBehaviour
                 print("羊にアクション");
                 //毛を刈るステートに変更
                 _iStateChengeInterFace.ChangeBehaviorState(new CutClass(nearAnimalObj.transform, _playerAnimator));
-
-                break;
-
-            case NAME_BROOM:
-
-                //ゴミのタグ以外がついているとき
-                if (!nearAnimalObj.CompareTag(TAG_RUBBISH))
-                {
-
-                    return;
-
-                }
-                print("ゴミにアクション");
-                //掃除ステートに変更
-                _iStateChengeInterFace.ChangeBehaviorState(new CleanClass(nearAnimalObj, _playerAnimator));
-
-                break;
-
-            case  NAME_FEED:
-
-                //動物のタグ以外がついているとき
-                if (!nearAnimalObj.CompareTag(TAG_ANIMAL))
-                {
-
-                    return;
-
-                }
-                print("動物にアクション");
-                //餌をやるステートに変更
-                _iStateChengeInterFace.ChangeBehaviorState(new TakeFeedClass(_holdObj, nearAnimalObj.transform, _playerAnimator));
 
                 break;
 

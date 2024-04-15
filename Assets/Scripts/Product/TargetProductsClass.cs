@@ -16,6 +16,12 @@ public class TargetProductsClass : MonoBehaviour, ITargetProduct
         get => _submissionTimeLimit;
 
     }
+    public ProductState ProductState
+    {
+
+        get => _productState;
+    
+    }
 
     /// <summary>
     /// 残り時間が無くなったことを通知するため取得
