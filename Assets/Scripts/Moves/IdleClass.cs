@@ -13,7 +13,6 @@ public class IdleClass : IMoveState
 {
     #region 変数 
     private Animator _animator = default;
-    #endregion
 
     /// <summary>
     /// コンストラクタ
@@ -23,11 +22,12 @@ public class IdleClass : IMoveState
     {
         _animator = animator;
     }
+    #endregion
 
     #region メソッド  
     public void Enter()
     {
-        Debug.Log("待機開始");
+        //  Debug.Log("待機開始");
         _animator.SetBool("IsIdle", true);
     }
 

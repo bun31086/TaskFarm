@@ -12,7 +12,7 @@ public interface ISatisfaction
 {
     public void EatBait();
     public bool Harvest();
-    public float Satisfaction {
+    public bool IsMaxSatisfaction{
         get;
     }
 }

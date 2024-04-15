@@ -9,7 +9,7 @@ using System.Collections;
 /// <summary>
 /// 鶏が卵を産む
 /// </summary>
-public class ChickenClass : AnimalBase, ISatisfaction
+public class ChickenClass : AnimalBase
 {
     #region 変数
     // 卵を出す関連の変数
