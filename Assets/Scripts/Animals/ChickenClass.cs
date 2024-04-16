@@ -13,10 +13,9 @@ public class ChickenClass : AnimalBase
 {
     #region 変数
     // 卵を出す間隔計測用タイマー
-    private float _eggTimer = 0f;
+    private float _timer = 0f;
     // 卵を出す間隔（仮の値）
-    private float _eggInterval = 10f;
-
+    private float _interval = 5f;
     #endregion
 
     #region メソッド  
@@ -24,11 +23,11 @@ public class ChickenClass : AnimalBase
     public void Harvested()
     {
         // 指定の間隔で卵を出す
-        _eggTimer += Time.deltaTime;
-        if (_eggTimer >= _eggInterval)
+        _timer += Time.deltaTime;
+        if (_timer >= _interval)
         {
             Debug.Log("卵を出し終わる");
-            _eggTimer = 0f;
+            _timer = 0f;
         }
     }
     #endregion

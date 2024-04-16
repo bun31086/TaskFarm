@@ -198,10 +198,14 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
         return false;
     }
 
+    /// <summary>
+    /// 動物の行動をランダムに切り替える
+    /// </summary>
     public IEnumerator ChangeAction()
     {
         //ランダムに行動を切り替える
         _currentAction = (Animaltype)Random.Range(0, 3);
+        Debug.Log("Change Action " + _currentAction);
         switch (_currentAction)
         {
             case Animaltype.Idle:
@@ -222,18 +226,31 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
         StartCoroutine(ChangeAction());
     }
 
+    /// <summary>
+    /// ランダムな間隔で方向を切り替える
+    /// </summary>
     public IEnumerator ChangeDirection()
     {
-        //ランダムな間隔で行動を切り替える
+        //ランダムな間隔で方向を切り替える
         yield return new WaitForSeconds(Random.Range(3f, 5f));
+
         //ランダムな方向の単位ベクトルを取得
         _moveVector = Random.insideUnitSphere;
+
+        //当たったら45度の方向を向く
+        _moveVector = Quaternion.Euler(0, 45, 0) * _moveVector;
+
         //上下方向は移動しない
         _moveVector.y = 0;
+
+        Debug.LogWarning(_moveVector);
         //再起処理
         StartCoroutine(ChangeDirection());
     }
 
+    /// <summary>
+    /// 動物がランダムで選択した食べ物を要求する
+    /// </summary>
     public IEnumerator ChangeFood()
     {
         //動物がランダムで選択した食べ物を要求する
@@ -241,7 +258,7 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
         //ランダムな間隔で行動を切り替える
         yield return new WaitForSeconds(Random.Range(10f, 15f));
         StartCoroutine(ChangeFood());
-        Debug.Log("Change Food " + _currentFood);
+        //Debug.Log("Change Food " + _currentFood);
     }
     #endregion
 }
