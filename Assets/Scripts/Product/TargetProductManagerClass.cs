@@ -40,8 +40,6 @@ public class TargetProductManagerClass : MonoBehaviour
     /// 求める製品が入るリスト
     /// </summary>
     private ReactiveCollection<ITargetProduct> _targetProductsList = new ReactiveCollection<ITargetProduct>();
-
-    public List<ITargetProduct> ValueList => _targetProductsList.ToList();
     /// <summary>
     /// 連鎖ボーナス
     /// </summary>
@@ -147,7 +145,7 @@ public class TargetProductManagerClass : MonoBehaviour
         //enum型の要素数を取得
         int maxCount = ProductState.GetNames(typeof(ProductState)).Length;
         //要素数内のランダムな値を取得
-        int number = Random.Range(0, maxCount);
+        int number = UnityEngine.Random.Range(0, maxCount);
         //値に対応したステートを取得
         ProductState chooseProduct = (ProductState)number;
         //求める製品を生成
