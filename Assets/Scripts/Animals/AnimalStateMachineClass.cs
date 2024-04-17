@@ -19,6 +19,9 @@ public class AnimalStateMachineClass : IAnimalStateChage
     #endregion
 
     #region メソッド  
+    /// <summary>
+    /// 実行中の処理
+    /// </summary>
     public void Execute()
     {
         //実行中の処理
