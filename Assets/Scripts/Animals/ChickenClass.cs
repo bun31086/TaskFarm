@@ -1,24 +1,25 @@
 // ---------------------------------------------------------  
 // ChickenClass.cs  
-// 卵を産む
+// 鶏が卵を産むクラス
 // 作成日:  3/29
 // 作成者:  對馬礼乃
 // ---------------------------------------------------------  
 using UnityEngine;
 using System.Collections;
 /// <summary>
-/// 鶏が卵を産む
+/// 鶏が卵を産むクラス
 /// </summary>
 public class ChickenClass : AnimalBase
 {
     #region 変数
-    // 卵を出す間隔計測用タイマー
-    private float _timer = 0f;
-    // 卵を出す間隔（仮の値）
-    private float _interval = 5f;
     #endregion
 
-    #region メソッド  
+    #region メソッド 
+
+    private void Start()
+    {
+        _interval = 5f;
+    }
     // 卵を出す
     public void Harvested()
     {
