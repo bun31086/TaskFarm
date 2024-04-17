@@ -34,7 +34,7 @@ public class PlayerStateMachineClass : IstateChenge
     /// 移動系のステートを変えるときの処理
     /// </summary>
     /// <param name="nextState">次のステート</param>
-    public void ChangeMoveState(IMoveState nextState)
+    public void ChangeMoveState(IMoveState nextState,Vector3 moveVector)
     {
 
         //現在のクラスの終了処理
@@ -42,7 +42,7 @@ public class PlayerStateMachineClass : IstateChenge
         //現在のステートを更新
         _currentMoveState = nextState;
         //現在のクラスの開始処理
-        _currentMoveState.Enter();
+        _currentMoveState.Enter(moveVector);
 
     }
 
@@ -67,11 +67,11 @@ public class PlayerStateMachineClass : IstateChenge
     /// <summary>
     /// 現在のクラスの更新処理を呼び出す
     /// </summary>
-    public void Update()
+    public void Update(float speed)
     {
 
         //現在の移動系クラスの実行処理
-        _currentMoveState.Execute();
+        _currentMoveState.Execute(speed);
         //現在の振る舞い系クラスの実行処理
         _currentBehaviorState.Execute();
 

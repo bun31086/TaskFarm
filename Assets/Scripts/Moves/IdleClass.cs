@@ -25,13 +25,13 @@ public class IdleClass : IMoveState
     #endregion
 
     #region メソッド  
-    public void Enter()
+    public void Enter(Vector3 moveVector)
     {
         //  Debug.Log("待機開始");
         _animator.SetBool("IsIdle", true);
     }
 
-    public void Execute()
+    public void Execute(float speed)
     {
     }
 

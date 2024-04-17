@@ -41,7 +41,6 @@ public class OpenClass : IBehaviourState
     /// </summary>  
     public void Enter()
     {
-        Debug.Log("Openに入る");
         // アニメーションを再生
         //_playerAnimator.SetBool("isOpen", true);
 
@@ -63,8 +62,6 @@ public class OpenClass : IBehaviourState
     /// </summary>  
     public void Execute()
     {
-        Debug.Log("Open中");
-
     }
 
     /// <summary>
@@ -72,7 +69,6 @@ public class OpenClass : IBehaviourState
     /// </summary>
     public void Exit()
     {
-        Debug.Log("Openを抜ける");
         // アニメーションを再生
         //_playerAnimator.SetBool("isOpen", false);
     }

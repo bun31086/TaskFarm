@@ -24,17 +24,15 @@ public class RunClass : IMoveState
     /// <param name="runSpeed">走る速度</param>
     /// <param name="animator"></param>
     /// <param name="rigidbody"></param>
-    public RunClass(Vector3 moveVector, float runSpeed, Animator animator, Rigidbody rigidbody)
+    public RunClass(Animator animator, Rigidbody rigidbody)
     {
-        _moveVector = moveVector;
-        _runSpeed = runSpeed;
         _animator = animator;
         _rigidbody = rigidbody;
     }
     #endregion
 
     #region メソッド
-    public void Enter()
+    public void Enter(Vector3 moveVector)
     {
        // Debug.Log("走り開始");
         //Debug.Log(_moveVector);
@@ -44,10 +42,10 @@ public class RunClass : IMoveState
         _rigidbody.transform.LookAt(lookPos);
     }
 
-    public void Execute()
+    public void Execute(float speed)
     {
         // 移動方向に速度を掛けて移動
-        _rigidbody.velocity = (_rigidbody.transform.forward * _runSpeed) + (Vector3.up * _rigidbody.velocity.y);
+        _rigidbody.velocity = (_rigidbody.transform.forward * speed) + (Vector3.up * _rigidbody.velocity.y);
     }
     public void Exit()
     {

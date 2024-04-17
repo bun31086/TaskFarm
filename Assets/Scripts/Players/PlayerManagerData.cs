@@ -20,9 +20,17 @@ public class PlayerManagerData : ScriptableObject
         get => _speed;
 
     }
+    public float TreadSpeed
+    {
+
+        get => _treadSpeed;
+
+    }
 
     [Header("プレイヤーのステータス")]
-    [SerializeField,Tooltip("プレイヤーの移動速度")]
+    [SerializeField,Tooltip("通常時のプレイヤーの移動速度")]
     private float _speed = 5f;
+    [SerializeField,Tooltip("ごみを踏んでいるときのプレイヤーの移動速度")]
+    private float _treadSpeed = 1f;
 
 }

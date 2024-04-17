@@ -11,24 +11,14 @@ public class TakemuraTestClass : MonoBehaviour
 {
 
     #region 変数  
+    [SerializeField]
+    private MoveDI _move = default;
+    [SerializeField]
+    private Animator _animator = default;
+    [SerializeField]
+    private Rigidbody _rigidbody = default;
 
-    private CleanClass _clean = default;
-    private CutClass _cut = default;
-    private SqeezeClass _sqeeze = default;
-    private HoldClass _hold = default;
-    private PutClass _put = default;
-    private TakeFeedClass _takeFood = default;
-
-    [SerializeField] private Transform _nearObjectTransform = default;
-    [SerializeField] private Animator _playerAnimator = default;
-    [SerializeField] private Transform _playerTransform = default;
-    [SerializeField] private Transform _animalObjTransform = default;
-    [SerializeField] private Transform _holdObjTransform = default;
-    [SerializeField] private GameObject _holdObject = default;
-    [SerializeField] private GameObject _nearObject = default;
-    [SerializeField] private GameObject _gateObject = default;
-
-    private IOpenClose _iOpenClose = default;
+    private IdleClass _idle = default;
 
     #endregion
 
@@ -44,12 +34,7 @@ public class TakemuraTestClass : MonoBehaviour
     void Awake()
      {
         //インスタンス生成
-        _hold = new HoldClass(_playerTransform,_nearObjectTransform,_playerAnimator);
-        _put = new PutClass(_holdObjTransform,_playerAnimator);
-        _cut = new CutClass(_animalObjTransform,_playerAnimator);
-        _sqeeze = new SqeezeClass(_animalObjTransform,_playerAnimator);
-        _takeFood = new TakeFeedClass(_holdObject, _animalObjTransform,_playerAnimator);
-        _clean = new CleanClass(_nearObject, _playerAnimator);
+        _move = new MoveDI(_animator,_rigidbody);
      }
   
      /// <summary>  
@@ -57,52 +42,33 @@ public class TakemuraTestClass : MonoBehaviour
      /// </summary>  
      void Start ()
      {
-        _iOpenClose = _gateObject.GetComponent<IOpenClose>();
-     }
-  
-     /// <summary>  
-     /// 更新処理  
-     /// </summary>  
-     void Update ()
+        _idle = _move.Idle;
+    }
+
+    /// <summary>  
+    /// 更新処理  
+    /// </summary>  
+    void Update ()
      {
         //
         if (Input.GetKeyDown(KeyCode.A))
         {
-            _hold.Enter();
+            Debug.LogError("A");
+            //_idle.Enter();
         }
-        else if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.S))
         {
-            _put.Enter();
+            Debug.LogError("S");
+
+            _move = null;
         }
-        else if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.D))
         {
-            _cut.Enter();
+            Debug.LogError("D");
+
+            //_move.Idle.Enter();
         }
-        else if (Input.GetKeyDown(KeyCode.F))
-        {
-            _sqeeze.Enter();
-        }
-        else if (Input.GetKeyDown(KeyCode.G))
-        {
-            _takeFood.Enter();
-        }
-        else if (Input.GetKeyDown(KeyCode.H))
-        {
-            _takeFood.Enter();
-        }
-        else if (Input.GetKeyDown(KeyCode.J))
-        {
-            _clean.Exit();
-        }
-        else if (Input.GetKeyDown(KeyCode.K))
-        {
-            _iOpenClose.Open();
-        }
-        else if (Input.GetKeyDown(KeyCode.L))
-        {
-            _iOpenClose.Close();
-        }
-     }
+    }
   
     #endregion
 }

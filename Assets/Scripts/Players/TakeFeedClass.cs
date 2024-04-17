@@ -28,6 +28,7 @@ public class TakeFeedClass : IBehaviourState
     private Transform _animalTransform = default;
 
     private Animator _playerAnimator = default;
+    private Rigidbody _playerRigid = default;
 
     private bool _isWater = false;
     private bool _isTaked = false;
@@ -53,6 +54,7 @@ public class TakeFeedClass : IBehaviourState
         _holdObject = holdObject;
         _animalTransform = animalTransform;
         _playerAnimator = playerAnimator;
+        _playerRigid = _playerAnimator.GetComponent<Rigidbody>();
     }
 
     #endregion
@@ -89,6 +91,7 @@ public class TakeFeedClass : IBehaviourState
             }
             // 餌を与えるアニメーションを再生する
             _playerAnimator.SetTrigger("IsTake");
+            _playerRigid.isKinematic = true;
         }
     }
 
@@ -118,7 +121,7 @@ public class TakeFeedClass : IBehaviourState
                 _holdObject.name = NEW_BUCKET_NAME;
                 //バケツオブジェクトの水の箇所の見た目を表示する
                 _holdObject.transform.Find(NAME_BUCKET_WATER).gameObject.SetActive(false);
-
+                _playerRigid.isKinematic = false;
             }
             // 餌を与えたとき
             else
@@ -129,6 +132,7 @@ public class TakeFeedClass : IBehaviourState
                 _holdObject.SetActive(false);
                 // 持つアニメーションを終了する
                 _playerAnimator.SetTrigger("IsPut");
+                _playerRigid.isKinematic = false;
             }
         }
     }
