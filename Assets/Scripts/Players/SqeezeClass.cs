@@ -18,6 +18,7 @@ public class SqeezeClass : IBehaviourState
     /// 動物の満足度インターフェース
     /// </summary>
     private ISatisfaction _iSatisfaction = default;
+    private Rigidbody _playerRigidbody = default;
 
     private Animator _playerAnimator = default;
     private Transform _animalTransform = default;
@@ -31,6 +32,7 @@ public class SqeezeClass : IBehaviourState
     {
         _playerAnimator = playerAnimator;
         _animalTransform = animalTransform;
+        _playerRigidbody =_playerAnimator.GetComponent<Rigidbody>();
     }
 
     #endregion
@@ -51,6 +53,7 @@ public class SqeezeClass : IBehaviourState
         }
         // 乳搾りアニメーションを開始する
         _playerAnimator.SetTrigger("IsMilk");
+        _playerRigidbody.isKinematic = true;
     }
 
     /// <summary>  
@@ -71,6 +74,7 @@ public class SqeezeClass : IBehaviourState
         {
             // 乳搾りアニメーションを終了する
             _playerAnimator.SetTrigger("IsIdle");
+            _playerRigidbody.isKinematic = false;
         }
     }
 

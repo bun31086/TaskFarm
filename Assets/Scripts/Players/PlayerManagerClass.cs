@@ -77,7 +77,7 @@ public class PlayerManagerClass : MonoBehaviour
     /// <summary>
     /// ゴミについているタグ
     /// </summary>
-    private const string TAG_RUBBISH = "rubbish";
+    private const string TAG_RUBBISH = "Rubbish";
     /*
      * アイテムの名前
      */
@@ -120,7 +120,20 @@ public class PlayerManagerClass : MonoBehaviour
     /// <summary>
     /// プレイヤーの速さ
     /// </summary>
+    private float _speed = default;
     private float _walkSpeed = default;
+    private float _treadSpeed = default;
+
+    private MoveDI _moveDI = default;
+    private IMoveState _idle = default;
+    private IMoveState _walk = default;
+    private bool _isTread = false;
+
+    public bool IsTread
+    {
+        get => _isTread;
+        set => _isTread = value;
+    }
 
     #endregion
     #region メソッド  
@@ -131,8 +144,6 @@ public class PlayerManagerClass : MonoBehaviour
     private void Start()
     {
 
-        //生成時に初期ステートをコンストラクタに設定
-        _iStateChengeInterFace = new PlayerStateMachineClass(new None(), new IdleClass(_playerAnimator));
         //自分のとトランスフォームをコンストラクタに渡し生成
         _iMoveCheckInterFace = new ForwardCheckClass(this.transform);
         /*
@@ -140,6 +151,7 @@ public class PlayerManagerClass : MonoBehaviour
          */
         //スピード読み込み
         _walkSpeed = _playerData.Speed;
+        _treadSpeed = _playerData.TreadSpeed;
         //インプットシステムの取得
         _playerInput = new PlayerInput();
         //インプットシステムを有効化
@@ -152,6 +164,11 @@ public class PlayerManagerClass : MonoBehaviour
         _onWalk.action.performed += OnMove;
         _onWalk.action.canceled += OnMove;
 
+        _moveDI = new MoveDI(_playerAnimator,_playerRigidbody);
+        _idle = _moveDI.InstanceIdle();
+        _walk = _moveDI.InstanceWalk();
+        //生成時に初期ステートをコンストラクタに設定
+        _iStateChengeInterFace = new PlayerStateMachineClass(new None(),_idle);
     }
 
     /// <summary>  
@@ -160,8 +177,18 @@ public class PlayerManagerClass : MonoBehaviour
     private void Update()
     {
 
+        // True→ごみを踏んでいる状態
+        if (_isTread)
+        {
+            _speed = _treadSpeed;
+        } 
+        // Flase→ごみを踏んでいない状態
+        else
+        {
+            _speed = _walkSpeed;
+        }
         //ステートマシンの更新処理
-        _iStateChengeInterFace.Update();
+        _iStateChengeInterFace.Update(_speed);
         //移動先確認
         _hits = _iMoveCheckInterFace.Check();
 
@@ -180,7 +207,7 @@ public class PlayerManagerClass : MonoBehaviour
         {
 
             //止まるステート変更
-            _iStateChengeInterFace.ChangeMoveState(new IdleClass(_playerAnimator));
+            _iStateChengeInterFace.ChangeMoveState(_idle,Vector3.zero);
             return;
 
         }
@@ -192,7 +219,8 @@ public class PlayerManagerClass : MonoBehaviour
         direction.z = direction.y;
         direction.y = 0;
         //歩くステートに変更
-        _iStateChengeInterFace.ChangeMoveState(new WalkClass(direction,_walkSpeed,_playerAnimator,_playerRigidbody));
+        _iStateChengeInterFace.ChangeMoveState(_walk, direction);
+
 
     }
 
@@ -324,7 +352,7 @@ public class PlayerManagerClass : MonoBehaviour
                 print("ゴミにアクション");
                 //掃除ステートに変更
                 _iStateChengeInterFace.ChangeBehaviorState(new CleanClass(nearAnimalObj, _playerAnimator));
-
+                _isTread = false;
                 break;
             case NAME_FEED:
 

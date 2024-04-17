@@ -11,6 +11,7 @@ TagManager:
   - Floor
   - Stage
   - River
+  - Rubbish
   layers:
   - Default
   - TransparentFX

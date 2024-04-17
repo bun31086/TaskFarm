@@ -22,6 +22,10 @@ public class HoldClass  : IBehaviourState
     /// オブジェクトを持つ位置
     /// </summary>
     private Vector3 _objectPos = new Vector3(0,0,0.5f);
+    /// <summary>
+    /// 持つオブジェクトのBoxCollider
+    /// </summary>
+    private BoxCollider _holdBoxCollider = default;
 
     private Transform _playerTransform = default;
     private Animator _playerAnimator = default;
@@ -37,6 +41,7 @@ public class HoldClass  : IBehaviourState
         _holdObjectTransform = nearObjectTransform;
         _playerAnimator = playerAnimator;
         _playerTransform = playerTransform;
+        _holdBoxCollider = _holdObjectTransform.GetComponent<BoxCollider>();
     }
 
 
@@ -58,7 +63,8 @@ public class HoldClass  : IBehaviourState
         _holdObjectTransform.localRotation = Quaternion.identity;
         // アニメーションを再生
         _playerAnimator.SetBool("IsHold", true);
-
+        // 当たり判定をなくす
+        _holdBoxCollider.enabled = false;
     }
 
     /// <summary>  

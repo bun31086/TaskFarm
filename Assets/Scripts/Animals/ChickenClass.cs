@@ -16,7 +16,7 @@ public class ChickenClass : AnimalBase
 
     #region メソッド 
 
-    private void Start()
+    private void Awake()
     {
         _interval = 5f;
     }

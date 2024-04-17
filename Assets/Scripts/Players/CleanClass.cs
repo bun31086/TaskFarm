@@ -40,9 +40,10 @@ public class CleanClass : IBehaviourState
     /// </summary>  
     public void Enter()
     {
-        Debug.Log("Cleanに入る");
         // 掃除アニメーションを開始する
         //_playerAnimator.SetBool("isClean", true);
+        // 掃除していたオブジェクトを消す
+        _nearObject.SetActive(false);
     }
 
     /// <summary>  
@@ -50,7 +51,6 @@ public class CleanClass : IBehaviourState
     /// </summary>  
     public void Execute()
     {
-        Debug.Log("Clean中");
     }
 
     /// <summary>
@@ -58,11 +58,8 @@ public class CleanClass : IBehaviourState
     /// </summary>
     public void Exit()
     {
-        Debug.Log("Cleanを抜ける");
         // 掃除アニメーションを終了する
         //_playerAnimator.SetBool("isClean", false);
-        // 掃除していたオブジェクトを消す
-        _nearObject.SetActive(false);
     }
 
     #endregion

@@ -15,14 +15,13 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     /// <summary>
     /// 移動先確認
     /// </summary>
-    private ForwardCheckClass _forwardCheckClass = default;
     [SerializeField]
     private Animator _animalAnimator = default;
     [SerializeField]
     private Rigidbody _rigidbody = default;
     [SerializeField] GameObject _milk;
     //インターフェース依存関係
-    private IAnimalStateChage _iAnimalStateChage = new AnimalStateMachineClass { };
+    private IAnimalStateChage _iAnimalStateChage = default;
     private Animaltype _currentAction;
     private TakeType _currentFood = default;
     private IForwardCheck _iMoveCheck = default;
@@ -34,6 +33,8 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     private float _eatTimer = 0;
     //餌を食べる時間
     private float _eatDuration = 5f;
+    //動物の設定速度
+    private float _speed = default;
     //動物の歩く速度
     private float _walkSpeed = 2f;
     //動物の走る速度
@@ -57,6 +58,12 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     {
         get => _isMaxSatisfaction;
     }
+
+    private MoveDI _moveDI = default;
+    private IMoveState _idle = default;
+    private IMoveState _walk = default;
+    private IMoveState _run = default;
+
     #endregion
 
     #region メソッド  
@@ -67,6 +74,12 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     {
         //コンストラクタにtransformをインスタンスを設定してインスタンス化(生成)
         _iMoveCheck = new ForwardCheckClass(this.transform);
+
+        _moveDI = new MoveDI(_animalAnimator,_rigidbody);
+        _idle = _moveDI.InstanceIdle();
+        _walk = _moveDI.InstanceWalk();
+        _run = _moveDI.InstanceRun();
+        _iAnimalStateChage = new AnimalStateMachineClass(_idle);
         //コルーチン開始
         StartCoroutine(ChangeAction());
         StartCoroutine(ChangeDirection());
@@ -98,13 +111,13 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
         {
             Debug.LogWarning("return");
             _moveVector *= -1;
-            _iAnimalStateChage.Change(new WalkClass(_moveVector, _walkSpeed, _animalAnimator, _rigidbody));
+            _iAnimalStateChage.Change(_walk,_moveVector);
             return;
         }
         //収穫中の動物は動かない
         _isHarvested = false;
         //更新処理実行
-        _iAnimalStateChage.Execute();
+        _iAnimalStateChage.Execute(_speed);
     }
 
     /// <summary>
@@ -229,13 +242,15 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
         switch (_currentAction)
         {
             case Animaltype.Idle:
-                _iAnimalStateChage.Change(new IdleClass(_animalAnimator));
+                _iAnimalStateChage.Change(_idle,_moveVector);
                 break;
             case Animaltype.Walk:
-                _iAnimalStateChage.Change(new WalkClass(_moveVector, _walkSpeed, _animalAnimator, _rigidbody));
+                _iAnimalStateChage.Change(_walk,_moveVector);
+                _speed = _walkSpeed;
                 break;
             case Animaltype.Run:
-                _iAnimalStateChage.Change(new RunClass(_moveVector, _runSpeed, _animalAnimator, _rigidbody));
+                _iAnimalStateChage.Change(_run,_moveVector);
+                _speed = _runSpeed;
                 break;
         }
         //3秒から5秒のランダムな間隔で行動を切り替える yield=一時停止
