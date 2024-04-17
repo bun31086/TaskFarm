@@ -5,7 +5,8 @@
 // 作成者:  湯元来輝
 // ---------------------------------------------------------  
 using System.Collections;
-using System;
+using System.Collections.Generic;
+using System.Linq;
 using UniRx;
 using UnityEngine;
 
@@ -17,7 +18,14 @@ public class TargetProductManagerClass : MonoBehaviour
 
     #region プロパティ  
 
-    public IObservable<CollectionReplaceEvent<ITargetProduct>> TargetProductList => _targetProductsList.ObserveReplace();
+    /// <summary>
+    /// 値の変更感知に使用
+    /// </summary>
+    public IReadOnlyReactiveCollection<ITargetProduct> TargetProductCollection => _targetProductsCollection;
+    /// <summary>
+    /// 値の変化時に取得される値
+    /// </summary>
+    public List<ITargetProduct> TargetProductsList => _targetProductsCollection.ToList();
     public IReadOnlyReactiveProperty<int> ChainBonus => _chainBonus;
     public IReadOnlyReactiveProperty<int> ChaiCount => _chainCount;
 
@@ -37,9 +45,17 @@ public class TargetProductManagerClass : MonoBehaviour
     private GameManagerClass _gameManagerClass = default;
 
     /// <summary>
-    /// 求める製品が入るリスト
+    /// 求める製品のインターフェース入るリスト
     /// </summary>
-    private ReactiveCollection<ITargetProduct> _targetProductsList = new ReactiveCollection<ITargetProduct>();
+    private ReactiveCollection<ITargetProduct> _targetProductsCollection = new ReactiveCollection<ITargetProduct> { };
+    /// <summary>
+    /// 実行中の求める製品が入るリスト
+    /// </summary>
+    private List<GameObject> _useProductObj = new List<GameObject> { };
+    /// <summary>
+    /// 停止中の求める製品が入るリスト
+    /// </summary>
+    private List<GameObject> _notUseProductObj = new List<GameObject> { };
     /// <summary>
     /// 連鎖ボーナス
     /// </summary>
@@ -48,6 +64,7 @@ public class TargetProductManagerClass : MonoBehaviour
     /// 連鎖数を数える
     /// </summary>
     private ReactiveProperty<int> _chainCount = new ReactiveProperty<int>(default);
+
 
     #endregion
     #region メソッド  
@@ -74,8 +91,9 @@ public class TargetProductManagerClass : MonoBehaviour
     public void SubmissionProcess(GameObject collisionObj)
     {
 
+        Debug.LogError("呼ばれない");
         //リストの先頭に格納されているインタフェースに対し製品比較を実行し実行結果が返ってくる
-        bool result = _targetProductsList[0].MatchCheck(collisionObj);
+        bool result = _targetProductsCollection[0].MatchCheck(collisionObj);
         //合っていた時
         if (result)
         {
@@ -124,9 +142,9 @@ public class TargetProductManagerClass : MonoBehaviour
 
         }
         //比べた求めている製品を削除
-        _targetProductsList.RemoveAt(0);
+        _targetProductsCollection.RemoveAt(0);
         //求めている製品が１以下になった時
-        if (_targetProductsList.Count <= 1)
+        if (_targetProductsCollection.Count <= 1)
         {
 
             //求めている製品の追加
@@ -142,20 +160,40 @@ public class TargetProductManagerClass : MonoBehaviour
     private void AddTargetProduct()
     {
 
-        //enum型の要素数を取得
-        int maxCount = ProductState.GetNames(typeof(ProductState)).Length;
-        //要素数内のランダムな値を取得
-        int number = UnityEngine.Random.Range(0, maxCount);
-        //値に対応したステートを取得
-        ProductState chooseProduct = (ProductState)number;
-        //求める製品を生成
-        GameObject targetProductObj = Instantiate(_targetProductPrefab,_parentPanel.transform);
-        //インタフェース取得
-        ITargetProduct iTargetProduct = targetProductObj.GetComponent<ITargetProduct>();
-        //製品情報を渡す
-        iTargetProduct.SetProductInformation(new TargetProductManagerClass(),_targetProductManagerData.SubmissionTimeLimit,chooseProduct);
-        //取得したインタフェースをリストに格納
-        _targetProductsList.Add(iTargetProduct);
+        //過去に出したランダムな値
+        int oldNumber = default;
+        //生成量分ループ
+        for (int i = 0; _targetProductManagerData.AddProductValue > i; i++)
+        {
+           
+            //enum型の要素数を取得
+            int maxCount = ProductState.GetNames(typeof(ProductState)).Length;
+            //要素数内のランダムな値を取得
+            int number = UnityEngine.Random.Range(0, maxCount);
+            //前に出した数と同じ場合
+            if (number == oldNumber)
+            {
+
+                //もう一度要素数内のランダムな値を取得
+                number = UnityEngine.Random.Range(0, maxCount);
+
+            }
+            //過去の値を更新
+            oldNumber = number;
+            //値に対応したステートを取得
+            ProductState chooseProductState = (ProductState)number;
+            //求める製品を生成
+            GameObject targetProductObj = Instantiate(_targetProductPrefab, _parentPanel.transform);
+            //インタフェース取得
+            ITargetProduct iTargetProduct = targetProductObj.GetComponent<ITargetProduct>();
+            //製品情報を渡す
+            iTargetProduct.SetProductInformation(this, _targetProductManagerData.SubmissionTimeLimit, chooseProductState);
+            //取得したインタフェースをコレクションに格納
+            _targetProductsCollection.Add(iTargetProduct);
+            //生成した求める製品オブジェクトを実行中のリストに格納
+            _useProductObj.Add(targetProductObj);
+
+        }
 
     }
 
@@ -163,11 +201,25 @@ public class TargetProductManagerClass : MonoBehaviour
     /// 求める製品リストの先頭削除
     /// 生成したプロダクトクラスに呼び出しを委譲
     /// </summary>
-    public void DeleteTargetProduct()
+    public void DeleteTargetProduct(ITargetProduct itargetProduct)
     {
-        
+
         //インデックス0番を消す
-        _targetProductsList.RemoveAt(0);
+        _targetProductsCollection.Remove(itargetProduct);
+        //求めている製品が１以下になった時
+        if (_targetProductsCollection.Count <= 1)
+        {
+
+            //求めている製品の追加
+            AddTargetProduct();
+            //求める製品オブジェクトを実行中のリストから取り出す
+
+            //求める製品オブジェクトを実行中のリストから削除
+
+            //求める製品オブジェクトを非実行中のリストに格納
+
+
+        }
 
     }
 
@@ -177,7 +229,7 @@ public class TargetProductManagerClass : MonoBehaviour
     // <returns></returns>
     private IEnumerator CallAddTargetProduct()
     {
-
+       
         //設定時間後まで待つ
         yield return new WaitForSeconds(_targetProductManagerData.ProductAddTime);
         //求める製品の選択
