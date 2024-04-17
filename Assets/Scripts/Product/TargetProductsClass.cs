@@ -5,6 +5,7 @@
 // 作成者:  湯元来輝
 // ---------------------------------------------------------  
 using UnityEngine;
+using UniRx;
 
 /// <summary>
 /// 求めている製品の情報が入る
@@ -12,27 +13,22 @@ using UnityEngine;
 public class TargetProductsClass : MonoBehaviour, ITargetProduct
 {
 
-    public float SubmissionTimeLimit
-    {
-
-        get => _submissionTimeLimit;
-
-    }
     public ProductState ProductState
     {
 
         get => _productState;
     
     }
+    public IReadOnlyReactiveProperty<float> SubmissionTimeLimit => _submissionTimeLimit;
 
+    /// <summary>
+    /// 残り時間
+    /// </summary>
+    private ReactiveProperty<float> _submissionTimeLimit = new ReactiveProperty<float>(default);
     /// <summary>
     /// 残り時間が無くなったことを通知するため取得
     /// </summary>
     private TargetProductManagerClass _targetProductManagerClass = default;
-    /// <summary>
-    /// 残り時間
-    /// </summary>
-    private float _submissionTimeLimit = default;
     /// <summary>
     /// 残り時間を記憶しておく
     /// </summary>
@@ -42,17 +38,22 @@ public class TargetProductsClass : MonoBehaviour, ITargetProduct
     /// </summary>
     private ProductState _productState = default;
 
+    /// <summary>
+    /// 更新処理
+    /// </summary>
     private void Update()
     {
 
         //時間を引く
-        _submissionTimeLimit -= Time.deltaTime;
+        _submissionTimeLimit.Value -= Time.deltaTime;
         //残り時間が0になった時
-        if (_submissionTimeLimit <= 0)
+        if (_submissionTimeLimit.Value <= 0)
         {
 
+            //自身についているインターフェースを取得
+            ITargetProduct myITargetProduct = this as ITargetProduct;
             //求めている製品とヒエラルキーから自分を消す
-            _targetProductManagerClass.DeleteTargetProduct();
+            _targetProductManagerClass.DeleteTargetProduct(myITargetProduct);
             //非アクティブ化
             this.gameObject.SetActive(false);
 
@@ -92,7 +93,7 @@ public class TargetProductsClass : MonoBehaviour, ITargetProduct
          * 外部から値を取得
          */
         this._targetProductManagerClass = targetProductManagerClass;
-        this._submissionTimeLimit = submissionTimeLimit;
+        this._submissionTimeLimit.Value = submissionTimeLimit;
         this._submissionTimeLimitMemory = submissionTimeLimit;
         this._productState = productState;
 
@@ -105,7 +106,7 @@ public class TargetProductsClass : MonoBehaviour, ITargetProduct
     {
 
         Debug.LogError("初期化");
-        _submissionTimeLimit = _submissionTimeLimitMemory;
+        _submissionTimeLimit.Value = _submissionTimeLimitMemory;
     
     }
 

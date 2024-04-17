@@ -3,12 +3,6 @@ using UnityEngine;
 public interface ITargetProduct
 {
 
-    float SubmissionTimeLimit
-    {
-
-        get;
-    
-    }
     ProductState ProductState
     {
 
