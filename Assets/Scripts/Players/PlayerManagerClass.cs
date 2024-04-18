@@ -10,7 +10,7 @@ using UnityEngine.InputSystem;
 /// プレイヤー管理クラス
 /// </summary>
 [RequireComponent(typeof(DrowRayDebug))]
-public class PlayerManagerClass : MonoBehaviour
+public class PlayerManagerClass : MonoBehaviour,ITreadTrash
 {
 
     #region 変数  

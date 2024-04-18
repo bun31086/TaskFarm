@@ -9,38 +9,28 @@ using System.Collections;
 
 public class RubbishClass : MonoBehaviour
 {
+  
+    #region メソッド    
 
-    #region 変数  
-
-    private const string PLAYER_TAG = "Player";
-
-    #endregion
-  
-  
-    #region メソッド  
-  
-     /// <summary>  
-     /// 更新前処理  
-     /// </summary>  
-     void Start ()
-     {
-  
-     }
-  
-
+    /// <summary>
+    /// ごみエリアに入ったとき
+    /// </summary>
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out PlayerManagerClass playerClass))
+        if (other.TryGetComponent(out ITreadTrash iTreadTrash))
         {
-            playerClass.IsTread = true;
+            iTreadTrash.IsTread = true;
         }
     }
 
+    /// <summary>
+    /// ごみエリアを出たとき
+    /// </summary>
     private void OnTriggerExit(Collider other)
     {
-        if (other.TryGetComponent(out PlayerManagerClass playerClass))
+        if (other.TryGetComponent(out ITreadTrash iTreadTrash))
         {
-            playerClass.IsTread = false;
+            iTreadTrash.IsTread = false;
         }
     }
 

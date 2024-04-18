@@ -18,6 +18,7 @@ public class CutClass : IBehaviourState
     /// 動物の満足度インターフェース
     /// </summary>
     private ISatisfaction _iSatisfaction = default;
+    private Rigidbody _playerRigidbody = default;
 
     private Animator _playerAnimator = default;
     private Transform _animalTransform = default;
@@ -31,6 +32,7 @@ public class CutClass : IBehaviourState
     {
         _playerAnimator = playerAnimator;
         _animalTransform = animalTransform;
+        _playerRigidbody = _playerAnimator.GetComponent<Rigidbody>();
     }
 
     #endregion
@@ -51,6 +53,7 @@ public class CutClass : IBehaviourState
         }
         // 毛刈りアニメーションを再生する
         //_playerAnimator.SetBool("isCut", true);
+        _playerRigidbody.isKinematic = true;
     }
 
     /// <summary>  
@@ -67,12 +70,12 @@ public class CutClass : IBehaviourState
         // 毛刈りしているか調べる
         bool isCut = _iSatisfaction.Harvest();
         // 毛刈りが終わったら
-        if (!_iSatisfaction.Harvest())
+        if (isCut)
         {
             // 毛刈りアニメーションを終了する
             _playerAnimator.SetTrigger("IsIdle");
+            _playerRigidbody.isKinematic = false;
         }
-
     }
 
     /// <summary>

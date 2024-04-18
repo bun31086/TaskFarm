@@ -55,6 +55,7 @@ public class TakeFeedClass : IBehaviourState
         _animalTransform = animalTransform;
         _playerAnimator = playerAnimator;
         _playerRigid = _playerAnimator.GetComponent<Rigidbody>();
+        Debug.LogError("コンストラクタ");
     }
 
     #endregion
@@ -67,7 +68,6 @@ public class TakeFeedClass : IBehaviourState
     public void Enter()
     {
         _isTaked = false;
-        Debug.Log("TakeFoodに入る");
         _iSatisfaction = _animalTransform.GetComponent<ISatisfaction>();
         // 持っているオブジェクトにBaitClassがアタッチされているとき
         if (_holdObject.TryGetComponent(out BaitClass baitType))
@@ -104,13 +104,11 @@ public class TakeFeedClass : IBehaviourState
         {
             return;
         }
-        Debug.LogError("餌やり中：" + _baitClass.TakeType);
         // 動物に餌を与える
         bool isTake = _iSatisfaction.EatBait(_baitClass);
         // 動物が餌を食べ終わったら
         if (isTake)
         {
-            Debug.LogError("餌やり後：" + isTake);
             _isTaked = isTake;
             // 餌を与えるアニメーションを終了する
             _playerAnimator.SetTrigger("IsTake");
@@ -142,7 +140,6 @@ public class TakeFeedClass : IBehaviourState
     /// </summary>
     public void Exit()
     {
-        Debug.Log("TakeFoodを抜ける");
     }
 
     #endregion
