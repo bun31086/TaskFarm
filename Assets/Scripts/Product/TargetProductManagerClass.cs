@@ -160,7 +160,7 @@ public class TargetProductManagerClass : MonoBehaviour
     private void AddTargetProduct()
     {
 
-        //過去に出したランダムな値
+        //１ループ前に出したランダムな値
         int oldNumber = default;
         //生成量分ループ
         for (int i = 0; _targetProductManagerData.AddProductValue > i; i++)
@@ -182,15 +182,37 @@ public class TargetProductManagerClass : MonoBehaviour
             oldNumber = number;
             //値に対応したステートを取得
             ProductState chooseProductState = (ProductState)number;
-            //求める製品を生成
-            GameObject targetProductObj = Instantiate(_targetProductPrefab, _parentPanel.transform);
+            //生成または取り出した求める製品のオブジェクトを入れる変数
+            GameObject targetProductObj = default;
+            //非実行中のリストの中身があるとき
+            if (_notUseProductObj.Count  > 0)
+            {
+
+                //非実行中の求める製品のリストから取り出す
+                GameObject outObj = _notUseProductObj[0];
+                //取り出したオブジェクトをアクティブ化
+                outObj.SetActive(true);
+                //取り出した要素を削除
+                _notUseProductObj.RemoveAt(0);
+                //取り出したオブジェクトを変数に格納
+                targetProductObj = outObj;
+
+            } 
+            //非実行中のリストの中身がないとき
+            else
+            {
+
+                //求める製品オブジェクトを生成し変数に格納
+                targetProductObj = Instantiate(_targetProductPrefab, _parentPanel.transform);
+
+            }
             //インタフェース取得
             ITargetProduct iTargetProduct = targetProductObj.GetComponent<ITargetProduct>();
             //製品情報を渡す
             iTargetProduct.SetProductInformation(this, _targetProductManagerData.SubmissionTimeLimit, chooseProductState);
             //取得したインタフェースをコレクションに格納
             _targetProductsCollection.Add(iTargetProduct);
-            //生成した求める製品オブジェクトを実行中のリストに格納
+            //生成したまたは取り出した求める製品オブジェクトを実行中のリストに格納
             _useProductObj.Add(targetProductObj);
 
         }
@@ -201,23 +223,25 @@ public class TargetProductManagerClass : MonoBehaviour
     /// 求める製品リストの先頭削除
     /// 生成したプロダクトクラスに呼び出しを委譲
     /// </summary>
-    public void DeleteTargetProduct(ITargetProduct itargetProduct)
+    /// <param name="itargetProduct">メソッドを呼び出した求める製品のインターフェース</param>
+    /// <param name="callGameObject">メソッドを呼び出した求める製品のオブジェクト</param>
+    public void DeleteTargetProduct(ITargetProduct itargetProduct , GameObject callGameObject)
     {
 
         //インデックス0番を消す
         _targetProductsCollection.Remove(itargetProduct);
+        //求める製品オブジェクトを実行中のリストから削除
+        _useProductObj.Remove(callGameObject);
+        //求める製品オブジェクトを非実行中のリストに格納
+        _notUseProductObj.Add(callGameObject);
+        //求める製品オブジェクトを非アクティブ化
+        callGameObject.SetActive(false);
         //求めている製品が１以下になった時
-        if (_targetProductsCollection.Count <= 1)
+        if (_targetProductsCollection.Count <= 0)
         {
 
             //求めている製品の追加
             AddTargetProduct();
-            //求める製品オブジェクトを実行中のリストから取り出す
-
-            //求める製品オブジェクトを実行中のリストから削除
-
-            //求める製品オブジェクトを非実行中のリストに格納
-
 
         }
 

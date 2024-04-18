@@ -13,18 +13,22 @@ using UniRx;
 public class TargetProductsClass : MonoBehaviour, ITargetProduct
 {
 
+    public float SubmissionTimeLimit{
+
+        get => _submissionTimeLimit;
+
+    }
     public ProductState ProductState
     {
 
         get => _productState;
     
     }
-    public IReadOnlyReactiveProperty<float> SubmissionTimeLimit => _submissionTimeLimit;
 
     /// <summary>
     /// 残り時間
     /// </summary>
-    private ReactiveProperty<float> _submissionTimeLimit = new ReactiveProperty<float>(default);
+    private float _submissionTimeLimit = default;
     /// <summary>
     /// 残り時間が無くなったことを通知するため取得
     /// </summary>
@@ -45,17 +49,15 @@ public class TargetProductsClass : MonoBehaviour, ITargetProduct
     {
 
         //時間を引く
-        _submissionTimeLimit.Value -= Time.deltaTime;
+        _submissionTimeLimit -= Time.deltaTime;
         //残り時間が0になった時
-        if (_submissionTimeLimit.Value <= 0)
+        if (_submissionTimeLimit <= 0)
         {
 
             //自身についているインターフェースを取得
             ITargetProduct myITargetProduct = this as ITargetProduct;
             //求めている製品とヒエラルキーから自分を消す
-            _targetProductManagerClass.DeleteTargetProduct(myITargetProduct);
-            //非アクティブ化
-            this.gameObject.SetActive(false);
+            _targetProductManagerClass.DeleteTargetProduct(myITargetProduct,this.gameObject);
 
         }
 
@@ -93,21 +95,10 @@ public class TargetProductsClass : MonoBehaviour, ITargetProduct
          * 外部から値を取得
          */
         this._targetProductManagerClass = targetProductManagerClass;
-        this._submissionTimeLimit.Value = submissionTimeLimit;
+        this._submissionTimeLimit = submissionTimeLimit;
         this._submissionTimeLimitMemory = submissionTimeLimit;
         this._productState = productState;
 
-    }
-
-    /// <summary>
-    /// 初期化
-    /// </summary>
-    public void Initialization()
-    {
-
-        Debug.LogError("初期化");
-        _submissionTimeLimit.Value = _submissionTimeLimitMemory;
-    
     }
 
 }

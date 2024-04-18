@@ -18,7 +18,7 @@ public class UITargetProductClass : MonoBehaviour
 
     [Header("オブジェクト")]
     [SerializeField, Tooltip("求めている製品のUIオブジェクトとなる")]
-    private GameObject _uITargetProductImage = default;
+    private GameObject _uITargetProductImageObj = default;
     [SerializeField, Tooltip("求めているの製品のUI親オブジェクトになるパネル")]
     private GameObject _parentPanel = default;
     [Header("スプライト")]
@@ -35,7 +35,7 @@ public class UITargetProductClass : MonoBehaviour
     private Vector2 _displayPos = new Vector2(0, 0);
 
     /// <summary>
-    /// 求める製品のインタフェースのリスト
+    /// 現在の求める製品のインターフェースリスト
     /// </summary>
     private List<ITargetProduct> _iTargetProductList = new List<ITargetProduct> { };
     /// <summary>
@@ -45,28 +45,49 @@ public class UITargetProductClass : MonoBehaviour
     /// <summary>
     /// 未使用のオブジェクトのリスト
     /// </summary>
-    private List<Image> _notDisplayObjList = new List<Image> { };
+    private List<Image> _notDisplayImageList = new List<Image> { };
+    /// <summary>
+    /// 現在使用中のオブジェクトのスライダーのリスト
+    /// </summary>
+    private List<Slider> _nowSliderList = new List<Slider> { };
 
     #endregion
     #region メソッド  
 
-    /// <summary>
-    /// 情報の受け取り
-    /// </summary>
-    /// <param name="iTargetProductList">求める製品のインタフェースが入ったリスト</param>
-    private void ViewTargetProduct(List<ITargetProduct> iTargetProductList)
+    private void Update()
     {
 
-        //新しいインターフェースリスト取得
-        this._iTargetProductList = iTargetProductList;
+        //スライダーリストを見ていくループ
+        for (int i = 0; _nowSliderList.Count - 1 >= i; i++)
+        {
+
+            print("残り時間を取得");
+            //残り時間を取得
+            float remainingTimeTime = _iTargetProductList[i].SubmissionTimeLimit;
+            //残り時間をスライダーに反映
+            _nowSliderList[i].value = remainingTimeTime;
+        
+        }
+
+    }
+
+    /// <summary>
+    /// リスト内の要素追加時にViewTargetProductメソッドを呼ぶ
+    /// </summary>
+    /// <param name="addList">追加された後のリスト</param>
+    public void ListAdd(List<ITargetProduct> addList)
+    {
+
+        //リストの更新
+        _iTargetProductList = addList;
         //インターフェースを見ていくループ
-        for (int i = 0; _iTargetProductList.Count - 1 >= i; i++)
+        for (int i = 0; addList.Count - 1 >= i; i++)
         {
 
             //表示するスプライト
             Sprite displaySprite = default;
             //自分の求めている製品で処理分岐
-            switch (_iTargetProductList[i].ProductState)
+            switch (addList[i].ProductState)
             {
 
                 case ProductState.Egg:
@@ -93,7 +114,7 @@ public class UITargetProductClass : MonoBehaviour
             //_displaySpace - 1は0から始めるため
             Vector3 displayPos = Vector3.right * (_displayPos.x + _displaySpace * i) +
                                  Vector3.up * _displayPos.y;
-            //イメージ表示リストの要素数で足りるとき
+            //指定したいインデックスがイメージ表示リストにあるとき
             if (_displayImageList.Count - 1 >= i)
             {
 
@@ -108,72 +129,42 @@ public class UITargetProductClass : MonoBehaviour
             {
 
                 //イメージ非表示リストの余りがないとき
-                if (_notDisplayObjList.Count - 1 <= 0)
+                if (_notDisplayImageList.Count <= 0)
                 {
 
                     //ゲームオブジェクトを生成しイメージコンポーネントを取得
-                    Image createImage = Instantiate(_uITargetProductImage.GetComponent<Image>());
+                    GameObject product = Instantiate(_uITargetProductImageObj);
+
+                    Image productImage = product.GetComponent<Image>();
                     //親オブジェクトを設定
-                    createImage.transform.SetParent(_parentPanel.transform);
+                    productImage.transform.SetParent(_parentPanel.transform);
                     //イメージにスプライトを設定
-                    createImage.sprite = displaySprite;
+                    productImage.sprite = displaySprite;
                     //イメージの位置を変更
-                    createImage.rectTransform.position = displayPos;
+                    productImage.rectTransform.position = displayPos;
                     //表示リストに追加
-                    _displayImageList.Add(createImage);
+                    _displayImageList.Add(productImage);
                     continue;
 
                 }
                 //非表示リストの最初のインデックスを取得
-                Image outImage = _notDisplayObjList[0];
+                Image outImage = _notDisplayImageList[0];
                 //取り出した要素を削除
-                _notDisplayObjList.RemoveAt(0);
+                _notDisplayImageList.RemoveAt(0);
                 //イメージにスプライトを設定
                 outImage.sprite = displaySprite;
                 //イメージの位置を変更
                 outImage.rectTransform.position = displayPos;
                 //取り出したイメージを表示リストに追加
-                _notDisplayObjList.Add(outImage);
+                _displayImageList.Add(outImage);
+                //アクティブ化
+                outImage.gameObject.SetActive(true);
 
             }
 
         }
-
-        /*
-         * イメージ表示リストの使っていない部分を非表示リストに入れる
-         */
-        //要素数ではなくインデックス数を取得
-        int listCount = _displayImageList.Count - 1;
-        //表示しているリストから求める製品のインタフェースが入ったリストを引き差を取得
-        int offset = listCount - (_iTargetProductList.Count - 1);
-        //表示しているリストから先ほど求めた差を引き必要な個所までのインデックスを求める
-        int needIndex = listCount - offset;
-        //必要な個所までのループ
-        for (int i = listCount; needIndex > listCount; --listCount)
-        {
-
-            //表示リストからイメージを取り出す
-            Image outImage = _displayImageList[listCount];
-            //非表示にした要素を削除
-            _displayImageList.RemoveAt(listCount);
-            //非表示リストに取り出したイメージを追加
-            _notDisplayObjList.Add(outImage);
-            //非表示
-            _displayImageList[listCount].gameObject.SetActive(false);
-
-        }
-
-    }
-
-    /// <summary>
-    /// リスト内の要素追加時にViewTargetProductメソッドを呼ぶ
-    /// </summary>
-    /// <param name="addList">追加された後のリスト</param>
-    public void ListAdd(List<ITargetProduct> addList)
-    {
-
-        //リスト情報を渡す
-        ViewTargetProduct(addList);
+        //スライダーリスト更新
+        INSliderList();
 
     }
 
@@ -184,9 +175,59 @@ public class UITargetProductClass : MonoBehaviour
     public void ListReMove(List<ITargetProduct> reMoveList)
     {
 
-        //リスト情報を渡す
-        ViewTargetProduct(reMoveList);
+        //リストの更新
+        _iTargetProductList = reMoveList;
+        /*
+        * イメージ表示リストの使っていない部分を非表示リストに入れる
+        */
+        //表示しているリストから求める製品のインタフェースが入ったリストを引き差を取得
+        int offset = (_displayImageList.Count - 1) - (reMoveList.Count - 1);
+        //必要な個所までのループ
+        for (int i = 0; offset > i; ++i)
+        {
 
+            //表示リストからイメージを取り出す
+            Image outImage = _displayImageList[0];
+            //非表示にした要素を削除
+            _displayImageList.RemoveAt(0);
+            //非表示リストに取り出したイメージを追加
+            _notDisplayImageList.Add(outImage);
+            //取り出したイメージを非表示
+            outImage.gameObject.SetActive(false);
+
+        }
+        //表示中のリストを見ていくループ
+        for (int i = 0; _displayImageList.Count - 1 >= i; ++i)
+        {
+
+            //位置を変更
+            _displayImageList[i].rectTransform.position = Vector3.right * (_displayPos.x + _displaySpace * i) +
+                                                          Vector3.up * _displayPos.y;
+
+        }
+        //スライダーリスト更新
+        INSliderList();
+
+    }
+
+    /// <summary>
+    /// スライダーリストの更新処理
+    /// </summary>
+    private void INSliderList()
+    {
+        //初期化
+        _nowSliderList.Clear();
+        //使用中のイメージリストを見ていくループ
+        foreach (Image displayImage in _displayImageList)
+        {
+
+            //スライダーコンポーネントを取得
+            Slider slider = displayImage.gameObject.GetComponent<Slider>();
+            //リストに追加
+            _nowSliderList.Add(slider);
+        
+        }
+    
     }
     #endregion
 
