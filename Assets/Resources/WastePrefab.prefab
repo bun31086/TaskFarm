@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4895061240318024027}
   m_Layer: 0
   m_Name: WastePrefab
-  m_TagString: rubbish
+  m_TagString: Rubbish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
