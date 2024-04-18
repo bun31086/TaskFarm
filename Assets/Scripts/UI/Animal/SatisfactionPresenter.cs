@@ -26,7 +26,7 @@ public class SatisfactionPresenter : MonoBehaviour
     private ChickenClass _animalBaseChicken = default;
     [SerializeField]
     private SheepClass _animalBaseSheep = default;
-
+    
     #endregion
 
     #region プロパティ  
@@ -42,17 +42,14 @@ public class SatisfactionPresenter : MonoBehaviour
     {
         _animalBaseCow.Satisfaction.Subscribe(satisfaction =>
         {
-            satisfaction /= 100;
             _satisfactionUICow.SatisfactionChange(satisfaction);
         }).AddTo(this);
         _animalBaseChicken.Satisfaction.Subscribe(satisfaction =>
         {
-            satisfaction /= 100;
             _satisfactionUIChicken.SatisfactionChange(satisfaction);
         }).AddTo(this);
         _animalBaseSheep.Satisfaction.Subscribe(satisfaction =>
         {
-            satisfaction /= 100;
             _satisfactionUISheep.SatisfactionChange(satisfaction);
         }).AddTo(this);
 

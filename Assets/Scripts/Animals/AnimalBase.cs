@@ -28,7 +28,7 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     private Vector3 _moveVector = default;
     private const string TAG_ITEM = "Item";
     private const string TAG_STAGE = "Stage";
-    private const float SATISFACTION = 10;
+    private const float SATISFACTION = 1;
     //餌を食べる時間計測用タイマー
     private float _eatTimer = 0;
     //餌を食べる時間
@@ -44,7 +44,8 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     //収穫の間隔
     protected float _interval = 10f;
     //最大の満足度
-    private float _maxsatisfaction = 100f;
+    [SerializeField]
+    private float _maxsatisfaction = 3;
     //収穫されたかどうかのフラグ
     private bool _isHarvested = false;
     //餌を食べているかどうかのフラグ
@@ -52,7 +53,6 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     //最大の満足度かどうかのフラグ
     private bool _isMaxSatisfaction = false;
     //満足度の初期値
-    [SerializeField]
     private ReactiveProperty<float> _satisfaction = new ReactiveProperty<float>(default);
 
 
@@ -60,7 +60,6 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     private IMoveState _idle = default;
     private IMoveState _walk = default;
     private IMoveState _run = default;
-    [SerializeField]
     private ReactiveProperty<TakeType> _currentFood = new ReactiveProperty<TakeType>();
 
 
@@ -144,7 +143,7 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
         if (!_isEating)
         {
             _isEating = true;
-            _eatTimer = 0f;
+            _timer = 0f;
             //動物の動きを止める
             StopCoroutine(_action);
             StopCoroutine(_direciton);
@@ -161,9 +160,9 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
         } else
         {
             //タイマーを進める
-            _eatTimer += Time.deltaTime;
+            _timer += Time.deltaTime;
             //餌を食べ終わったら
-            if (_eatTimer >= _eatDuration)
+            if (_timer >= _eatDuration)
             {
                 Debug.LogError(baitClass.TakeType);
                 //プレイヤーが渡した餌が同じか

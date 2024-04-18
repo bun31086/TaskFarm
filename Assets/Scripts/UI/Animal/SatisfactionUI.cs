@@ -6,6 +6,7 @@
 // ---------------------------------------------------------  
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 /// <summary>
 /// 動物の満足度UI
 /// </summary>
@@ -14,8 +15,7 @@ public class SatisfactionUI : MonoBehaviour
 
     #region 変数  
 
-    private Vector3 _uiSize = Vector3.one;
-    private Transform _transform = default;
+    private Slider _slider = default;
 
     #endregion
     
@@ -26,7 +26,7 @@ public class SatisfactionUI : MonoBehaviour
      /// </summary>  
      private void Awake ()
      {
-        _transform = this.transform;
+        _slider = this.GetComponent<Slider>();
      }
 
     /// <summary>
@@ -35,8 +35,7 @@ public class SatisfactionUI : MonoBehaviour
     /// <param name="satisfaction">大きさ</param>
     public void SatisfactionChange(float satisfaction)
     {
-        _uiSize.x = satisfaction;
-        _transform.localScale = _uiSize;
+        _slider.value = satisfaction;
     }
   
     #endregion
