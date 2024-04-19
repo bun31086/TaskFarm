@@ -17,6 +17,27 @@ public class GameManagerClass : MonoBehaviour
     #region プロパティ
 
     public IReadOnlyReactiveProperty<int> TargetMonay => _targetMonay;
+    public IReadOnlyReactiveProperty<bool> IsResult => _isResult;
+    public bool IsFarstTargetClear
+    {
+
+        get => _isFarstTargetClear;
+    
+    }
+    public bool IsSecondTargetClear
+    {
+
+        get => _isSecondTargetClear;
+
+    }
+    public bool IsThirdTargetClear
+    {
+
+        get => _isThirdTargetClear;
+
+    }
+
+
 
     #endregion
     #region 変数  
@@ -28,11 +49,40 @@ public class GameManagerClass : MonoBehaviour
     /// <summary>
     /// 目標金額
     /// </summary>
-    private ReactiveProperty<int> _targetMonay = new ReactiveProperty<int>(default);
+    private ReactiveProperty<int> _targetMonay = new ReactiveProperty<int>(0);
+    /// <summary>
+    /// リザルトを表示するかの判定
+    /// </summary>
+    private ReactiveProperty<bool> _isResult = new ReactiveProperty<bool>(false);
     /// <summary>
     /// 所持金のインターフェース
     /// </summary>
     private IMoneyPossession _iMoneyPossession = default;
+    /// <summary>
+    /// 第一目標金額をクリアしたかの判定
+    /// </summary>
+    bool _isFarstTargetClear = false;
+    /// <summary>
+    /// 第二目標金額をクリアしたかの判定
+    /// </summary>
+    bool _isSecondTargetClear = false;
+    /// <summary>
+    /// 第三目標金額をクリアしたかの判定
+    /// </summary>
+    bool _isThirdTargetClear = false;
+
+    /// <summary>
+    /// 第一目標金額
+    /// </summary>
+    private int _farstTargetMoney = default;
+    /// <summary>
+    /// 第二目標金額
+    /// </summary>
+    private int _secondTargetMoney = default;
+    /// <summary>
+    /// 第三目標金額
+    /// </summary>
+    private int _thirdTargetMoney = default;
 
     #endregion
     #region メソッド  
@@ -40,7 +90,7 @@ public class GameManagerClass : MonoBehaviour
     /// <summary>  
     /// 更新前処理  
     /// </summary>  
-    void Start()
+    private void Start()
     {
 
         //現在のシーンがメインの時制限時間と所持金のインターフェース取得
@@ -52,27 +102,50 @@ public class GameManagerClass : MonoBehaviour
 
             //所持金のインターフェース取得
             _iMoneyPossession = GameObject.Find("MoneyPossession").GetComponent<IMoneyPossession>();
+            //目標金額取得
             _targetMonay.Value = _gameManageData.TargetMonay;
+            //第三目標金額取得
+            _thirdTargetMoney = _targetMonay.Value;
+            //第二目標金額取得
+            _secondTargetMoney = _thirdTargetMoney / 2;
+            //第一目標金額取得
+            _farstTargetMoney = _secondTargetMoney / 2;
 
         }
 
     }
 
     /// <summary>
-    /// 所持金が目標の金額まで達したかを調べる
+    /// 所持金が目標の金額のどこまで達したかを調べる
     /// </summary>
     /// <returns>目標金額を超えたかの判定</returns>
-    private bool ClearCheck()
+    private void ClearCheck()
     {
 
-        //所持金が目標金額を超えた時
-        if (_targetMonay.Value <= _iMoneyPossession.MoneyPossession.Value)
+        //第一標金額を超えた時
+        if (_iMoneyPossession.MoneyPossession.Value >= _farstTargetMoney)
         {
 
-            return true;
+            //第一目標金額を超えた判定にする
+            _isFarstTargetClear = true;
+        
+        }
+        //第二目標金額を超えた時
+        if (_iMoneyPossession.MoneyPossession.Value >= _secondTargetMoney)
+        {
+
+            //第二目標金額を超えた判定にする
+            _isSecondTargetClear = true;
 
         }
-        return false;
+        //第三目標金額を超えた時
+        if (_iMoneyPossession.MoneyPossession.Value >= _thirdTargetMoney)
+        {
+
+            //第三目標金額を超えた判定にする
+            _isThirdTargetClear = true;
+
+        }
 
     }
 
@@ -84,34 +157,14 @@ public class GameManagerClass : MonoBehaviour
 
         //時間停止
         Time.timeScale = 0;
-        //クリアしたかの判定を受け取る
-        bool isCrear = ClearCheck();
+        //所持金が目標の金額のどこまで達したかを調べる
+        ClearCheck();
+        // リザルト表示判定にする
+        _isResult.Value = true;
 
     }
 
-    /// <summary>
-    /// ゲーム開始ボタンを押されたときにメインシーンに移動
-    /// </summary>
-    public void OnGameStart()
-    {
-
-        // メインシーンに移動する
-        SceneManager.LoadScene("MainScene");
-
-    }
-
-    /// <summary>
-    /// リザルトで確認ボタンを押したときにタイトルシーンに移動
-    /// </summary>
-    public void OnResultFinsh()
-    {
-
-        // タイトルシーンに移動する
-        SceneManager.LoadScene("TitleScene");
-
-    }
-
-
+   
 
     #endregion
 
