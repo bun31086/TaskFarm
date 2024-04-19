@@ -21,7 +21,7 @@ public class SatisfactionPresenter : MonoBehaviour
     [SerializeField]
     private SatisfactionUI _satisfactionUISheep = default;
     [SerializeField]
-    private CawClass _animalBaseCow = default;
+    private CowClass _animalBaseCow = default;
     [SerializeField]
     private ChickenClass _animalBaseChicken = default;
     [SerializeField]

@@ -15,7 +15,6 @@ public class RunClass : IMoveState
     private Rigidbody _rigidbody = default;
     private Animator _animator = default;
     private Vector3 _moveVector = default;  
-    private float _runSpeed = default;
 
     /// <summary>
     /// コンストラクタ
