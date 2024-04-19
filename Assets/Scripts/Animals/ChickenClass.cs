@@ -15,21 +15,27 @@ public class ChickenClass : AnimalBase
     #endregion
 
     #region メソッド 
-
-    private void Awake()
+    override protected void Update()
     {
-        _interval = 5f;
+        base.Update();
+        //満足度がMAXか
+        if (INCREASINGSATISFACTIO >= _maxsatisfaction)
+        {
+            _isMaxSatisfaction = true;
+            Harvested();
+        }
+        //満足度がMAX未満か
+        else if (INCREASINGSATISFACTIO < _maxsatisfaction)
+        {
+            _isMaxSatisfaction = false;
+        }
     }
-    // 卵を出す
+
+    //鶏が卵を産む
     public void Harvested()
     {
-        // 指定の間隔で卵を出す
-        _timer += Time.deltaTime;
-        if (_timer >= _interval)
-        {
-            Debug.Log("卵を出し終わる");
-            _timer = 0f;
-        }
+        //卵を生成する処理
+        Instantiate(_instanceObject, transform.position, Quaternion.identity);
     }
     #endregion
 }
