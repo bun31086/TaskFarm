@@ -34,7 +34,7 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     [Header("上がる満足度"), SerializeField]
     protected const float INCREASINGSATISFACTIO = 1;
     //餌を食べる時間
-    private float _eatDuration = 5f;
+    private float _eatDuration = 3f;
     //動物の設定速度
     private float _speed = default;
     //動物の歩く速度
@@ -42,7 +42,7 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     //動物の走る速度
     private float _runSpeed = 4f;
     //収穫の間隔
-    protected float _interval = 10f;
+    protected float _interval = 3f;
     //最大の満足度
     [SerializeField]
     protected float _maxsatisfaction = 3;
@@ -190,6 +190,7 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
                 StartCoroutine(_food);
                 //餌を食べ終わった時点でごみを出す
                 DropWaste();
+                _timer.Value = 0f;
                 return true;
             }
         }
@@ -243,6 +244,7 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
                 _isHarvested = false;
                 _satisfaction.Value = 0;
                 _isMaxSatisfaction = false;
+                _timer.Value = 0f;
                 return true;
             }
         }

@@ -58,6 +58,7 @@ public class SqeezeClass : IBehaviourState
         _playerAnimator.SetTrigger("IsMilk");
         // プレイヤーを動けなくする
         _playerRigidbody.isKinematic = true;
+        Debug.LogError("始まり");
     }
 
     /// <summary>  
@@ -73,10 +74,13 @@ public class SqeezeClass : IBehaviourState
         // 搾乳中か調べる
         bool isSqeeze = _iSatisfaction.Harvest();
         // 搾乳が終わったら
-        if (!isSqeeze)
+        if (isSqeeze)
         {
+            Debug.LogError("終わり");
             // 乳搾りアニメーションを終了する
             _playerAnimator.SetTrigger("IsIdle");
+            // 持つアニメーションを終了する
+            _playerAnimator.SetTrigger("IsPut");
             // 持っているオブジェクトを削除
             _holdObject.SetActive(false);
             // プレイヤーを操作可能にする

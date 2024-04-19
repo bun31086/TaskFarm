@@ -90,7 +90,7 @@ public class TakeFeedClass : IBehaviourState
                     break;
             }
             // 餌を与えるアニメーションを再生する
-            _playerAnimator.SetTrigger("IsTake");
+            _playerAnimator.SetTrigger("IsMilk");
             _playerRigid.isKinematic = true;
         }
     }
@@ -111,7 +111,7 @@ public class TakeFeedClass : IBehaviourState
         {
             _isTaked = isTake;
             // 餌を与えるアニメーションを終了する
-            _playerAnimator.SetTrigger("IsTake");
+            _playerAnimator.SetTrigger("IsIdle");
             // 水を与えたとき
             if (_isWater)
             {

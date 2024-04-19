@@ -26,7 +26,6 @@ public class TargetProductManagerClass : MonoBehaviour
     /// 値の変化時に取得される値
     /// </summary>
     public List<ITargetProduct> TargetProductsList => _targetProductsCollection.ToList();
-    public IReadOnlyReactiveProperty<int> ChainBonus => _chainBonus;
     public IReadOnlyReactiveProperty<int> ChaiCount => _chainCount;
 
     #endregion
@@ -56,10 +55,6 @@ public class TargetProductManagerClass : MonoBehaviour
     /// 停止中の求める製品が入るリスト
     /// </summary>
     private List<GameObject> _notUseProductObj = new List<GameObject> { };
-    /// <summary>
-    /// 連鎖ボーナス
-    /// </summary>
-    private ReactiveProperty<int> _chainBonus = new ReactiveProperty<int>(default);
     /// <summary>
     /// 連鎖数を数える
     /// </summary>
@@ -125,8 +120,10 @@ public class TargetProductManagerClass : MonoBehaviour
             }
             //コンボ数を増やす
             _chainCount.Value++;
-            ///今の金額段階を調べる
+            //今の金額段階を調べる
             int bonusStep = _chainCount.Value / _targetProductManagerData.UpBonusLine;
+            //倍率をかける
+            bonusStep *= _targetProductManagerData.BonusMagnification;
             //ゲームマネージャーに金額を渡す
             _moneyClass.AddMoney(price + bonusStep);
 
@@ -137,7 +134,6 @@ public class TargetProductManagerClass : MonoBehaviour
 
             //初期化
             _chainCount.Value = 0;
-            _chainBonus.Value = 0;
 
         }
         //比べた求めている製品を削除

@@ -52,7 +52,7 @@ public class CutClass : IBehaviourState
             return;
         }
         // 毛刈りアニメーションを再生する
-        //_playerAnimator.SetBool("isCut", true);
+        _playerAnimator.SetTrigger("IsMilk");
         _playerRigidbody.isKinematic = true;
     }
 

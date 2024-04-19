@@ -24,7 +24,7 @@ public class WorkPercentUI : MonoBehaviour
     /// <summary>  
     /// 更新前処理  
     /// </summary>  
-    private void Start()
+    private void Awake()
     {
         _slider = this.GetComponent<Slider>();
     }
