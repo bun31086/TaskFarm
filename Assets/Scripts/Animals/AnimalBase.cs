@@ -55,7 +55,7 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     //収穫間隔計測用タイマー
     protected ReactiveProperty<float> _timer = new ReactiveProperty<float>(0);
     //満足度の初期値
-    private ReactiveProperty<float> _satisfaction = new ReactiveProperty<float>(default);
+    private ReactiveProperty<float> _satisfaction = new ReactiveProperty<float>(0);
     //移動系のスクリプトを代わりにインスタンスするクラス
     private MoveDI _moveDI = default;
     //Idleスクリプトが継承しているインターフェース
@@ -77,6 +77,7 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     #region プロパティ
     public IReadOnlyReactiveProperty<TakeType> CurrentFood => _currentFood;
     public IReadOnlyReactiveProperty<float> Satisfaction => _satisfaction;
+    public IReadOnlyReactiveProperty<float> Timer => _timer;
     public bool IsMaxSatisfaction
     {
         get => _isMaxSatisfaction;
@@ -233,7 +234,8 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
             _timer.Value += Time.deltaTime;
             if (_timer.Value >= _interval)
             {
-                Instantiate(_instanceObject, transform.position, Quaternion.identity);
+                GameObject instanceObject = Instantiate(_instanceObject, transform.position, Quaternion.identity);
+                instanceObject.name = _instanceObject.name;
                 StartCoroutine(_action);
                 StartCoroutine(_direciton);
                 StartCoroutine(_food);

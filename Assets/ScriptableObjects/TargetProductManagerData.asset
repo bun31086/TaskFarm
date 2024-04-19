@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _productAddTime: 10
   _farstAddProductValue: 3
-  _constAddProductValue: 5
+  _constAddProductValue: 1
   _submissionTimeLimit: 20
   _upBonusLine: 5
   _milkPrice: 50

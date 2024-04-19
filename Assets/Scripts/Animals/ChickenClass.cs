@@ -35,7 +35,8 @@ public class ChickenClass : AnimalBase
     public void Harvested()
     {
         //卵を生成する処理
-        Instantiate(_instanceObject, transform.position, Quaternion.identity);
+        GameObject instanceObject = Instantiate(_instanceObject, transform.position, Quaternion.identity);
+        instanceObject.name = _instanceObject.name;
     }
     #endregion
 }

@@ -47,11 +47,12 @@ public class GameManagerClass : MonoBehaviour
         //現在のシーンの名前取得
         string secenName = SceneManager.GetActiveScene().name;
         //現在のシーンがメインの時
-        if (secenName == "Main")
+        if (secenName == "MainScene")
         {
 
             //所持金のインターフェース取得
             _iMoneyPossession = GameObject.Find("MoneyPossession").GetComponent<IMoneyPossession>();
+            _targetMonay.Value = _gameManageData.TargetMonay;
 
         }
 
@@ -95,7 +96,7 @@ public class GameManagerClass : MonoBehaviour
     {
 
         // メインシーンに移動する
-        SceneManager.LoadScene("Main");
+        SceneManager.LoadScene("MainScene");
 
     }
 
@@ -106,7 +107,7 @@ public class GameManagerClass : MonoBehaviour
     {
 
         // タイトルシーンに移動する
-        SceneManager.LoadScene("SceneName");
+        SceneManager.LoadScene("TitleScene");
 
     }
 
