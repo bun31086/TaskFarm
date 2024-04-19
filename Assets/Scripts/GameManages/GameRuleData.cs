@@ -8,8 +8,8 @@ using UnityEngine;
 /// <summary>
 /// ゲームのデータ管理
 /// </summary>
-[CreateAssetMenu(fileName ="GameManagerData",menuName = "ScriptableObjects/GamaManagerData")]
-public class GameManageData : ScriptableObject
+[CreateAssetMenu(fileName = "GameData", menuName = "ScriptableObjects/GameData")]
+public class GameRuleData : ScriptableObject
 {
 
     //プロパティ

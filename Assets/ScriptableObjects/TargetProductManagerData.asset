@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: TargetProductManagerData
   m_EditorClassIdentifier: 
   _productAddTime: 10
-  _addProductValue: 1
-  _submissionTimeLimit: 60
-  _upBonusLine: 14
+  _farstAddProductValue: 3
+  _constAddProductValue: 5
+  _submissionTimeLimit: 20
+  _upBonusLine: 5
   _milkPrice: 50
   _eggPrice: 50
   _woolPrice: 50

@@ -208,7 +208,6 @@ public class UITargetProductClass : MonoBehaviour
             //位置を変更
             _displayImageList[i].rectTransform.position = displayPos;
 
-
         }
             //スライダーリスト更新
             INSliderList(reMoveList);

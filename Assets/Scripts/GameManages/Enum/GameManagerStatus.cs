@@ -1,4 +1,4 @@
-public enum GameManagerSutatus
+public enum GameManagerSutate
 {
 
     Title,

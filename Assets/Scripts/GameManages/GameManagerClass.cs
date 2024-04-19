@@ -6,6 +6,7 @@
 // ---------------------------------------------------------  
 using UniRx;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// ゲームを管理する
@@ -15,172 +16,102 @@ public class GameManagerClass : MonoBehaviour
 
     #region プロパティ
 
-    public IReadOnlyReactiveProperty<float> TimeLimetMinutes => _timeLimetMinutes;
-    public IReadOnlyReactiveProperty<float> TimeLimetSeconds => _timeLimetSeconds;
     public IReadOnlyReactiveProperty<int> TargetMonay => _targetMonay;
-    public IReadOnlyReactiveProperty<int> MoneyPossession => _moneyPossession;
 
     #endregion
     #region 変数  
 
     [Header("スクリプタブルオブジェクト")]
-    [SerializeField, Tooltip("ゲームマネジャーのデータ")]
-    private GameManageData _gameManageData = default;
+    [SerializeField, Tooltip("ゲームのルール情報")]
+    private GameRuleData _gameManageData = default;
 
-    /// <summary>
-    /// 制限時間（分）
-    /// </summary>
-    private ReactiveProperty<float> _timeLimetMinutes = new ReactiveProperty<float>(default);
-    /// <summary>
-    /// 制限時間（秒）
-    /// </summary>
-    private ReactiveProperty<float> _timeLimetSeconds = new ReactiveProperty<float>(default);
     /// <summary>
     /// 目標金額
     /// </summary>
     private ReactiveProperty<int> _targetMonay = new ReactiveProperty<int>(default);
     /// <summary>
-    /// 所持金
+    /// 所持金のインターフェース
     /// </summary>
-    private ReactiveProperty<int> _moneyPossession = new ReactiveProperty<int>(default);
-    /// <summary>
-    /// ゲームマネージャーのステート
-    /// </summary>
-    private GameManagerSutatus _gameManagerSutatus = GameManagerSutatus.Main;
+    private IMoneyPossession _iMoneyPossession = default;
 
     #endregion
     #region メソッド  
 
     /// <summary>  
-    /// 初期化処理  
+    /// 更新前処理  
     /// </summary>  
-    void Awake()
-     {
-
-        //スクリプタブルオブジェクトからのデータの読み込み
-        _timeLimetMinutes.Value = _gameManageData.TimeLimetMinutes;
-        _timeLimetSeconds.Value = _gameManageData.TimeLimetSeconds;
-        _targetMonay.Value = _gameManageData.TargetMonay;
-
-     }
-
-     /// <summary>  
-     /// 更新前処理  
-     /// </summary>  
-     void Start ()
-     {
-
-        //現在のステートで処理分岐
-        switch (_gameManagerSutatus)
-        {
-
-            case GameManagerSutatus.Title:
-
-                break;
-            case GameManagerSutatus.Main:
-
-
-
-                break;
-            case GameManagerSutatus.Result:
-
-                break;
-
-        }
-
-    }
-
-     /// <summary>  
-     /// 更新処理  
-     /// </summary>  
-     void Update ()
-     {
-
-        //現在のステートで処理分岐
-        switch (_gameManagerSutatus)
-        {
-
-            case GameManagerSutatus.Title:
-
-                break;
-            case GameManagerSutatus.Main:
-
-                //制限時間更新
-                _timeLimetSeconds.Value -= Time.deltaTime;
-                //秒が0になった時
-                if (_timeLimetSeconds.Value <= 0)
-                {
-
-                    //分を更新
-                    _timeLimetMinutes.Value -= 1;
-                    //秒を初期化
-                    _timeLimetSeconds.Value = 60;
-
-                }
-
-                break;
-            case GameManagerSutatus.Result:
-
-                //目標金額まで達したかを調べる
-                ClearCheck();
-
-                break;
-
-        }
-        
-    }
-
-    /// <summary>
-    /// 外部から金額を取得し加算
-    /// </summary>
-    /// <param name="price"></param>
-    public void AddMoney(int price)
+    void Start()
     {
 
-        //提出されたオブジェクトの金額分を足す
-        _moneyPossession.Value += price;
+        //現在のシーンがメインの時制限時間と所持金のインターフェース取得
+        //現在のシーンの名前取得
+        string secenName = SceneManager.GetActiveScene().name;
+        //現在のシーンがメインの時
+        if (secenName == "Main")
+        {
+
+            //所持金のインターフェース取得
+            _iMoneyPossession = GameObject.Find("MoneyPossession").GetComponent<IMoneyPossession>();
+
+        }
 
     }
 
     /// <summary>
     /// 所持金が目標の金額まで達したかを調べる
     /// </summary>
-    private void ClearCheck()
+    /// <returns>目標金額を超えたかの判定</returns>
+    private bool ClearCheck()
     {
 
         //所持金が目標金額を超えた時
-        if (_targetMonay.Value <= _moneyPossession.Value)
+        if (_targetMonay.Value <= _iMoneyPossession.MoneyPossession)
         {
 
-            //リザルトにステートを変更
-            _gameManagerSutatus = GameManagerSutatus.Result;
+            return true;
 
         }
+        return false;
 
     }
 
     /// <summary>
-    /// ゲーム開始ボタンを押されたときにメインにステートを変更
+    /// リザルト処理
+    /// </summary>
+    public void Result()
+    {
+
+        //時間停止
+        Time.timeScale = 0;
+        //クリアしたかの判定を受け取る
+        bool isCrear = ClearCheck();
+
+    }
+
+    /// <summary>
+    /// ゲーム開始ボタンを押されたときにメインシーンに移動
     /// </summary>
     public void OnGameStart()
     {
 
-        //メインにステートを変更
-        _gameManagerSutatus = GameManagerSutatus.Main;
-    
+        // メインシーンに移動する
+        SceneManager.LoadScene("Main");
+
     }
 
     /// <summary>
-    /// リザルト確認ボタンを押したときにタイトルにステートを変更
+    /// リザルトで確認ボタンを押したときにタイトルシーンに移動
     /// </summary>
-    private void OnResultFinsh()
+    public void OnResultFinsh()
     {
 
-        //タイトルにステートを変更
-        _gameManagerSutatus = GameManagerSutatus.Title;
-    
+        // タイトルシーンに移動する
+        SceneManager.LoadScene("SceneName");
+
     }
-  
+
+
+
     #endregion
 
 }

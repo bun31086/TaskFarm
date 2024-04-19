@@ -42,7 +42,7 @@ public class TargetProductManagerClass : MonoBehaviour
     private GameObject _parentPanel = default;
     [Header("スクリプト")]
     [SerializeField, Tooltip("お金を増やすために取得")]
-    private GameManagerClass _gameManagerClass = default;
+    private MoneyPossessionClass _moneyClass = default;
 
     /// <summary>
     /// 求める製品のインターフェース入るリスト
@@ -128,7 +128,7 @@ public class TargetProductManagerClass : MonoBehaviour
             ///今の金額段階を調べる
             int bonusStep = _chainCount.Value / _targetProductManagerData.UpBonusLine;
             //ゲームマネージャーに金額を渡す
-            _gameManagerClass.AddMoney(price + bonusStep);
+            _moneyClass.AddMoney(price + bonusStep);
 
         }
         //合わなかったとき
