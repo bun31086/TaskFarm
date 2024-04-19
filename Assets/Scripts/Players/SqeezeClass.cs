@@ -20,19 +20,23 @@ public class SqeezeClass : IBehaviourState
     private ISatisfaction _iSatisfaction = default;
     private Rigidbody _playerRigidbody = default;
 
+    private GameObject _holdObject = default;
     private Animator _playerAnimator = default;
     private Transform _animalTransform = default;
 
     /// <summary>
     /// コンストラクタ
     /// </summary>
+    /// <param name="holdObject">持っているオブジェクト</param>
     /// <param name="animalTransform">搾乳される牛のトランスフォーム</param>
+    /// <param name="rigidbody">プレイヤーのリジッドボディー</param>
     /// <param name="playerAnimator">プレイヤーのアニメータ</param>
-    public SqeezeClass(Transform animalTransform, Animator playerAnimator)
+    public SqeezeClass(GameObject holdObject, Transform animalTransform,Rigidbody rigidbody, Animator playerAnimator)
     {
+        _holdObject = holdObject;
         _playerAnimator = playerAnimator;
         _animalTransform = animalTransform;
-        _playerRigidbody =_playerAnimator.GetComponent<Rigidbody>();
+        _playerRigidbody = rigidbody;
     }
 
     #endregion
@@ -44,7 +48,6 @@ public class SqeezeClass : IBehaviourState
     /// </summary>  
     public void Enter()
     {
-        Debug.Log("Sqeezeに入る");
         _iSatisfaction = _animalTransform.GetComponent<ISatisfaction>();
         // 満足度がたまっていないとき
         if (!_iSatisfaction.IsMaxSatisfaction)
@@ -53,6 +56,7 @@ public class SqeezeClass : IBehaviourState
         }
         // 乳搾りアニメーションを開始する
         _playerAnimator.SetTrigger("IsMilk");
+        // プレイヤーを動けなくする
         _playerRigidbody.isKinematic = true;
     }
 
@@ -66,7 +70,6 @@ public class SqeezeClass : IBehaviourState
         {
             return;
         }
-        Debug.Log("Sqeeze中");
         // 搾乳中か調べる
         bool isSqeeze = _iSatisfaction.Harvest();
         // 搾乳が終わったら
@@ -74,6 +77,9 @@ public class SqeezeClass : IBehaviourState
         {
             // 乳搾りアニメーションを終了する
             _playerAnimator.SetTrigger("IsIdle");
+            // 持っているオブジェクトを削除
+            _holdObject.SetActive(false);
+            // プレイヤーを操作可能にする
             _playerRigidbody.isKinematic = false;
         }
     }
@@ -83,7 +89,6 @@ public class SqeezeClass : IBehaviourState
     /// </summary>
     public void Exit()
     {
-        Debug.Log("Sqeezeを抜ける");
     }
 
     #endregion

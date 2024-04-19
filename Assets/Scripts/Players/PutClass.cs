@@ -30,6 +30,10 @@ public class PutClass : IBehaviourState
     /// アイテムタグ
     /// </summary>
     private const string ITEM_TAG = "Item";
+    /// <summary>
+    /// Rayが当たるLayer
+    /// </summary>
+    public LayerMask _layerMask = default;
 
     private Animator _playerAnimator = default;
 
@@ -55,11 +59,19 @@ public class PutClass : IBehaviourState
     /// </summary>  
     public void Enter()
     {
+        // Rigidbodyがアタッチされているとき
+        if (_holdObjectTransform.TryGetComponent(out Rigidbody rigidbody))
+        {
+            // 重力をつける
+            //rigidbody.isKinematic = false;
+        }
         RaycastHit hit = default;
         // Rayの長さを定義
         float rayLength = 5f;
+        // Layerを指定
+        _layerMask = 1 << LayerMask.NameToLayer("Table");
         // Rayを出し、当たったらTrue
-        bool isHit = Physics.Raycast(_holdObjectTransform.position, Vector3.down,out hit, rayLength);
+        bool isHit = Physics.Raycast(_holdObjectTransform.position, Vector3.down,out hit, rayLength,1);
         // 置くものの下に地面がないか
         if (!isHit)
         {

@@ -1,12 +1,9 @@
+using UniRx;
+
 public interface IMoneyPossession
 {
 
-    int MoneyPossession
-    {
-
-        get;
-    
-    }
+    IReadOnlyReactiveProperty<int> MoneyPossession { get; }
 
     void AddMoney(int money);
 

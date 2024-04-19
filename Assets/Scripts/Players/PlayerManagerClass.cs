@@ -10,7 +10,7 @@ using UnityEngine.InputSystem;
 /// プレイヤー管理クラス
 /// </summary>
 [RequireComponent(typeof(DrowRayDebug))]
-public class PlayerManagerClass : MonoBehaviour,ITreadTrash
+public class PlayerManagerClass : MonoBehaviour, ITreadTrash
 {
 
     #region 変数  
@@ -78,6 +78,10 @@ public class PlayerManagerClass : MonoBehaviour,ITreadTrash
     /// ゴミについているタグ
     /// </summary>
     private const string TAG_RUBBISH = "Rubbish";
+    /// <summary>
+    /// 商品についているタグ
+    /// </summary>
+    private const string TAG_PRODUCT = "Product";
     /*
      * アイテムの名前
      */
@@ -86,9 +90,9 @@ public class PlayerManagerClass : MonoBehaviour,ITreadTrash
     /// </summary>
     private const string NAME_BUCKET_ENPTY = "Bucket_Enpty";
     /// <summary>
-    /// 水入りバケツについている名前
+    /// 空の瓶についている名前
     /// </summary>
-    private const string NAME_BUCKET_WATER = "Bucket_Water";
+    private const string NAME_EMPTY_BOTTLE = "Empty_Bottle";
     /// <summary>
     /// ハサミについている名前
     /// </summary>
@@ -121,14 +125,34 @@ public class PlayerManagerClass : MonoBehaviour,ITreadTrash
     /// プレイヤーの速さ
     /// </summary>
     private float _speed = default;
+    /// <summary>
+    /// 歩いているときの速さ
+    /// </summary>
     private float _walkSpeed = default;
+    /// <summary>
+    /// ごみを踏んでいるときの速さ
+    /// </summary>
     private float _treadSpeed = default;
-
+    /// <summary>
+    /// Move系クラスを代わりにインスタンスするクラス
+    /// </summary>
     private MoveDI _moveDI = default;
+    /// <summary>
+    /// Idleクラスの継承しているインターフェース
+    /// </summary>
     private IMoveState _idle = default;
+    /// <summary>
+    /// Walkクラスの継承しているインターフェース
+    /// </summary>
     private IMoveState _walk = default;
+    /// <summary>
+    /// True→ごみを踏んでいるとき　False→ごみを踏んでいないとき
+    /// </summary>
     private bool _isTread = false;
 
+
+    #endregion
+    #region プロパティ  
     public bool IsTread
     {
         get => _isTread;
@@ -164,11 +188,11 @@ public class PlayerManagerClass : MonoBehaviour,ITreadTrash
         _onWalk.action.performed += OnMove;
         _onWalk.action.canceled += OnMove;
 
-        _moveDI = new MoveDI(_playerAnimator,_playerRigidbody);
+        _moveDI = new MoveDI(_playerAnimator, _playerRigidbody);
         _idle = _moveDI.InstanceIdle();
         _walk = _moveDI.InstanceWalk();
         //生成時に初期ステートをコンストラクタに設定
-        _iStateChengeInterFace = new PlayerStateMachineClass(new None(),_idle);
+        _iStateChengeInterFace = new PlayerStateMachineClass(new None(), _idle);
     }
 
     /// <summary>  
@@ -181,7 +205,7 @@ public class PlayerManagerClass : MonoBehaviour,ITreadTrash
         if (_isTread)
         {
             _speed = _treadSpeed;
-        } 
+        }
         // Flase→ごみを踏んでいない状態
         else
         {
@@ -207,7 +231,7 @@ public class PlayerManagerClass : MonoBehaviour,ITreadTrash
         {
 
             //止まるステート変更
-            _iStateChengeInterFace.ChangeMoveState(_idle,Vector3.zero);
+            _iStateChengeInterFace.ChangeMoveState(_idle, Vector3.zero);
             return;
 
         }
@@ -272,8 +296,8 @@ public class PlayerManagerClass : MonoBehaviour,ITreadTrash
         foreach (RaycastHit hit in _hits)
         {
 
-            //当たっているものがItemとStageタグ以外の場合
-            if (hit.collider.CompareTag(TAG_ITEM)  || hit.collider.CompareTag(TAG_STAGE))
+            //当たっているものがItemとStageとProductタグ以外の場合
+            if (hit.collider.CompareTag(TAG_ITEM) || hit.collider.CompareTag(TAG_STAGE) || hit.collider.CompareTag(TAG_PRODUCT))
             {
 
                 continue;
@@ -296,7 +320,7 @@ public class PlayerManagerClass : MonoBehaviour,ITreadTrash
         if (nearObj != null)
         {
 
-            print(_holdObj+"を使うPlayerの使うアクションをする");
+            print(_holdObj + "を使うPlayerの使うアクションをする");
             //モノを持った時の行動処理
             ManualAction(nearObj);
 
@@ -368,18 +392,18 @@ public class PlayerManagerClass : MonoBehaviour,ITreadTrash
                 _iStateChengeInterFace.ChangeBehaviorState(new TakeFeedClass(_holdObj, nearAnimalObj.transform, _playerAnimator));
 
                 break;
-            case NAME_BUCKET_WATER:
+            case NAME_EMPTY_BOTTLE:
 
                 //近くにある動物オブジェクトが牛の以外場合
                 if (!(nearAnimalObj.name.CompareTo(NAME_CAW) == 0))
                 {
 
                     return;
-                
+
                 }
                 print("牛にアクション");
                 //搾乳ステートに変更
-                _iStateChengeInterFace.ChangeBehaviorState(new SqeezeClass(nearAnimalObj.transform, _playerAnimator));
+                _iStateChengeInterFace.ChangeBehaviorState(new SqeezeClass(_holdObj,nearAnimalObj.transform,_playerRigidbody, _playerAnimator));
 
                 break;
 
@@ -428,7 +452,7 @@ public class PlayerManagerClass : MonoBehaviour,ITreadTrash
 
             }
             //当たっているオブジェクトがItemタグではない場合
-            if (!hit.collider.CompareTag(TAG_ITEM))
+            if (!hit.collider.CompareTag(TAG_ITEM) && !hit.collider.CompareTag(TAG_PRODUCT))
             {
 
                 continue;

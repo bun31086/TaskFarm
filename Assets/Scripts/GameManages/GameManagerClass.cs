@@ -65,7 +65,7 @@ public class GameManagerClass : MonoBehaviour
     {
 
         //所持金が目標金額を超えた時
-        if (_targetMonay.Value <= _iMoneyPossession.MoneyPossession)
+        if (_targetMonay.Value <= _iMoneyPossession.MoneyPossession.Value)
         {
 
             return true;

@@ -15,6 +15,10 @@ public class Presenter : MonoBehaviour
 
     #region 変数  
 
+    [SerializeField, Tooltip("マネークラス")]
+    private MoneyPossessionClass _moneyPossessionClass = default;
+    [SerializeField, Tooltip("タイムクラス")]
+    private GameTimeLimet _gameTimeLimet = default;
     [SerializeField, Tooltip("ゲームマネージャー(Model)")]
     private GameManagerClass _gameManagerClass = default;
     [SerializeField, Tooltip("ゲームマネージャー(Model)")]
@@ -49,7 +53,7 @@ public class Presenter : MonoBehaviour
      void Awake()
      {
         //分数が変化したとき
-        _gameManagerClass.TimeLimetMinutes
+        _gameTimeLimet.RemainingMinutesTime
             .Subscribe(minutes => {
                 //分数を格納
                 _minutes = minutes;
@@ -57,7 +61,7 @@ public class Presenter : MonoBehaviour
                 _uiTimeLimit.TimeLimitChange(_minutes, _seconds);
             }).AddTo(this);
         //秒数が変化したとき
-        _gameManagerClass.TimeLimetSeconds
+        _gameTimeLimet.RemainingSecondsTime
             .Subscribe(seconds => {
                 //秒数を格納
                 _seconds = seconds;
@@ -71,7 +75,7 @@ public class Presenter : MonoBehaviour
                 _uiTargetMoney.TargetMoneyChange(targetMoney);
             }).AddTo(this);
         //所持金が変化したとき
-        _gameManagerClass.MoneyPossession
+        _moneyPossessionClass.MoneyPossession
             .Subscribe(nowMoney => {
                 //UI変更
                 _uiMoney.NowMoneyChange(nowMoney);

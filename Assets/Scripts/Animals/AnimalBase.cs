@@ -41,8 +41,6 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     private float _walkSpeed = 2f;
     //動物の走る速度
     private float _runSpeed = 4f;
-    //収穫間隔計測用タイマー
-    protected float _timer = 0;
     //収穫の間隔
     protected float _interval = 10f;
     //最大の満足度
@@ -54,6 +52,8 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     private bool _isEating = false;
     //最大の満足度かどうかのフラグ
     protected bool _isMaxSatisfaction = false;
+    //収穫間隔計測用タイマー
+    protected ReactiveProperty<float> _timer = new ReactiveProperty<float>(0);
     //満足度の初期値
     private ReactiveProperty<float> _satisfaction = new ReactiveProperty<float>(default);
     //移動系のスクリプトを代わりにインスタンスするクラス
@@ -150,7 +150,7 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
         if (!_isEating)
         {
             _isEating = true;
-            _timer = 0f;
+            _timer.Value = 0f;
             //動物の動きを止める
             StopCoroutine(_action);
             StopCoroutine(_direciton);
@@ -162,9 +162,9 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
         } else
         {
             //タイマーを進める
-            _timer += Time.deltaTime;
+            _timer.Value += Time.deltaTime;
             //餌を食べ終わったら
-            if (_timer >= _eatDuration)
+            if (_timer.Value >= _eatDuration)
             {
                 //プレイヤーが渡した餌が同じか
                 if (baitClass.TakeType == _currentFood.Value)
@@ -214,7 +214,7 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
         {
             _isHarvested = true;
             //タイマーを初期化
-            _timer = 0f;
+            _timer.Value = 0f;
             //動物の動きを止める
             StopCoroutine(_action);
             StopCoroutine(_direciton);
@@ -230,8 +230,8 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
         } else
         {
             //指定の間隔で収穫
-            _timer += Time.deltaTime;
-            if (_timer >= _interval)
+            _timer.Value += Time.deltaTime;
+            if (_timer.Value >= _interval)
             {
                 Instantiate(_instanceObject, transform.position, Quaternion.identity);
                 StartCoroutine(_action);

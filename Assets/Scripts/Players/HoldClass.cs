@@ -54,7 +54,12 @@ public class HoldClass  : IBehaviourState
     /// </summary>  
     public void Enter()
     {
-       
+        // Rigidbodyがアタッチされているとき
+        if (_holdObjectTransform.TryGetComponent(out Rigidbody rigidbody))
+        {
+            // 重力を消す
+            rigidbody.isKinematic = true;
+        }
         // オブジェクトをプレイヤーの子オブジェクトにする
         _holdObjectTransform.parent = _playerTransform;
         // オブジェクトをプレイヤーの正面に配置

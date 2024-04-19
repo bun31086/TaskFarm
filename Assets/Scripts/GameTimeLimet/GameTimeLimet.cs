@@ -5,7 +5,7 @@
 // 作成者:  湯元来輝
 // ---------------------------------------------------------  
 using UnityEngine;
-using System.Collections;
+using UniRx;
 
 /// <summary>
 /// 時間をカウントダウンする
@@ -13,14 +13,19 @@ using System.Collections;
 public class GameTimeLimet : MonoBehaviour
 {
 
+    public IReadOnlyReactiveProperty<float> RemainingMinutesTime => _remainingMinutesTime;
+    public IReadOnlyReactiveProperty<float> RemainingSecondsTime => _remainingSecondsTime;
+
     [Header("スクリプタブルオブジェクト")]
     [SerializeField,Tooltip("ゲームのルール情報")]
     private GameRuleData _gameRuleData = default;
     [Header("オブジェクト")]
     [SerializeField, Tooltip("ゲームマネージャー")]
     private GameManagerClass _gameManager = default;
-    //残り時間
-    private float _remainingTime = default;
+    //残り時間(分)
+    private ReactiveProperty<float> _remainingMinutesTime = new ReactiveProperty<float>(default);
+    //残り時間(秒)
+    private ReactiveProperty<float> _remainingSecondsTime = new ReactiveProperty<float>(default);
 
     /// <summary>
     /// 更新前処理
@@ -28,9 +33,9 @@ public class GameTimeLimet : MonoBehaviour
     private void Start()
     {
 
-        //ゲームルール情報の分と秒を秒に変換
-        _remainingTime = _gameRuleData.TimeLimetMinutes * 60 +
-                     _gameRuleData.TimeLimetSeconds; 
+        //ゲームルール情報の分と秒を取得
+        _remainingMinutesTime.Value = _gameRuleData.TimeLimetMinutes;
+        _remainingSecondsTime.Value = _gameRuleData.TimeLimetSeconds; 
 
     }
 
@@ -41,13 +46,22 @@ public class GameTimeLimet : MonoBehaviour
     {
 
         //カウントダウン
-        _remainingTime -= Time.deltaTime;
-        //残り時間が0になった時
-        if (_remainingTime <= 0)
+        _remainingSecondsTime.Value -= Time.deltaTime;
+        //秒が0より小さいとき
+        if (_remainingSecondsTime.Value <= 0)
         {
 
-            _gameManager.Result();
-        
+            //１分削る
+            _remainingMinutesTime.Value -= 1;
+            //分が-1になった時
+            if (_remainingMinutesTime.Value <= -1)
+            {
+
+                _gameManager.Result();
+
+            }
+
+
         }
         
     }
