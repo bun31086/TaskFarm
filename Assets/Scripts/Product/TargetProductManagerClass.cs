@@ -76,7 +76,7 @@ public class TargetProductManagerClass : MonoBehaviour
     {
 
         //求める製品を追加
-        AddTargetProduct();
+        AddTargetProduct(_targetProductManagerData.FarstAddProductValue);
         //一定時間後に求める製品の追加
         StartCoroutine(CallAddTargetProduct());
 
@@ -91,7 +91,6 @@ public class TargetProductManagerClass : MonoBehaviour
     public void SubmissionProcess(GameObject collisionObj)
     {
 
-        Debug.LogError("呼ばれない");
         //リストの先頭に格納されているインタフェースに対し製品比較を実行し実行結果が返ってくる
         bool result = _targetProductsCollection[0].MatchCheck(collisionObj);
         //合っていた時
@@ -143,12 +142,20 @@ public class TargetProductManagerClass : MonoBehaviour
         }
         //比べた求めている製品を削除
         _targetProductsCollection.RemoveAt(0);
+        //比べた求める製品を取得
+        GameObject matchCheckObj = _useProductObj[0];
+        //比べた求める製品オブジェクトを実行中のリストから削除
+        _useProductObj.RemoveAt(0);
+        //比べた求める製品オブジェクトを非実行中のリストに格納
+        _notUseProductObj.Add(matchCheckObj);
+        //求める製品オブジェクトを非アクティブ化
+        matchCheckObj.SetActive(false);
         //求めている製品が１以下になった時
         if (_targetProductsCollection.Count <= 1)
         {
 
             //求めている製品の追加
-            AddTargetProduct();
+            AddTargetProduct(_targetProductManagerData.FarstAddProductValue);
 
         }
 
@@ -157,13 +164,13 @@ public class TargetProductManagerClass : MonoBehaviour
     /// <summary>
     /// 求める製品をリストに追加
     /// </summary>
-    private void AddTargetProduct()
+    private void AddTargetProduct(int createValue)
     {
 
         //１ループ前に出したランダムな値
         int oldNumber = default;
         //生成量分ループ
-        for (int i = 0; _targetProductManagerData.AddProductValue > i; i++)
+        for (int i = 0; createValue > i; i++)
         {
            
             //enum型の要素数を取得
@@ -241,7 +248,7 @@ public class TargetProductManagerClass : MonoBehaviour
         {
 
             //求めている製品の追加
-            AddTargetProduct();
+            AddTargetProduct(_targetProductManagerData.FarstAddProductValue);
 
         }
 
@@ -257,7 +264,7 @@ public class TargetProductManagerClass : MonoBehaviour
         //設定時間後まで待つ
         yield return new WaitForSeconds(_targetProductManagerData.ProductAddTime);
         //求める製品の選択
-        AddTargetProduct();
+        AddTargetProduct(_targetProductManagerData.ConstAddProductValue);
         //再起呼び出し
         StartCoroutine(CallAddTargetProduct());
 

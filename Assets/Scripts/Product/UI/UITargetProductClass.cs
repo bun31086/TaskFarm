@@ -134,7 +134,7 @@ public class UITargetProductClass : MonoBehaviour
 
                     //ゲームオブジェクトを生成しイメージコンポーネントを取得
                     GameObject product = Instantiate(_uITargetProductImageObj);
-
+                    //イメージコンポーネント取得
                     Image productImage = product.GetComponent<Image>();
                     //親オブジェクトを設定
                     productImage.transform.SetParent(_parentPanel.transform);
@@ -164,7 +164,7 @@ public class UITargetProductClass : MonoBehaviour
 
         }
         //スライダーリスト更新
-        INSliderList();
+        INSliderList(addList);
 
     }
 
@@ -186,6 +186,7 @@ public class UITargetProductClass : MonoBehaviour
         for (int i = 0; offset > i; ++i)
         {
 
+            print("削除");
             //表示リストからイメージを取り出す
             Image outImage = _displayImageList[0];
             //非表示にした要素を削除
@@ -196,33 +197,40 @@ public class UITargetProductClass : MonoBehaviour
             outImage.gameObject.SetActive(false);
 
         }
-        //表示中のリストを見ていくループ
-        for (int i = 0; _displayImageList.Count - 1 >= i; ++i)
+        //インターフェースを見ていくループ
+        for (int i = 0; reMoveList.Count - 1 >= i; i++)
         {
 
+            //表示の位置取得
+            //_displaySpace - 1は0から始めるため
+            Vector3 displayPos = Vector3.right * (_displayPos.x + _displaySpace * i) +
+                                 Vector3.up * _displayPos.y;
             //位置を変更
-            _displayImageList[i].rectTransform.position = Vector3.right * (_displayPos.x + _displaySpace * i) +
-                                                          Vector3.up * _displayPos.y;
+            _displayImageList[i].rectTransform.position = displayPos;
+
 
         }
-        //スライダーリスト更新
-        INSliderList();
+            //スライダーリスト更新
+            INSliderList(reMoveList);
 
     }
 
     /// <summary>
     /// スライダーリストの更新処理
     /// </summary>
-    private void INSliderList()
+    ///  /// <param name="sliderMaxTimeList">スライダーの最大時間を格納したリスト</param>
+    private void INSliderList(List<ITargetProduct> interfaceList)
     {
         //初期化
         _nowSliderList.Clear();
         //使用中のイメージリストを見ていくループ
-        foreach (Image displayImage in _displayImageList)
+        for(int i = 0; _displayImageList.Count -1 >= i; i++)
         {
 
             //スライダーコンポーネントを取得
-            Slider slider = displayImage.gameObject.GetComponent<Slider>();
+            Slider slider = _displayImageList[i].gameObject.GetComponent<Slider>();
+            //sliderに最大値を設定
+            slider.maxValue = interfaceList[i].MaxSubmissionTimeLimit;
             //リストに追加
             _nowSliderList.Add(slider);
         

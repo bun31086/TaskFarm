@@ -13,6 +13,7 @@ using UniRx;
 public class TargetProductsClass : MonoBehaviour, ITargetProduct
 {
 
+
     public float SubmissionTimeLimit{
 
         get => _submissionTimeLimit;
@@ -24,6 +25,12 @@ public class TargetProductsClass : MonoBehaviour, ITargetProduct
         get => _productState;
     
     }
+    public float MaxSubmissionTimeLimit
+    {
+
+        get => _maxSubmissionTimeLimit;
+
+    }
 
     /// <summary>
     /// 残り時間
@@ -34,9 +41,9 @@ public class TargetProductsClass : MonoBehaviour, ITargetProduct
     /// </summary>
     private TargetProductManagerClass _targetProductManagerClass = default;
     /// <summary>
-    /// 残り時間を記憶しておく
+    /// 最大残り時間を記憶しておく
     /// </summary>
-    private float _submissionTimeLimitMemory = default;
+    private float _maxSubmissionTimeLimit = default;
     /// <summary>
     /// 求める製品
     /// </summary>
@@ -96,7 +103,7 @@ public class TargetProductsClass : MonoBehaviour, ITargetProduct
          */
         this._targetProductManagerClass = targetProductManagerClass;
         this._submissionTimeLimit = submissionTimeLimit;
-        this._submissionTimeLimitMemory = submissionTimeLimit;
+        this._maxSubmissionTimeLimit = submissionTimeLimit;
         this._productState = productState;
 
     }

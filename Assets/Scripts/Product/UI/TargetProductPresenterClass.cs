@@ -22,7 +22,7 @@ public class TargetProductPresenterClass : MonoBehaviour
     /// <summary>
     /// 初期処理
     /// </summary>
-    private void Start()
+    private void Awake()
     {
 
         //要素が追加された時に呼び出し
