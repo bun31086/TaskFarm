@@ -51,6 +51,8 @@ public class GameTimeLimet : MonoBehaviour
         if (_remainingSecondsTime.Value <= 0)
         {
 
+            //初期化
+            _remainingSecondsTime.Value = 60;
             //１分削る
             _remainingMinutesTime.Value -= 1;
             //分が-1になった時

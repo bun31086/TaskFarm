@@ -6,6 +6,8 @@
 // ---------------------------------------------------------  
 using UnityEngine;
 using System.Collections;
+using UniRx;
+
 /// <summary>
 /// 作業率のViewとModelを仲介
 /// </summary>
@@ -36,8 +38,15 @@ public class WorkPercentPresenter : MonoBehaviour
      /// </summary>  
      private void Start ()
      {
-        //_animalBaseCow.
-
+        _animalBaseCow.Timer.Subscribe(timer =>{
+            _workPercentUICow.PercentChange(timer);
+        }).AddTo(this);
+        _animalBaseSheep.Timer.Subscribe(timer =>{
+            _workPercentUISheep.PercentChange(timer);
+        }).AddTo(this);
+        _animalBaseChicken.Timer.Subscribe(timer =>{
+            _workPercentUIChicken.PercentChange(timer);
+        }).AddTo(this);
 
      }
   

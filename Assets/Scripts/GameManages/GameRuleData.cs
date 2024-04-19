@@ -8,7 +8,7 @@ using UnityEngine;
 /// <summary>
 /// ゲームのデータ管理
 /// </summary>
-[CreateAssetMenu(fileName = "GameData", menuName = "ScriptableObjects/GameData")]
+[CreateAssetMenu(fileName = "GameRuleData", menuName = "ScriptableObjects/GameRuleData")]
 public class GameRuleData : ScriptableObject
 {
 

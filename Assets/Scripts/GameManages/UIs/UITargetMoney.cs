@@ -27,7 +27,7 @@ public class UITargetMoney : MonoBehaviour
     /// <param name="targetMoney">目標金額</param>
     public void TargetMoneyChange(int targetMoney)
     {
-        _targetMoneyText.text = targetMoney.ToString();
+        _targetMoneyText.text = string.Format("/   {0}", targetMoney);
     }  
     #endregion
 }

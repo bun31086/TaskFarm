@@ -14,10 +14,8 @@ public class UITimeLimit : MonoBehaviour
 
     #region 変数  
 
-    [SerializeField,Tooltip("分数テキスト")]
-    private Text _minutesText = default;
-    [SerializeField,Tooltip("秒数テキスト")]
-    private Text _secondsText = default;
+    [SerializeField,Tooltip("タイムリミットのテキスト")]
+    private Text _timelimitText = default;
 
     #endregion
 
@@ -30,8 +28,11 @@ public class UITimeLimit : MonoBehaviour
     /// <param name="seconds">制限時間（秒）</param>
     public void TimeLimitChange(float minutes,float seconds)
     {
-        _minutesText.text = minutes.ToString();
-        _secondsText.text = seconds.ToString();
+
+        //正規化
+        seconds = Mathf.Floor(seconds);
+
+        _timelimitText.text = string.Format("{0}:{1}", minutes, seconds);
     }
   
     #endregion
