@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: e4a8791fe9a04bc41bf60013f564c66b, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -360,7 +360,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animalAnimator: {fileID: 262217757}
   _rigidbody: {fileID: 262217758}
-  _milk: {fileID: 0}
+  _instanceObject: {fileID: 0}
+  _maxsatisfaction: 3
 --- !u!95 &262217757
 Animator:
   serializedVersion: 5
