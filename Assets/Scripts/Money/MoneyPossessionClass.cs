@@ -5,22 +5,17 @@
 // 作成者:  湯元来輝
 // ---------------------------------------------------------  
 using UnityEngine;
-using System.Collections;
+using UniRx;
 
 public class MoneyPossessionClass : MonoBehaviour,IMoneyPossession
 {
 
-    public int MoneyPossession
-    {
-
-        get => _moneyPossession;
-
-    }
+    public IReadOnlyReactiveProperty<int> MoneyPossession => _moneyPossession;
 
     /// <summary>
     /// 所持金
     /// </summary>
-    private int _moneyPossession = 0;
+    private ReactiveProperty<int> _moneyPossession = new ReactiveProperty<int>(0);
 
     #region メソッド  
 
@@ -32,7 +27,7 @@ public class MoneyPossessionClass : MonoBehaviour,IMoneyPossession
     {
 
         //所持金の加算
-        _moneyPossession += money;
+        _moneyPossession.Value += money;
     
     }
   

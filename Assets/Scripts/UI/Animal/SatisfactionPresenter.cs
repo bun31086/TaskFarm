@@ -14,6 +14,7 @@ public class SatisfactionPresenter : MonoBehaviour
 {
 
     #region 変数  
+
     [SerializeField]
     private SatisfactionUI _satisfactionUICow = default;
     [SerializeField]
@@ -26,10 +27,6 @@ public class SatisfactionPresenter : MonoBehaviour
     private ChickenClass _animalBaseChicken = default;
     [SerializeField]
     private SheepClass _animalBaseSheep = default;
-    
-    #endregion
-
-    #region プロパティ  
 
     #endregion
 
@@ -53,13 +50,6 @@ public class SatisfactionPresenter : MonoBehaviour
             _satisfactionUISheep.SatisfactionChange(satisfaction);
         }).AddTo(this);
 
-    }
-
-    /// <summary>  
-    /// 更新処理  
-    /// </summary>  
-    void Update()
-    {
     }
 
     #endregion

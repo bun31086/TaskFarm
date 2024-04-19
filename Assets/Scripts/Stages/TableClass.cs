@@ -19,15 +19,17 @@ public class TableClass : MonoBehaviour
     /// <summary>
     /// 農産物に当たった時
     /// </summary>
-    /// <param name="collision">当たったオブジェクト</param>
-    private void OnCollisionExit(Collision collision)
+    /// <param name="collider">当たったオブジェクト</param>
+    private void OnTriggerEnter(Collider collider)
     {
 
         //当たったオブジェクトが農産物の時
-        if (collision.collider.CompareTag("Product"))
+        if (collider.CompareTag("Product"))
         {
-
-            _targetProductManagerClass.SubmissionProcess(collision.gameObject);
+            // 要求商品と同じか調べる
+            _targetProductManagerClass.SubmissionProcess(collider.gameObject);
+            // そのオブジェクトを消す
+            collider.gameObject.SetActive(false);
         
         }
 
