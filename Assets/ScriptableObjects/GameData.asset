@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dd36bb51437844741814d7b086bc9396, type: 3}
-  m_Name: GameManagerData
+  m_Name: GameData
   m_EditorClassIdentifier: 
-  _targetMonay: 1000
-  _timeLimetMinutes: 3
+  _targetMonay: 0
+  _timeLimetMinutes: 0
   _timeLimetSeconds: 0
