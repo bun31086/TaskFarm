@@ -17,6 +17,7 @@ MonoBehaviour:
   _constAddProductValue: 1
   _submissionTimeLimit: 20
   _upBonusLine: 5
+  _bonusMagnification: 10
   _milkPrice: 50
   _eggPrice: 50
   _woolPrice: 50

@@ -58,6 +58,13 @@ public class TargetProductManagerData : ScriptableObject
 
     }
 
+    public int BonusMagnification
+    {
+
+        get => _bonusMagnification;
+
+    }
+
     [Header("求める製品追加時間")]
     [SerializeField, Tooltip("製品追加時間")]
     private float _productAddTime = 30f;
@@ -73,6 +80,9 @@ public class TargetProductManagerData : ScriptableObject
     [Header("ボーナス金額が上がる連鎖数")]
     [SerializeField, Tooltip("ボーナス金額が上がる連鎖数")]
     private int _upBonusLine = 5;
+    [Header("ボーナス倍率")]
+    [SerializeField, Tooltip("ボーナス倍率")]
+    private int _bonusMagnification = default;
     [Header("製品の金額")]
     [SerializeField, Tooltip("牛乳の価格")]
     private int _milkPrice = default;
@@ -80,5 +90,4 @@ public class TargetProductManagerData : ScriptableObject
     private int _eggPrice = default;
     [SerializeField, Tooltip("羊の毛の価格")]
     private int _woolPrice = default;
-
 }
