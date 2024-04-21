@@ -39,15 +39,15 @@ public class UITargetProductClass : MonoBehaviour
     /// </summary>
     private List<ITargetProduct> _iTargetProductList = new List<ITargetProduct> { };
     /// <summary>
-    /// 使用中のオブジェクトのリスト
+    /// 使用中のイメージオブジェクトのリスト
     /// </summary>
     private List<Image> _displayImageList = new List<Image> { };
     /// <summary>
-    /// 未使用のオブジェクトのリスト
+    /// 未使用のイメージオブジェクトのリスト
     /// </summary>
     private List<Image> _notDisplayImageList = new List<Image> { };
     /// <summary>
-    /// 現在使用中のオブジェクトのスライダーのリスト
+    /// 現在使用中のイメージオブジェクトのスライダーのリスト
     /// </summary>
     private List<Slider> _nowSliderList = new List<Slider> { };
 
@@ -61,7 +61,6 @@ public class UITargetProductClass : MonoBehaviour
         for (int i = 0; _nowSliderList.Count - 1 >= i; i++)
         {
 
-            print("残り時間を取得");
             //残り時間を取得
             float remainingTimeTime = _iTargetProductList[i].SubmissionTimeLimit;
             //残り時間をスライダーに反映
@@ -72,15 +71,15 @@ public class UITargetProductClass : MonoBehaviour
     }
 
     /// <summary>
-    /// リスト内の要素追加時にViewTargetProductメソッドを呼ぶ
+    /// リスト内の要素追加時にオブジェクトのリスト更新
     /// </summary>
     /// <param name="addList">追加された後のリスト</param>
     public void ListAdd(List<ITargetProduct> addList)
     {
 
-        //リストの更新
+        //インターフェースのリストの更新
         _iTargetProductList = addList;
-        //インターフェースを見ていくループ
+        //インターフェースのリストを見ていくループ
         for (int i = 0; addList.Count - 1 >= i; i++)
         {
 
@@ -92,29 +91,28 @@ public class UITargetProductClass : MonoBehaviour
 
                 case ProductState.Egg:
 
-                    //卵のイメージにする
+                    //卵のスプライトにする
                     displaySprite = _eggSprite;
 
                     break;
                 case ProductState.Milk:
 
-                    //牛乳のイメージにする
+                    //牛乳のスプライトにする
                     displaySprite = _milkSprite;
 
                     break;
                 case ProductState.Wool:
 
-                    //毛のイメージにする
+                    //毛のスプライトにする
                     displaySprite = _woolSprite;
 
                     break;
 
             }
             //表示の位置取得
-            //_displaySpace - 1は0から始めるため
             Vector3 displayPos = Vector3.right * (_displayPos.x + _displaySpace * i) +
                                  Vector3.up * _displayPos.y;
-            //指定したいインデックスがイメージ表示リストにあるとき
+            //指定したいインデックスがあるとき
             if (_displayImageList.Count - 1 >= i)
             {
 
@@ -124,11 +122,11 @@ public class UITargetProductClass : MonoBehaviour
                 _displayImageList[i].rectTransform.position = displayPos;
 
             }
-            //イメージ表示リストの要素数で足らないとき
+            //指定したいインデックスがない
             else
             {
 
-                //イメージ非表示リストの余りがないとき
+                //イメージオブジェクト非表示リストの余りがないとき
                 if (_notDisplayImageList.Count <= 0)
                 {
 
@@ -169,24 +167,23 @@ public class UITargetProductClass : MonoBehaviour
     }
 
     /// <summary>
-    /// リスト内の要素削除時にViewTargetProductメソッドを呼ぶ
+    /// リスト内の要素削除時にオブジェクトのリスト更新
     /// </summary>
     /// <param name="reMoveList">削除された後のリスト</param>
     public void ListReMove(List<ITargetProduct> reMoveList)
     {
 
-        //リストの更新
+        //インターフェースのリストの更新
         _iTargetProductList = reMoveList;
         /*
-        * イメージ表示リストの使っていない部分を非表示リストに入れる
+        * イメージ表示リストの未使用部分を非表示リストに入れる
         */
-        //表示しているリストから求める製品のインタフェースが入ったリストを引き差を取得
+        //表示しているリストからインタフェースが入ったリストのインデックスを引き差を取得
         int offset = (_displayImageList.Count - 1) - (reMoveList.Count - 1);
-        //必要な個所までのループ
+        //使用部分までのループ
         for (int i = 0; offset > i; ++i)
         {
 
-            print("削除");
             //表示リストからイメージを取り出す
             Image outImage = _displayImageList[0];
             //非表示にした要素を削除
@@ -202,7 +199,6 @@ public class UITargetProductClass : MonoBehaviour
         {
 
             //表示の位置取得
-            //_displaySpace - 1は0から始めるため
             Vector3 displayPos = Vector3.right * (_displayPos.x + _displaySpace * i) +
                                  Vector3.up * _displayPos.y;
             //位置を変更
@@ -217,7 +213,7 @@ public class UITargetProductClass : MonoBehaviour
     /// <summary>
     /// スライダーリストの更新処理
     /// </summary>
-    ///  /// <param name="sliderMaxTimeList">スライダーの最大時間を格納したリスト</param>
+    ///  /// <param name="interfaceList">インターフェースを格納したリスト</param>
     private void INSliderList(List<ITargetProduct> interfaceList)
     {
         //初期化

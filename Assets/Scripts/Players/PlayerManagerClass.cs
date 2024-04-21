@@ -13,6 +13,14 @@ using UnityEngine.InputSystem;
 public class PlayerManagerClass : MonoBehaviour, ITreadTrash
 {
 
+    #region プロパティ  
+    public bool IsTread
+    {
+        get => _isTread;
+        set => _isTread = value;
+    }
+
+    #endregion
     #region 変数  
 
     [Header("スクリプタブルオブジェクト")]
@@ -150,14 +158,6 @@ public class PlayerManagerClass : MonoBehaviour, ITreadTrash
     /// </summary>
     private bool _isTread = false;
 
-
-    #endregion
-    #region プロパティ  
-    public bool IsTread
-    {
-        get => _isTread;
-        set => _isTread = value;
-    }
 
     #endregion
     #region メソッド  
@@ -320,7 +320,6 @@ public class PlayerManagerClass : MonoBehaviour, ITreadTrash
         if (nearObj != null)
         {
 
-            print(_holdObj + "を使うPlayerの使うアクションをする");
             //モノを持った時の行動処理
             ManualAction(nearObj);
 
@@ -329,8 +328,6 @@ public class PlayerManagerClass : MonoBehaviour, ITreadTrash
         else
         {
 
-
-            print(_holdObj + "を置く");
             //置くステートに更新
             _iStateChengeInterFace.ChangeBehaviorState(new PutClass(_holdObj.transform, _playerAnimator));
             //持っているオブジェクトを空にする
@@ -359,7 +356,6 @@ public class PlayerManagerClass : MonoBehaviour, ITreadTrash
                     return;
 
                 }
-                print("川にアクション");
                 //組むステートに変更
                 _iStateChengeInterFace.ChangeBehaviorState(new PumbClass(_holdObj, _playerAnimator));
 
@@ -373,7 +369,6 @@ public class PlayerManagerClass : MonoBehaviour, ITreadTrash
                     return;
 
                 }
-                print("ゴミにアクション");
                 //掃除ステートに変更
                 _iStateChengeInterFace.ChangeBehaviorState(new CleanClass(nearAnimalObj, _playerAnimator));
                 _isTread = false;
@@ -387,7 +382,6 @@ public class PlayerManagerClass : MonoBehaviour, ITreadTrash
                     return;
 
                 }
-                print("動物にアクション");
                 //餌をやるステートに変更
                 _iStateChengeInterFace.ChangeBehaviorState(new TakeFeedClass(_holdObj, nearAnimalObj.transform, _playerAnimator));
 
@@ -401,9 +395,8 @@ public class PlayerManagerClass : MonoBehaviour, ITreadTrash
                     return;
 
                 }
-                print("牛にアクション");
                 //搾乳ステートに変更
-                _iStateChengeInterFace.ChangeBehaviorState(new SqeezeClass(_holdObj,nearAnimalObj.transform,_playerRigidbody, _playerAnimator));
+                _iStateChengeInterFace.ChangeBehaviorState(new SqeezeClass(_holdObj, nearAnimalObj.transform, _playerRigidbody, _playerAnimator));
 
                 break;
 
@@ -416,7 +409,6 @@ public class PlayerManagerClass : MonoBehaviour, ITreadTrash
                     return;
 
                 }
-                print("羊にアクション");
                 //毛を刈るステートに変更
                 _iStateChengeInterFace.ChangeBehaviorState(new CutClass(nearAnimalObj.transform, _playerAnimator));
 

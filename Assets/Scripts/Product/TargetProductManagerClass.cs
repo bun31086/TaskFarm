@@ -35,7 +35,7 @@ public class TargetProductManagerClass : MonoBehaviour
     [SerializeField, Tooltip("ターゲットプロダクトのデータ")]
     private TargetProductManagerData _targetProductManagerData = default;
     [Header("オブジェクト")]
-    [SerializeField,Tooltip("目的の製品オブジェクト")]
+    [SerializeField, Tooltip("目的の製品オブジェクト")]
     private GameObject _targetProductPrefab = default;
     [SerializeField, Tooltip("目的の製品の親オブジェクトになるパネル")]
     private GameObject _parentPanel = default;
@@ -59,7 +59,18 @@ public class TargetProductManagerClass : MonoBehaviour
     /// 連鎖数を数える
     /// </summary>
     private ReactiveProperty<int> _chainCount = new ReactiveProperty<int>(default);
-
+    /// <summary>
+    /// 卵についている名前
+    /// </summary>
+    private const string NAME_EGG = "Egg";
+    /// <summary>
+    /// 牛乳についている名前
+    /// </summary>
+    private const string NAME_MILK = "Milk";
+    /// <summary>
+    /// 羊の毛についている名前
+    /// </summary>
+    private const string NAME_WOOL = "Wool";
 
     #endregion
     #region メソッド  
@@ -98,19 +109,19 @@ public class TargetProductManagerClass : MonoBehaviour
             switch (collisionObj.name)
             {
 
-                case "Egg":
+                case NAME_EGG:
 
                     //卵の価格にする
                     price = _targetProductManagerData.EggPrice;
 
                     break;
-                case "Milk":
+                case NAME_MILK:
 
                     //牛乳の価格にする
                     price = _targetProductManagerData.MilkPrice;
 
                     break;
-                case "Wool":
+                case NAME_WOOL:
 
                     //ウールの価格にする
                     price = _targetProductManagerData.WoolPrice;
@@ -168,7 +179,7 @@ public class TargetProductManagerClass : MonoBehaviour
         //生成量分ループ
         for (int i = 0; createValue > i; i++)
         {
-           
+
             //enum型の要素数を取得
             int maxCount = ProductState.GetNames(typeof(ProductState)).Length;
             //要素数内のランダムな値を取得
@@ -188,7 +199,7 @@ public class TargetProductManagerClass : MonoBehaviour
             //生成または取り出した求める製品のオブジェクトを入れる変数
             GameObject targetProductObj = default;
             //非実行中のリストの中身があるとき
-            if (_notUseProductObj.Count  > 0)
+            if (_notUseProductObj.Count > 0)
             {
 
                 //非実行中の求める製品のリストから取り出す
@@ -200,7 +211,7 @@ public class TargetProductManagerClass : MonoBehaviour
                 //取り出したオブジェクトを変数に格納
                 targetProductObj = outObj;
 
-            } 
+            }
             //非実行中のリストの中身がないとき
             else
             {
@@ -228,7 +239,7 @@ public class TargetProductManagerClass : MonoBehaviour
     /// </summary>
     /// <param name="itargetProduct">メソッドを呼び出した求める製品のインターフェース</param>
     /// <param name="callGameObject">メソッドを呼び出した求める製品のオブジェクト</param>
-    public void DeleteTargetProduct(ITargetProduct itargetProduct , GameObject callGameObject)
+    public void DeleteTargetProduct(ITargetProduct itargetProduct, GameObject callGameObject)
     {
 
         //インデックス0番を消す
@@ -256,7 +267,7 @@ public class TargetProductManagerClass : MonoBehaviour
     // <returns></returns>
     private IEnumerator CallAddTargetProduct()
     {
-       
+
         //設定時間後まで待つ
         yield return new WaitForSeconds(_targetProductManagerData.ProductAddTime);
         //求める製品の選択
