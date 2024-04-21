@@ -32,7 +32,7 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     private const string TAG_ITEM = "Item";
     private const string TAG_STAGE = "Stage";
     [Header("上がる満足度"), SerializeField]
-    protected const float INCREASINGSATISFACTIO = 1;
+    protected const float INCREASINGSATISFACTION = 1;
     //餌を食べる時間
     private float _eatDuration = 3f;
     //動物の設定速度
@@ -55,7 +55,7 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
     //収穫間隔計測用タイマー
     protected ReactiveProperty<float> _timer = new ReactiveProperty<float>(0);
     //満足度の初期値
-    private ReactiveProperty<float> _satisfaction = new ReactiveProperty<float>(0);
+    protected ReactiveProperty<float> _satisfaction = new ReactiveProperty<float>(0);
     //移動系のスクリプトを代わりにインスタンスするクラス
     private MoveDI _moveDI = default;
     //Idleスクリプトが継承しているインターフェース
@@ -170,7 +170,7 @@ public class AnimalBase : MonoBehaviour, ISatisfaction
                 //プレイヤーが渡した餌が同じか
                 if (baitClass.TakeType == _currentFood.Value)
                 {
-                    _satisfaction.Value += INCREASINGSATISFACTIO;
+                    _satisfaction.Value += INCREASINGSATISFACTION;
                 }
                 //満足度がMAXか
                 if (_satisfaction.Value >= _maxsatisfaction)

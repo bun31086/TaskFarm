@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b538917b77fb9b9498277d7b4689cc8f, type: 3}
   m_Name: GameRuleData
   m_EditorClassIdentifier: 
-  _targetMonay: 500
-  _timeLimetMinutes: 3
+  _targetMonay: 200
+  _timeLimetMinutes: 5
   _timeLimetSeconds: 0

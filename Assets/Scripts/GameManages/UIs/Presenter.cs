@@ -21,8 +21,6 @@ public class Presenter : MonoBehaviour
     private GameTimeLimet _gameTimeLimet = default;
     [SerializeField, Tooltip("ゲームマネージャー(Model)")]
     private GameManagerClass _gameManagerClass = default;
-    [SerializeField, Tooltip("ゲームマネージャー(Model)")]
-    private TargetProductManagerClass _targetProductManagerClass = default;
     [SerializeField, Tooltip("タイムリミットUI(View)")]
     private UITimeLimit _uiTimeLimit = default;
     [SerializeField, Tooltip("目標金額UI(View)")]
