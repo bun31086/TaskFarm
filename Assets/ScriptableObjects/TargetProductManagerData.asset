@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7462939ff57454e4b864c68a8b9a9f2a, type: 3}
   m_Name: TargetProductManagerData
   m_EditorClassIdentifier: 
-  _productAddTime: 10
-  _farstAddProductValue: 3
+  _productAddTime: 40
+  _farstAddProductValue: 2
   _constAddProductValue: 1
-  _submissionTimeLimit: 20
+  _submissionTimeLimit: 90
   _upBonusLine: 5
   _bonusMagnification: 10
   _milkPrice: 50

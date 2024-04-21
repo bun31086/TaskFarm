@@ -19,13 +19,13 @@ public class ChickenClass : AnimalBase
     {
         base.Update();
         //満足度がMAXか
-        if (INCREASINGSATISFACTIO >= _maxsatisfaction)
+        if (_satisfaction.Value >= _maxsatisfaction)
         {
             _isMaxSatisfaction = true;
             Harvested();
         }
         //満足度がMAX未満か
-        else if (INCREASINGSATISFACTIO < _maxsatisfaction)
+        else if (_satisfaction.Value < _maxsatisfaction)
         {
             _isMaxSatisfaction = false;
         }
@@ -37,6 +37,8 @@ public class ChickenClass : AnimalBase
         //卵を生成する処理
         GameObject instanceObject = Instantiate(_instanceObject, transform.position, Quaternion.identity);
         instanceObject.name = _instanceObject.name;
+        //満足度を初期化
+        _satisfaction.Value = 0;
     }
     #endregion
 }

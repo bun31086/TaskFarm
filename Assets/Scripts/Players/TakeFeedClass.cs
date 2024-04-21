@@ -55,7 +55,6 @@ public class TakeFeedClass : IBehaviourState
         _animalTransform = animalTransform;
         _playerAnimator = playerAnimator;
         _playerRigid = _playerAnimator.GetComponent<Rigidbody>();
-        Debug.LogError("コンストラクタ");
     }
 
     #endregion
