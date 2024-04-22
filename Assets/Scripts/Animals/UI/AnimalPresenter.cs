@@ -5,7 +5,6 @@
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
 using UnityEngine;
-using System.Collections;
 using UniRx;
 /// <summary>
 /// 動物のModelとViewを仲介
@@ -39,8 +38,6 @@ public class AnimalPresenter : MonoBehaviour
     private ChickenClass _chickenClass = default;
     [SerializeField, Header("羊のModel")]
     private SheepClass _sheepClass = default;
-
-
 
     #endregion
 

@@ -5,7 +5,6 @@
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
 using UnityEngine;
-using System.Collections;
 using UniRx;
 /// <summary>
 /// ViewとModelを繋ぐ
@@ -38,8 +37,13 @@ public class Presenter : MonoBehaviour
     /// 秒数
     /// </summary>
     private float _seconds = default;
-
+    /// <summary>
+    /// 目標金額
+    /// </summary>
     private float _targetMoneyNow = default;
+    /// <summary>
+    /// 所持金
+    /// </summary>
     private float _moneyNow = default;
 
     #endregion

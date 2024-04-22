@@ -5,8 +5,9 @@
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
 using UnityEngine;
-using System.Collections;
-
+/// <summary>
+/// 物を置く位置を計算し、移動させる
+/// </summary>
 public class PutPositionCheck : MonoBehaviour
 {
 
@@ -14,11 +15,10 @@ public class PutPositionCheck : MonoBehaviour
 
     private Transform _transform = default;
     private BoxCollider _boxCollider = default;
+    /// <summary>
+    /// 物オブジェクトの親オブジェクト名
+    /// </summary>
     private const string PARENT_NAME = "Actions";
-
-    #endregion
-
-    #region プロパティ  
 
     #endregion
 
@@ -32,15 +32,7 @@ public class PutPositionCheck : MonoBehaviour
         _transform = this.transform;
         _boxCollider = this.GetComponent<BoxCollider>();
      }
-  
-     /// <summary>  
-     /// 更新前処理  
-     /// </summary>  
-     void Start ()
-     {
-  
-     }
-  
+    
      /// <summary>  
      /// 更新処理  
      /// </summary>  

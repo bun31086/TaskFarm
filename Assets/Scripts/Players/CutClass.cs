@@ -5,7 +5,6 @@
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
 using UnityEngine;
-using System.Collections;
 /// <summary>
 /// 羊の毛を刈り取るクラス
 /// </summary>
@@ -18,21 +17,37 @@ public class CutClass : IBehaviourState
     /// 動物の満足度インターフェース
     /// </summary>
     private ISatisfaction _iSatisfaction = default;
+    /// <summary>
+    /// プレイヤーのリジッドボディー
+    /// </summary>
     private Rigidbody _playerRigidbody = default;
-
+    /// <summary>
+    /// プレイヤーのリジッドボディー
+    /// </summary>
     private Animator _playerAnimator = default;
+    /// <summary>
+    /// アニマルのトランスフォーム
+    /// </summary>
     private Transform _animalTransform = default;
+    /// <summary>
+    /// 作業アニメーション
+    /// </summary>
+    private const string MILK_ANIMATION = "IsMilk";
+    /// <summary>
+    /// 待機アニメーション
+    /// </summary>
+    private const string IDLE_ANIMATION = "IsIdle";
 
     /// <summary>
     /// コンストラクタ
     /// </summary>
     /// <param name="animalTransform">毛刈りされる羊のトランスフォーム</param>
     /// <param name="playerAnimator">プレイヤーのアニメータ</param>
-    public CutClass(Transform animalTransform, Animator playerAnimator)
+    public CutClass(Transform animalTransform, Animator playerAnimator,Rigidbody playerRigidbody)
     {
         _playerAnimator = playerAnimator;
         _animalTransform = animalTransform;
-        _playerRigidbody = _playerAnimator.GetComponent<Rigidbody>();
+        _playerRigidbody = playerRigidbody;
     }
 
     #endregion
@@ -44,7 +59,6 @@ public class CutClass : IBehaviourState
     /// </summary>  
     public void Enter()
     {
-        Debug.Log("Cutに入る");
         _iSatisfaction = _animalTransform.GetComponent<ISatisfaction>();
         // 満足度がたまっていないとき
         if (!_iSatisfaction.IsMaxSatisfaction)
@@ -52,7 +66,8 @@ public class CutClass : IBehaviourState
             return;
         }
         // 毛刈りアニメーションを再生する
-        _playerAnimator.SetTrigger("IsMilk");
+        _playerAnimator.SetTrigger(MILK_ANIMATION);
+        // プレイヤーの動きを止める
         _playerRigidbody.isKinematic = true;
     }
 
@@ -66,14 +81,14 @@ public class CutClass : IBehaviourState
         {
             return;
         }
-        Debug.Log("Cut中");        
         // 毛刈りしているか調べる
         bool isCut = _iSatisfaction.Harvest();
         // 毛刈りが終わったら
         if (isCut)
         {
             // 毛刈りアニメーションを終了する
-            _playerAnimator.SetTrigger("IsIdle");
+            _playerAnimator.SetTrigger(IDLE_ANIMATION);
+            // プレイヤーの動きを戻す
             _playerRigidbody.isKinematic = false;
         }
     }
@@ -83,7 +98,6 @@ public class CutClass : IBehaviourState
     /// </summary>
     public void Exit()
     {
-        Debug.Log("Cutを抜ける");
     }
 
     #endregion

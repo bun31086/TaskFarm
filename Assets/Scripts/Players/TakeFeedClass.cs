@@ -5,7 +5,6 @@
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
 using UnityEngine;
-using System.Collections;
 /// <summary>
 /// 餌を与えるクラス
 /// </summary>
@@ -26,14 +25,18 @@ public class TakeFeedClass : IBehaviourState
     /// 餌をあげている動物のトランスフォーム
     /// </summary>
     private Transform _animalTransform = default;
-
-    private Animator _playerAnimator = default;
-    private Rigidbody _playerRigid = default;
-
+    /// <summary>
+    /// 水であるときTrue
+    /// </summary>
     private bool _isWater = false;
+    /// <summary>
+    /// 作業中の時True
+    /// </summary>
     private bool _isTaked = false;
+    /// <summary>
+    /// 餌オブジェクトの種類を決めるクラス
+    /// </summary>
     private BaitClass _baitClass = default;
-
     /// <summary>
     /// 新しいバケツの名前
     /// </summary>
@@ -43,18 +46,21 @@ public class TakeFeedClass : IBehaviourState
     /// </summary>
     private const string NAME_BUCKET_WATER = "BucketWater";
 
+    private Animator _playerAnimator = default;
+    private Rigidbody _playerRigid = default;
+
     /// <summary>
     /// コンストラクタ
     /// </summary>
     /// <param name="holdObject">持っているオブジェクト</param>
     /// <param name="animalTransform">餌をあげている動物のトランスフォーム</param>
     /// <param name="playerAnimator">プレイヤーのアニメータ</param>
-    public TakeFeedClass(GameObject holdObject, Transform animalTransform,Animator playerAnimator)
+    public TakeFeedClass(GameObject holdObject, Transform animalTransform,Animator playerAnimator,Rigidbody playerRigidbody)
     {
         _holdObject = holdObject;
         _animalTransform = animalTransform;
         _playerAnimator = playerAnimator;
-        _playerRigid = _playerAnimator.GetComponent<Rigidbody>();
+        _playerRigid = playerRigidbody;
     }
 
     #endregion
@@ -66,8 +72,9 @@ public class TakeFeedClass : IBehaviourState
     /// </summary>  
     public void Enter()
     {
-        _isTaked = false;
         _iSatisfaction = _animalTransform.GetComponent<ISatisfaction>();
+        // フラグの初期化
+        _isTaked = false;
         // 持っているオブジェクトにBaitClassがアタッチされているとき
         if (_holdObject.TryGetComponent(out BaitClass baitType))
         {
@@ -90,6 +97,7 @@ public class TakeFeedClass : IBehaviourState
             }
             // 餌を与えるアニメーションを再生する
             _playerAnimator.SetTrigger("IsMilk");
+            // プレイヤーの動作を止める
             _playerRigid.isKinematic = true;
         }
     }
@@ -114,10 +122,11 @@ public class TakeFeedClass : IBehaviourState
             // 水を与えたとき
             if (_isWater)
             {
-                //持っているオブジェクトの名前を切り替える
+                // 持っているオブジェクトの名前を切り替える
                 _holdObject.name = NEW_BUCKET_NAME;
-                //バケツオブジェクトの水の箇所の見た目を表示する
+                // バケツオブジェクトの水の箇所の見た目を表示する
                 _holdObject.transform.Find(NAME_BUCKET_WATER).gameObject.SetActive(false);
+                // プレイヤーの動作を戻す
                 _playerRigid.isKinematic = false;
             }
             // 餌を与えたとき
@@ -129,6 +138,7 @@ public class TakeFeedClass : IBehaviourState
                 _holdObject.SetActive(false);
                 // 持つアニメーションを終了する
                 _playerAnimator.SetTrigger("IsPut");
+                // プレイヤーの動作を戻す
                 _playerRigid.isKinematic = false;
             }
         }

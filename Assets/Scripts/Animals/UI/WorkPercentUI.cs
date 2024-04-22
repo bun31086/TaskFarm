@@ -6,7 +6,6 @@
 // ---------------------------------------------------------  
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 /// <summary>
 /// 作業率を表示するUI
 /// </summary>

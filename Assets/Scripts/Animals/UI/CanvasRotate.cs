@@ -5,9 +5,9 @@
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
 using UnityEngine;
-using System.Collections;
-using UnityEngine.UI;
-
+/// <summary>
+/// キャンバスを常にカメラに向かせる
+/// </summary>
 public class CanvasRotate : MonoBehaviour
 {
 
@@ -15,10 +15,8 @@ public class CanvasRotate : MonoBehaviour
 
     private Transform _transform = default;
     private Quaternion _cameraRotation = default;
-    private Transform _cameraTransform = default;
 
     #endregion
-  
   
     #region メソッド  
     
@@ -29,7 +27,6 @@ public class CanvasRotate : MonoBehaviour
      {
         _transform = this.transform;
         _cameraRotation = Camera.main.transform.rotation;
-        _cameraTransform = Camera.main.transform;
      }
   
      /// <summary>  

@@ -14,13 +14,13 @@ public class RequestBaitUI : MonoBehaviour
     #region 変数 
 
     private SpriteRenderer _spriteRenderer = default;
-    [SerializeField]
+    [SerializeField,Tooltip("赤い餌")]
     private Sprite _redBait = default;
-    [SerializeField]
+    [SerializeField, Tooltip("青い餌")]
     private Sprite _blueBait = default;
-    [SerializeField]
+    [SerializeField, Tooltip("緑の餌")]
     private Sprite _greenBait = default;
-    [SerializeField]
+    [SerializeField, Tooltip("バケツ")]
     private Sprite _bucket = default;
 
     #endregion

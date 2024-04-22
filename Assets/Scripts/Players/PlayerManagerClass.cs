@@ -383,7 +383,7 @@ public class PlayerManagerClass : MonoBehaviour, ITreadTrash
 
                 }
                 //餌をやるステートに変更
-                _iStateChengeInterFace.ChangeBehaviorState(new TakeFeedClass(_holdObj, nearAnimalObj.transform, _playerAnimator));
+                _iStateChengeInterFace.ChangeBehaviorState(new TakeFeedClass(_holdObj, nearAnimalObj.transform, _playerAnimator,_playerRigidbody));
 
                 break;
             case NAME_EMPTY_BOTTLE:
@@ -410,7 +410,7 @@ public class PlayerManagerClass : MonoBehaviour, ITreadTrash
 
                 }
                 //毛を刈るステートに変更
-                _iStateChengeInterFace.ChangeBehaviorState(new CutClass(nearAnimalObj.transform, _playerAnimator));
+                _iStateChengeInterFace.ChangeBehaviorState(new CutClass(nearAnimalObj.transform, _playerAnimator, _playerRigidbody));
 
                 break;
 
@@ -437,7 +437,7 @@ public class PlayerManagerClass : MonoBehaviour, ITreadTrash
             {
 
                 //ドアの開閉
-                _iStateChengeInterFace.ChangeBehaviorState(new OpenClass(hit.transform, _playerAnimator));
+                _iStateChengeInterFace.ChangeBehaviorState(new OpenCloseClass(hit.transform, _playerAnimator));
                 //登録したアイテム削除
                 nearItemObj = null;
                 break;

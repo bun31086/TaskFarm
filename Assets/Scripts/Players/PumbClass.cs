@@ -5,8 +5,6 @@
 // 作成者:  湯元来輝
 // ---------------------------------------------------------  
 using UnityEngine;
-using System.Collections;
-
 /// <summary>
 /// 水を汲むクラス
 /// </summary>

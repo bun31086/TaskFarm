@@ -5,8 +5,9 @@
 // 作成者:  竹村綾人
 // ---------------------------------------------------------  
 using UnityEngine;
-using System.Collections;
-
+/// <summary>
+/// 餌オブジェクトの種類を決める
+/// </summary>
 public class BaitClass : MonoBehaviour
 {
     [SerializeField]
