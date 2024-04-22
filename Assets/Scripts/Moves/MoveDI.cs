@@ -1,7 +1,7 @@
 // ---------------------------------------------------------  
 // MoveDI.cs  
 //   
-// 作成日:  
+// 作成日:  4/18
 // 作成者:  
 // ---------------------------------------------------------  
 using UnityEngine;
@@ -9,9 +9,7 @@ using System.Collections;
 
 public class MoveDI
 {
-
     #region 変数  
-
     private Animator _animator = default;
     private Rigidbody _rigidbody = default;
     private IdleClass _idle = default;
@@ -27,17 +25,9 @@ public class MoveDI
         _rigidbody = rigidbody;
         InstanceIdle();
     }
-
-    #endregion
-
-    #region プロパティ  
-
     #endregion
 
     #region メソッド  
-
-
-
     public IMoveState InstanceIdle()
     {
         IMoveState iMove = new IdleClass(_animator);
@@ -53,7 +43,5 @@ public class MoveDI
         IMoveState iMove = new RunClass(_animator, _rigidbody);
         return iMove;
     }
-
-  
     #endregion
 }

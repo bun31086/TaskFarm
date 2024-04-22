@@ -30,8 +30,6 @@ public class WalkClass : IMoveState
     #region メソッド
     public void Enter(Vector3 moveVector)
     {
-        ///Debug.Log("歩き開始");
-       // Debug.Log(_moveVector);
         _animator.SetBool("IsWalk", true);
         //移動する方向に向きを変える
         Vector3 lookPos = moveVector + _rigidbody.transform.position;
