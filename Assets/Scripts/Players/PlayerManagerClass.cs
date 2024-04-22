@@ -193,6 +193,8 @@ public class PlayerManagerClass : MonoBehaviour, ITreadTrash
         _walk = _moveDI.InstanceWalk();
         //生成時に初期ステートをコンストラクタに設定
         _iStateChengeInterFace = new PlayerStateMachineClass(new None(), _idle);
+        //プレイヤーを動けるようにする
+        _playerRigidbody.isKinematic = false;
     }
 
     /// <summary>  
