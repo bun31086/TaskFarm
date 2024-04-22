@@ -33,8 +33,6 @@ public class RunClass : IMoveState
     #region メソッド
     public void Enter(Vector3 moveVector)
     {
-       // Debug.Log("走り開始");
-        //Debug.Log(_moveVector);
         _animator.SetBool("IsRun", true);
         //移動する方向に向きを変える
         Vector3 lookPos = _moveVector + _rigidbody.transform.position;
