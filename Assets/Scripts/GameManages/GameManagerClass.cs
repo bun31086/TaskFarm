@@ -92,7 +92,8 @@ public class GameManagerClass : MonoBehaviour
     /// </summary>  
     private void Start()
     {
-
+        //時間を戻す
+        Time.timeScale = 1;
         //現在のシーンがメインの時制限時間と所持金のインターフェース取得
         //現在のシーンの名前取得
         string secenName = SceneManager.GetActiveScene().name;
